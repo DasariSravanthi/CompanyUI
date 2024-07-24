@@ -1,0 +1,19 @@
+<p-dialog
+  [header]="header"
+  [(visible)]="display"
+  [modal]="true"
+  [closable]="false"
+>
+    <div class="column gap-1">
+        <div class="row gap-1">
+            <span class="field">ProductCategory:</span>
+            <input type="text" [(ngModel)]="product.productCategory" />
+        </div>
+    </div>
+
+    <!-- Footer with action buttons -->
+    <p-footer>
+        <button type="button" (click)="onConfirm()">Confirm</button>
+        <button type="button" (click)="onCancel()">Cancel</button>
+    </p-footer>
+</p-dialog>

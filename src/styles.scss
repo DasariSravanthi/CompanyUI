@@ -1,0 +1,88 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./styles/variables.scss";
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+p,
+h1,
+h2 {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body,
+app-root {
+    height: 100%;
+}
+
+app-root {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.full-center {
+    align-items: center;
+    justify-content: center;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.wrap {
+    flex-wrap: wrap;
+}
+
+.gap-05 {
+    gap: 0.5rem;
+}
+
+.gap-1 {
+    gap: 1rem;
+}
+
+.gap-2 {
+    gap: 2rem;
+}
+
+.p-dialog {
+    border: 2px solid var(--popup-border-color);
+    border-radius: 10px;
+    padding: 10px;
+    padding-top: 5px;
+    gap: 1rem;
+}
+
+.p-footer {
+    gap: 5rem;
+}
+
+.p-confirm-dialog {
+    border: 2px solid var(--popup-border-color);
+    border-radius: 10px;
+    padding: 10px;
+    gap: 1rem;
+}
