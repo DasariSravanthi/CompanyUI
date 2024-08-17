@@ -1,0 +1,40 @@
+<div>
+    <h2>ProductionSlittings</h2>
+    <ul class="row wrap gap-2 list-container">
+        <li *ngFor="let productionSlitting of productionSlittings" class="column full-center data-item-container">
+            <p>id : {{ productionSlitting.productionSlittingId }}</p>
+            <p>ProductionCoatingDate - {{ productionSlitting.productionCoatingDate }}</p>
+            <p>ProductionCalendaringId - {{ productionSlitting.productionCalendaringId }}</p>
+            <p>RollNumber - {{ productionSlitting.rollNumber }}</p>
+            <p>BeforeWeight - {{ productionSlitting.beforeWeight }}</p>
+            <p>BeforeMoisture - {{ productionSlitting.beforeMoisture }}</p>
+            <p>SlittingStart - {{ productionSlitting.slittingStart }}</p>
+            <p>SlittingEnd - {{ productionSlitting.slittingEnd }}</p>
+            <p>RollCount - {{ productionSlitting.rollCount }}</p>
+            <div class="row space-between button-container">
+                <button type="button" (click)="toggleEditPopup(productionSlitting)">Edit</button>
+                <button type="button" (click)="toggleDeleteDialog(productionSlitting)">Delete</button>
+            </div>
+        </li>
+    </ul>
+    <button type="button" (click)="toggleAddPopup()">Add ProductionSlitting</button>
+</div>
+
+<!-- Edit Product -->
+<app-edit-popup
+[data]="selectedProductionSlitting"
+[template]="'productionSlitting'"
+[(display)]="displayEditPopup"
+(confirm)="onConfirmEdit($event)"
+header="Edit ProductionSlitting"
+></app-edit-popup>
+
+<!-- Add Product -->
+<app-edit-popup
+[template]="'productionSlitting'"
+[(display)]="displayAddPopup"
+(confirm)="onConfirmAdd($event)"
+header="Add ProductionSlitting"
+></app-edit-popup>
+
+<p-confirmDialog [closable]="false"></p-confirmDialog>

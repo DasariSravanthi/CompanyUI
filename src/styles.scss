@@ -68,15 +68,43 @@ app-root {
     gap: 2rem;
 }
 
+.mr-15 {
+    margin-right: 15px;
+}
+
+.mb-15 {
+    margin-bottom: 15px;
+}
+
+.list-container {
+    list-style-type: none;
+    padding: 0px;
+    width: 100%;
+}
+
+.data-item-container {
+    min-width: 300px;
+    padding: 20px;
+    border: 1px solid var(--container-border-color);
+    gap: 1rem;
+    margin-bottom: 25px;
+}
+
+.button-container {
+    width: 100%;
+}
+
 .p-dialog {
     border: 2px solid var(--popup-border-color);
     border-radius: 10px;
     padding: 10px;
     padding-top: 5px;
     gap: 1rem;
+    background-color: lemonchiffon;
 }
 
 .p-footer {
+    display: flex;
     gap: 5rem;
 }
 
@@ -85,4 +113,14 @@ app-root {
     border-radius: 10px;
     padding: 10px;
     gap: 1rem;
+}
+
+.label {
+    display: inline-block;
+    min-width: 100px;
+    text-align: right;
+}
+
+.error {
+    color: red;
 }

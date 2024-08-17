@@ -1,14 +1,12 @@
 <div>
     <h2>Products</h2>
-    <ul class="row flex-wrap gap-2 list-container">
-        <li *ngFor="let product of products" >
-            <div class="column full-center product-container"> 
-                <p>id : {{ product.productId }}</p>
-                <p>ProductCategory - {{ product.productCategory }}</p>
-                <div class="row space-between button-container">
-                    <button type="button" (click)="toggleEditPopup(product)">Edit</button>
-                    <button type="button" (click)="onConfirmDelete(product)" #deleteButton>Delete</button>
-                </div>
+    <ul class="row wrap gap-2 list-container">
+        <li *ngFor="let product of products" class="column full-center data-item-container"> 
+            <p>id : {{ product.productId }}</p>
+            <p>ProductCategory - {{ product.productCategory }}</p>
+            <div class="row space-between button-container">
+                <button type="button" (click)="toggleEditPopup(product)">Edit</button>
+                <button type="button" (click)="toggleDeleteDialog(product)" #deleteButton>Delete</button>
             </div>
         </li>
     </ul>
@@ -17,7 +15,8 @@
 
 <!-- Edit Product -->
 <app-edit-popup
-[product]="selectedProduct"
+[data]="selectedProduct"
+[template]="'product'"
 [(display)]="displayEditPopup"
 (confirm)="onConfirmEdit($event)"
 header="Edit Product"
@@ -25,9 +24,17 @@ header="Edit Product"
 
 <!-- Add Product -->
 <app-edit-popup
+[template]="'product'"
 [(display)]="displayAddPopup"
 (confirm)="onConfirmAdd($event)"
 header="Add Product"
 ></app-edit-popup>
 
 <p-confirmDialog [closable]="false"></p-confirmDialog>
+
+<!-- <div *ngIf="displayConfirmDialog" [style.top.px]="dialogPosition.top" [style.left.px]="dialogPosition.left" class="custom-confirm-dialog">
+    <p>Are you sure you want to delete this product?</p>
+    <button (click)="onConfirmDelete(selectedProduct)">Yes</button>
+    <button (click)="displayConfirmDialog = false">No</button>
+</div> -->
+  

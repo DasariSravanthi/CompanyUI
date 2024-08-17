@@ -1,0 +1,36 @@
+<div>
+    <h2>SlittingDetails</h2>
+    <ul class="row wrap gap-2 list-container">
+        <li *ngFor="let slittingDetail of slittingDetails" class="column full-center data-item-container">
+            <p>id : {{ slittingDetail.slittingDetailId }}</p>
+            <p>ProductionSlittingId - {{ slittingDetail.productionSlittingId }}</p>
+            <p>RollNumber - {{ slittingDetail.rollNumber }}</p>
+            <p>Weight - {{ slittingDetail.weight }}</p>
+            <p>Moisture - {{ slittingDetail.moisture }}</p>
+            <div class="row space-between button-container">
+                <button type="button" (click)="toggleEditPopup(slittingDetail)">Edit</button>
+                <button type="button" (click)="toggleDeleteDialog(slittingDetail)">Delete</button>
+            </div>
+        </li>
+    </ul>
+    <button type="button" (click)="toggleAddPopup()">Add SlittingDetail</button>
+</div>
+
+<!-- Edit Product -->
+<app-edit-popup
+[data]="selectedSlittingDetail"
+[template]="'slittingDetail'"
+[(display)]="displayEditPopup"
+(confirm)="onConfirmEdit($event)"
+header="Edit SlittingDetail"
+></app-edit-popup>
+
+<!-- Add Product -->
+<app-edit-popup
+[template]="'slittingDetail'"
+[(display)]="displayAddPopup"
+(confirm)="onConfirmAdd($event)"
+header="Add SlittingDetail"
+></app-edit-popup>
+
+<p-confirmDialog [closable]="false"></p-confirmDialog>

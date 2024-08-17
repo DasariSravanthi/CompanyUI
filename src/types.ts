@@ -20,6 +20,111 @@ export interface Options {
 }
 
 export interface Product {
-    productId? : number;
+    productId?: number;
     productCategory: string;
+}
+
+export interface ProductDetail {
+    productDetailId?: number;
+    productId: number;
+    variant: string;
+    products: Product[];
+}
+
+export interface Supplier {
+    supplierId?: number;
+    supplierName: string;
+    dues: number;
+}
+
+export interface Size {
+    sizeId?: number;
+    sizeInMM: number;
+}
+
+export interface ProductStock {
+    productStockId?: number;
+    productDetailId: number;
+    gsm?: number;
+    sizeId?: number;
+    weightInKgs: number;
+    rollCount?: number;
+}
+
+export interface Receipt {
+    receiptId?: number;
+    receiptDate: string;
+    supplierId: number;
+    billNo: string;
+    billDate: string;
+    billValue: number;
+}
+
+export interface ReceiptDetail {
+    receiptDetailId?: number;
+    receiptId: number;
+    productStockId: number;
+    weight: number;
+    unitRate: number;
+    rollCount: number;
+}
+
+export interface RollNumber {
+    rollNumberId?: number;
+    receiptDetailId: number;
+    rollNumberValue: string;
+}
+
+export interface Issue {
+    issueId?: number;
+    issueDate: string;
+    rollNumberId: number;
+    productStockId: number;
+    rollNumber: string;
+    weight: number;
+    moisture: number;
+}
+
+export interface ProductionCoating {
+    productionCoatingId?: number;
+    productionCoatingDate: string;
+    issueId: number;
+    coatingStart: string;
+    coatingEnd: string;
+    averageSpeed: number;
+    averageTemperature: number;
+    gsmCoated: number;
+    rollCount: number;
+}
+
+export interface ProductionCalendaring {
+    productionCalendaringId?: number;
+    productionCoatingDate: string;
+    productionCoatingId: number;
+    rollNumber: string;
+    beforeWeight: number;
+    beforeMoisture: number;
+    calendaringStart: string;
+    calendaringEnd: string;
+    rollCount: number;
+}
+
+export interface ProductionSlitting {
+    productionSlittingId?: number;
+    productionCoatingDate: string;
+    productionCalendaringId: number;
+    rollNumber: string;
+    beforeWeight: number;
+    beforeMoisture: number;
+    slittingStart: string;
+    slittingEnd: string;
+    rollCount: number;
+}
+
+export interface SlittingDetail {
+    slittingDetailId?: number;
+    productionSlittingId: number;
+    rollNumber: string;
+    weight: number;
+    moisture: number;
 }

@@ -1,0 +1,40 @@
+<div>
+    <h2>ProductionCalendarings</h2>
+    <ul class="row wrap gap-2 list-container">
+        <li *ngFor="let productionCalendaring of productionCalendarings" class="column full-center data-item-container">
+            <p>id : {{ productionCalendaring.productionCalendaringId }}</p>
+            <p>ProductionCoatingDate - {{ productionCalendaring.productionCoatingDate }}</p>
+            <p>ProductionCoatingId - {{ productionCalendaring.productionCoatingId }}</p>
+            <p>RollNumber - {{ productionCalendaring.rollNumber }}</p>
+            <p>BeforeWeight - {{ productionCalendaring.beforeWeight }}</p>
+            <p>BeforeMoisture - {{ productionCalendaring.beforeMoisture }}</p>
+            <p>CalendaringStart - {{ productionCalendaring.calendaringStart }}</p>
+            <p>CalendaringEnd - {{ productionCalendaring.calendaringEnd }}</p>
+            <p>RollCount - {{ productionCalendaring.rollCount }}</p>
+            <div class="row space-between button-container">
+                <button type="button" (click)="toggleEditPopup(productionCalendaring)">Edit</button>
+                <button type="button" (click)="toggleDeleteDialog(productionCalendaring)">Delete</button>
+            </div>
+        </li>
+    </ul>
+    <button type="button" (click)="toggleAddPopup()">Add ProductionCalendaring</button>
+</div>
+
+<!-- Edit Product -->
+<app-edit-popup
+[data]="selectedProductionCalendaring"
+[template]="'productionCalendaring'"
+[(display)]="displayEditPopup"
+(confirm)="onConfirmEdit($event)"
+header="Edit ProductionCalendaring"
+></app-edit-popup>
+
+<!-- Add Product -->
+<app-edit-popup
+[template]="'productionCalendaring'"
+[(display)]="displayAddPopup"
+(confirm)="onConfirmAdd($event)"
+header="Add ProductionCalendaring"
+></app-edit-popup>
+
+<p-confirmDialog [closable]="false"></p-confirmDialog>

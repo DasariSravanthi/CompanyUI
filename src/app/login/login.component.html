@@ -1,0 +1,25 @@
+<div class="column full-center form-container">
+  <div class="column full-center form gap-2">
+    <form class="column full-center gap-2" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="username" class="label mr-15">Username:</label>
+        <input id="username" formControlName="username">
+        <div *ngIf="submitted && formControl['username'].errors" class="error">
+          <div *ngIf="formControl['username'].errors['required']">Username is required</div>
+        </div>
+      </div>
+      
+      <div>
+        <label for="password" class="label mr-15">Password:</label>
+        <input id="password" type="password" formControlName="password">
+        <div *ngIf="submitted && formControl['password'].errors" class="error">
+          <div *ngIf="formControl['password'].errors['required']">Password is required</div>
+        </div>
+      </div>
+      
+      <button type="submit">Login</button>
+    </form>
+    
+    <p>Don't have an account? <a routerLink="/register" class="highlight">Register here</a></p>
+  </div>
+</div>

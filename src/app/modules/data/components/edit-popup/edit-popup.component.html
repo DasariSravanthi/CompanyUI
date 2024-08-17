@@ -3,17 +3,298 @@
   [(visible)]="display"
   [modal]="true"
   [closable]="false"
+  (onShow)="storeOriginalValue()"
 >
-    <div class="column gap-1">
-        <div class="row gap-1">
-            <span class="field">ProductCategory:</span>
-            <input type="text" [(ngModel)]="product.productCategory" />
+    <ng-container [ngSwitch]="template">
+
+        <!-- Template for Product -->
+        <div *ngSwitchCase="'product'" class="column gap-1">
+            <div class="row gap-1">
+                <span class="field">ProductCategory:</span>
+                <input type="text" required [(ngModel)]="data.productCategory" #productCategoryInput="ngModel" />
+                <!-- <div *ngIf="productCategoryInput.invalid && productCategoryInput.touched">
+                    Product Category is required.
+                </div> -->
+            </div>
         </div>
-    </div>
+
+        <!-- Template for Product -->
+        <div *ngSwitchCase="'productDetail'" class="column gap-1">
+            <div class="row gap-1">
+                <span class="field">ProductId:</span>
+                <input type="text" required [(ngModel)]="data.productId" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">Variant:</span>
+                <input type="text" required [(ngModel)]="data.variant" />
+            </div>
+        </div>
+
+        <!-- Template for Supplier -->
+        <div *ngSwitchCase="'supplier'" class="column gap-1">
+            <div class="row gap-1">
+                <span class="field">SupplierName:</span>
+                <input type="text" required [(ngModel)]="data.supplierName" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">Dues:</span>
+                <input type="text" required [(ngModel)]="data.dues" />
+            </div>
+        </div>
+
+        <!-- Template for Size -->
+        <div *ngSwitchCase="'size'" class="column gap-1">
+            <div class="row gap-1">
+                <span class="field">Size:</span>
+                <input type="text" required [(ngModel)]="data.sizeInMM" />
+            </div>
+        </div>
+
+        <!-- Template for ProductStock -->
+        <div *ngSwitchCase="'productStock'" class="column gap-1">
+            <div class="row gap-1">
+                <span class="field">ProductDetailId:</span>
+                <input type="text" required [(ngModel)]="data.productDetailId" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">GSM:</span>
+                <input type="text" required [(ngModel)]="data.gsm" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">SizeId:</span>
+                <input type="text" required [(ngModel)]="data.sizeId" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">WeightInKgs:</span>
+                <input type="text" required [(ngModel)]="data.weightInKgs" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">RollCount:</span>
+                <input type="text" required [(ngModel)]="data.rollCount" />
+            </div>
+        </div>
+
+        <!-- Template for Receipt -->
+        <div *ngSwitchCase="'receipt'" class="column gap-1">
+            <div class="row gap-1">
+                <span class="field">ReceiptDate:</span>
+                <input type="text" required [(ngModel)]="data.receiptDate" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">SupplierId:</span>
+                <input type="text" required [(ngModel)]="data.supplierId" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">BillNo:</span>
+                <input type="text" required [(ngModel)]="data.billNo" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">BillDate:</span>
+                <input type="text" required [(ngModel)]="data.billDate" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">BillValue:</span>
+                <input type="text" required [(ngModel)]="data.billValue" />
+            </div>
+        </div>
+
+        <!-- Template for ReceiptDetail -->
+        <div *ngSwitchCase="'receiptDetail'" class="column gap-1">
+            <div class="row gap-1">
+                <span class="field">ReceiptId:</span>
+                <input type="text" required [(ngModel)]="data.receiptId" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">ProductStockId:</span>
+                <input type="text" required [(ngModel)]="data.productStockId" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">Weight:</span>
+                <input type="text" required [(ngModel)]="data.weight" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">UnitRate:</span>
+                <input type="text" required [(ngModel)]="data.unitRate" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">RollCount:</span>
+                <input type="text" required [(ngModel)]="data.rollCount" />
+            </div>
+        </div>
+
+        <!-- Template for RollNumber -->
+        <div *ngSwitchCase="'rollNumber'" class="column gap-1">
+            <div class="row gap-1">
+                <span class="field">ReceiptDetailId:</span>
+                <input type="text" required [(ngModel)]="data.receiptDetailId" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">RollNumber:</span>
+                <input type="text" required [(ngModel)]="data.rollNumberValue" />
+            </div>
+        </div>
+
+        <!-- Template for Issue -->
+        <div *ngSwitchCase="'issue'" class="column gap-1">
+            <div class="row gap-1">
+                <span class="field">IssueDate:</span>
+                <input type="text" required [(ngModel)]="data.issueDate" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">RollNumberId:</span>
+                <input type="text" required [(ngModel)]="data.rollNumberId" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">ProductStockId:</span>
+                <input type="text" required [(ngModel)]="data.productStockId" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">RollNumber:</span>
+                <input type="text" required [(ngModel)]="data.rollNumber" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">Weight:</span>
+                <input type="text" required [(ngModel)]="data.weight" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">Moisture:</span>
+                <input type="text" required [(ngModel)]="data.moisture" />
+            </div>
+        </div>
+
+        <!-- Template for ProductionCoating -->
+        <div *ngSwitchCase="'productionCoating'" class="column gap-1">
+            <div class="row gap-1">
+                <span class="field">ProductionCoatingDate:</span>
+                <input type="text" required [(ngModel)]="data.productionCoatingDate" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">IssueId:</span>
+                <input type="text" required [(ngModel)]="data.issueId" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">CoatingStart:</span>
+                <input type="text" required [(ngModel)]="data.coatingStart" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">CoatingEnd:</span>
+                <input type="text" required [(ngModel)]="data.coatingEnd" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">AverageSpeed:</span>
+                <input type="text" required [(ngModel)]="data.averageSpeed" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">AverageTemperature:</span>
+                <input type="text" required [(ngModel)]="data.averageTemperature" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">GSMCoated:</span>
+                <input type="text" required [(ngModel)]="data.gsmCoated" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">RollCount:</span>
+                <input type="text" required [(ngModel)]="data.rollCount" />
+            </div>
+        </div>
+
+        <!-- Template for ProductionCalendaring -->
+        <div *ngSwitchCase="'productionCalendaring'" class="column gap-1">
+            <div class="row gap-1">
+                <span class="field">ProductionCoatingDate:</span>
+                <input type="text" required [(ngModel)]="data.productionCoatingDate" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">ProductionCoatingId:</span>
+                <input type="text" required [(ngModel)]="data.productionCoatingId" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">RollNumber:</span>
+                <input type="text" required [(ngModel)]="data.rollNumber" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">BeforeWeight:</span>
+                <input type="text" required [(ngModel)]="data.beforeWeight" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">BeforeMoisture:</span>
+                <input type="text" required [(ngModel)]="data.beforeMoisture" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">CalendaringStart:</span>
+                <input type="text" required [(ngModel)]="data.calendaringStart" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">CalendaringEnd:</span>
+                <input type="text" required [(ngModel)]="data.calendaringEnd" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">RollCount:</span>
+                <input type="text" required [(ngModel)]="data.rollCount" />
+            </div>
+        </div>
+
+        <!-- Template for ProductionSlitting -->
+        <div *ngSwitchCase="'productionSlitting'" class="column gap-1">
+            <div class="row gap-1">
+                <span class="field">ProductionCoatingDate:</span>
+                <input type="text" required [(ngModel)]="data.productionCoatingDate" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">ProductionCalendaringId:</span>
+                <input type="text" required [(ngModel)]="data.productionCalendaringId" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">RollNumber:</span>
+                <input type="text" required [(ngModel)]="data.rollNumber" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">BeforeWeight:</span>
+                <input type="text" required [(ngModel)]="data.beforeWeight" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">BeforeMoisture:</span>
+                <input type="text" required [(ngModel)]="data.beforeMoisture" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">SlittingStart:</span>
+                <input type="text" required [(ngModel)]="data.slittingStart" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">SlittingEnd:</span>
+                <input type="text" required [(ngModel)]="data.slittingEnd" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">RollCount:</span>
+                <input type="text" required [(ngModel)]="data.rollCount" />
+            </div>
+        </div>
+
+        <!-- Template for SlittingDetail -->
+        <div *ngSwitchCase="'slittingDetail'" class="column gap-1">
+            <div class="row gap-1">
+                <span class="field">ProductionSlittingId:</span>
+                <input type="text" required [(ngModel)]="data.productionSlittingId" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">RollNumber:</span>
+                <input type="text" required [(ngModel)]="data.rollNumber" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">Weight:</span>
+                <input type="text" required [(ngModel)]="data.weight" />
+            </div>
+            <div class="row gap-1">
+                <span class="field">Moisture:</span>
+                <input type="text" required [(ngModel)]="data.moisture" />
+            </div>
+        </div>
+
+    </ng-container>
 
     <!-- Footer with action buttons -->
     <p-footer>
-        <button type="button" (click)="onConfirm()">Confirm</button>
+        <button type="button" (click)="onConfirm()" [disabled]="hasEmptyFields()">Confirm</button>
         <button type="button" (click)="onCancel()">Cancel</button>
     </p-footer>
 </p-dialog>

@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { Product } from '../../../../../types';
 import { ConfirmationService } from 'primeng/api';
+import { Product } from '../../../../../types';
 
 @Component({
   selector: 'app-product',
@@ -11,8 +11,8 @@ import { ConfirmationService } from 'primeng/api';
 export class ProductComponent {
   constructor(private apiService: ApiService, private confirmationService: ConfirmationService) {}
 
-  @ViewChild('deleteButton') deleteButton: any;
-
+  @ViewChild('deleteButton') deleteButton!: ElementRef;
+  
   private url = 'http://localhost:5110/Product';
 
   products: Product[] = [];
@@ -26,17 +26,32 @@ export class ProductComponent {
   };
 
   toggleEditPopup(product: Product) {
-    this.selectedProduct = product;
+    this.selectedProduct = { ...product };
     this.displayEditPopup = true;
   }
 
-  toggleDeletePopup(product: Product) {
-    if (!product.productId) {
-      return;
-    }
-
-    this.deleteProduct(product.productId);
+  toggleDeleteDialog(product: Product) {
+    this.confirmationService.confirm({
+      target: this.deleteButton.nativeElement,
+      message: 'Are you sure that you want to delete this product?',
+      accept: () => {
+        this.onConfirmDelete(product);
+      }
+    });
   }
+
+  // displayConfirmDialog = false;
+  // dialogPosition = { top: 0, left: 0 };
+
+  // toggleDeleteDialog(product: Product, event: MouseEvent) {
+  //   const buttonElement = event.target as HTMLElement;
+  //   const rect = buttonElement.getBoundingClientRect();
+
+  //   this.dialogPosition.top = rect.top + window.scrollY + rect.height;
+  //   this.dialogPosition.left = rect.left + window.scrollX;
+
+  //   this.displayConfirmDialog = true;
+  // }
 
   toggleAddPopup() {
     this.displayAddPopup = true;
@@ -52,15 +67,13 @@ export class ProductComponent {
   }
 
   onConfirmDelete(product: Product) {
-    this.confirmationService.confirm({
-      target: this.deleteButton.nativeElement,
-      message: 'Are you sure that you want to delete this product?',
-      accept: () => {
-        this.toggleDeletePopup(product);
-      },
-    });
-  }
+    if (!product.productId) {
+      return;
+    }
 
+    this.deleteProduct(product.productId);
+  }
+  
   onConfirmAdd(product: Product) {
     this.addProduct(product);
     this.displayAddPopup = false;

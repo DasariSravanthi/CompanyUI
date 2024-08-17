@@ -1,0 +1,33 @@
+<div>
+    <h2>Sizes</h2>
+    <ul class="row wrap gap-2 list-container">
+        <li *ngFor="let size of sizes" class="column full-center data-item-container">
+            <p>id : {{ size.sizeId }}</p>
+            <p>Size - {{ size.sizeInMM }}</p>
+            <div class="row space-between button-container">
+                <button type="button" (click)="toggleEditPopup(size)">Edit</button>
+                <button type="button" (click)="toggleDeleteDialog(size)">Delete</button>
+            </div>
+        </li>
+    </ul>
+    <button type="button" (click)="toggleAddPopup()">Add Size</button>
+</div>
+
+<!-- Edit Product -->
+<app-edit-popup
+[data]="selectedSize"
+[template]="'size'"
+[(display)]="displayEditPopup"
+(confirm)="onConfirmEdit($event)"
+header="Edit Size"
+></app-edit-popup>
+
+<!-- Add Product -->
+<app-edit-popup
+[template]="'size'"
+[(display)]="displayAddPopup"
+(confirm)="onConfirmAdd($event)"
+header="Add Size"
+></app-edit-popup>
+
+<p-confirmDialog [closable]="false"></p-confirmDialog>

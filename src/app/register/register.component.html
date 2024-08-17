@@ -1,0 +1,45 @@
+<div class="column full-center form-container">
+  <div class="column full-center form gap-2">
+    <form class="column full-center gap-2" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="username" class="label mr-15">Username:</label>
+        <input id="username" formControlName="username">
+        <div *ngIf="submitted && formControl['username'].errors" class="error">
+          <div *ngIf="formControl['username'].errors['required']">Username is required</div>
+        </div>
+      </div>
+      
+      <div>
+        <label for="password" class="label mr-15">Password:</label>
+        <input id="password" type="password" formControlName="password">
+        <div *ngIf="submitted && formControl['password'].errors" class="error">
+          <div *ngIf="formControl['password'].errors['required']">Password is required</div>
+          <div *ngIf="formControl['password'].errors['minlength']">Password must be at least 8 characters</div>
+          <div *ngIf="formControl['password'].errors['pattern']">Password should contain the following: upper case (A-Z), lower case (a-z), number (0-9) and special character (e.g)</div>
+        </div>
+      </div>
+
+      <div>
+        <label for="email" class="label mr-15">Email:</label>
+        <input id="email" formControlName="email">
+        <div *ngIf="submitted && formControl['email'].errors" class="error">
+          <div *ngIf="formControl['email'].errors['required']">Email is required</div>
+          <div *ngIf="formControl['email'].errors['email']">Email is invalid</div>
+        </div>
+      </div>
+
+      <div>
+        <label for="role" class="label mr-15">Role:</label>
+        <input id="role" formControlName="role">
+        <div *ngIf="submitted && formControl['role'].errors" class="error">
+          <div *ngIf="formControl['role'].errors['required']">Role is required</div>
+        </div>
+      </div>
+      
+      <button type="submit">Register</button>
+    </form>
+    
+    <p>Already have an account? <a routerLink="login" class="highlight">Login here</a></p>
+  </div>
+</div>
+  

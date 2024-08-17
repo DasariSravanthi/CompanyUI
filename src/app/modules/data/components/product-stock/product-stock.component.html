@@ -1,0 +1,37 @@
+<div>
+    <h2>ProductStocks</h2>
+    <ul class="row wrap gap-2 list-container">
+        <li *ngFor="let productStock of productStocks" class="column full-center data-item-container">
+            <p>id : {{ productStock.productStockId }}</p>
+            <p>ProductDetailId : {{ productStock.productDetailId }}</p>
+            <p>GSM : {{ productStock.gsm }}</p>
+            <p>SizeId : {{ productStock.sizeId }}</p>
+            <p>WeightInKgs : {{ productStock.weightInKgs }}</p>
+            <p>RollCount : {{ productStock.rollCount }}</p>
+            <div class="row space-between button-container">
+                <button type="button" (click)="toggleEditPopup(productStock)">Edit</button>
+                <button type="button" (click)="toggleDeleteDialog(productStock)">Delete</button>
+            </div>
+        </li>
+    </ul>
+    <button type="button" (click)="toggleAddPopup()">Add ProductStock</button>
+</div>
+
+<!-- Edit Product -->
+<app-edit-popup
+[data]="selectedProductStock"
+[template]="'productStock'"
+[(display)]="displayEditPopup"
+(confirm)="onConfirmEdit($event)"
+header="Edit ProductStock"
+></app-edit-popup>
+
+<!-- Add Product -->
+<app-edit-popup
+[template]="'productStock'"
+[(display)]="displayAddPopup"
+(confirm)="onConfirmAdd($event)"
+header="Add ProductStock"
+></app-edit-popup>
+
+<p-confirmDialog [closable]="false"></p-confirmDialog>

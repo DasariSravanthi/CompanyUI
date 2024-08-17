@@ -1,17 +1,9 @@
-.list-container {
-    list-style-type: none;
-    padding: 0px;
-
-    .product-container {
-        min-width: 300px;
-        padding: 20px;
-        border: 1px solid var(--container-border-color);
-        gap: 1rem;
-        margin-bottom: 25px;
-
-        .button-container {
-            width: 100%;
-        }
-    }
-
-}
+.custom-confirm-dialog {
+    position: absolute;
+    border: 1px solid black;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+  }
+  

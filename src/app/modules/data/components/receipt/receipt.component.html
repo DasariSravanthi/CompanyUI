@@ -1,0 +1,37 @@
+<div>
+    <h2>Receipts</h2>
+    <ul class="row wrap gap-2 list-container">
+        <li *ngFor="let receipt of receipts" class="column full-center data-item-container">
+            <p>id : {{ receipt.receiptId }}</p>
+            <p>ReceiptDate - {{ receipt.receiptDate }}</p>
+            <p>SupplierId - {{ receipt.supplierId }}</p>
+            <p>BillNo - {{ receipt.billNo }}</p>
+            <p>BillDate - {{ receipt.billDate }}</p>
+            <p>BillValue - {{ receipt.billValue }}</p>
+            <div class="row space-between button-container">
+                <button type="button" (click)="toggleEditPopup(receipt)">Edit</button>
+                <button type="button" (click)="toggleDeleteDialog(receipt)">Delete</button>
+            </div>
+        </li>
+    </ul>
+    <button type="button" (click)="toggleAddPopup()">Add Receipt</button>
+</div>
+
+<!-- Edit Product -->
+<app-edit-popup
+[data]="selectedReceipt"
+[template]="'receipt'"
+[(display)]="displayEditPopup"
+(confirm)="onConfirmEdit($event)"
+header="Edit Receipt"
+></app-edit-popup>
+
+<!-- Add Product -->
+<app-edit-popup
+[template]="'receipt'"
+[(display)]="displayAddPopup"
+(confirm)="onConfirmAdd($event)"
+header="Add Receipt"
+></app-edit-popup>
+
+<p-confirmDialog [closable]="false"></p-confirmDialog>

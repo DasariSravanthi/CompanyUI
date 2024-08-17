@@ -1,0 +1,40 @@
+<div>
+    <h2>ProductionCoatings</h2>
+    <ul class="row wrap gap-2 list-container">
+        <li *ngFor="let productionCoating of productionCoatings" class="column full-center data-item-container">
+            <p>id : {{ productionCoating.productionCoatingId }}</p>
+            <p>ProductionCoatingDate - {{ productionCoating.productionCoatingDate }}</p>
+            <p>IssueId - {{ productionCoating.issueId }}</p>
+            <p>CoatingStart - {{ productionCoating.coatingStart }}</p>
+            <p>CoatingEnd - {{ productionCoating.coatingEnd }}</p>
+            <p>AverageSpeed - {{ productionCoating.averageSpeed }}</p>
+            <p>AverageTemperature - {{ productionCoating.averageTemperature }}</p>
+            <p>GSMCoated - {{ productionCoating.gsmCoated }}</p>
+            <p>RollCount - {{ productionCoating.rollCount }}</p>
+            <div class="row space-between button-container">
+                <button type="button" (click)="toggleEditPopup(productionCoating)">Edit</button>
+                <button type="button" (click)="toggleDeleteDialog(productionCoating)">Delete</button>
+            </div>
+        </li>
+    </ul>
+    <button type="button" (click)="toggleAddPopup()">Add ProductionCoating</button>
+</div>
+
+<!-- Edit Product -->
+<app-edit-popup
+[data]="selectedProductionCoating"
+[template]="'productionCoating'"
+[(display)]="displayEditPopup"
+(confirm)="onConfirmEdit($event)"
+header="Edit ProductionCoating"
+></app-edit-popup>
+
+<!-- Add Product -->
+<app-edit-popup
+[template]="'productionCoating'"
+[(display)]="displayAddPopup"
+(confirm)="onConfirmAdd($event)"
+header="Add ProductionCoating"
+></app-edit-popup>
+
+<p-confirmDialog [closable]="false"></p-confirmDialog>

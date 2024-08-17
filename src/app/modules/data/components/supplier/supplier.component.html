@@ -1,0 +1,34 @@
+<div>
+    <h2>Suppliers</h2>
+    <ul class="row wrap gap-2 list-container">
+        <li *ngFor="let supplier of suppliers" class="column full-center data-item-container">
+            <p>id : {{ supplier.supplierId }}</p>
+            <p>SupplierName - {{ supplier.supplierName }}</p>
+            <p>Dues - {{ supplier.dues }}</p>
+            <div class="row space-between button-container">
+                <button type="button" (click)="toggleEditPopup(supplier)">Edit</button>
+                <button type="button" (click)="toggleDeleteDialog(supplier)">Delete</button>
+            </div>
+        </li>
+    </ul>
+    <button type="button" (click)="toggleAddPopup()">Add Supplier</button>
+</div>
+
+<!-- Edit Product -->
+<app-edit-popup
+[data]="selectedSupplier"
+[template]="'supplier'"
+[(display)]="displayEditPopup"
+(confirm)="onConfirmEdit($event)"
+header="Edit Supplier"
+></app-edit-popup>
+
+<!-- Add Product -->
+<app-edit-popup
+[template]="'supplier'"
+[(display)]="displayAddPopup"
+(confirm)="onConfirmAdd($event)"
+header="Add Supplier"
+></app-edit-popup>
+
+<p-confirmDialog [closable]="false"></p-confirmDialog>

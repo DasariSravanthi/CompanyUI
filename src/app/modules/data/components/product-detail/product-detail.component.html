@@ -1,0 +1,34 @@
+<div>
+    <h2>ProductDetails</h2>
+    <ul class="row wrap gap-2 list-container">
+        <li *ngFor="let productDetail of productDetails" class="column full-center data-item-container">
+            <p>id : {{ productDetail.productDetailId }}</p>
+            <p>ProductId - {{ productDetail.productId }}</p>
+            <p>Variant - {{ productDetail.variant }}</p>
+            <div class="row space-between button-container">
+                <button type="button" (click)="toggleEditPopup(productDetail)">Edit</button>
+                <button type="button" (click)="toggleDeleteDialog(productDetail)">Delete</button>
+            </div>
+        </li>
+    </ul>
+    <button type="button" (click)="toggleAddPopup()">Add ProductDetail</button>
+</div>
+
+<!-- Edit Product -->
+<app-edit-popup
+[data]="selectedProductDetail"
+[template]="'productDetail'"
+[(display)]="displayEditPopup"
+(confirm)="onConfirmEdit($event)"
+header="Edit ProductDetail"
+></app-edit-popup>
+
+<!-- Add Product -->
+<app-edit-popup
+[template]="'productDetail'"
+[(display)]="displayAddPopup"
+(confirm)="onConfirmAdd($event)"
+header="Add ProductDetail"
+></app-edit-popup>
+
+<p-confirmDialog [closable]="false"></p-confirmDialog>

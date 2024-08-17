@@ -1,0 +1,38 @@
+<div>
+    <h2>Issues</h2>
+    <ul class="row wrap gap-2 list-container">
+        <li *ngFor="let issue of issues" class="column full-center data-item-container">
+            <p>id : {{ issue.issueId }}</p>
+            <p>IssueDate - {{ issue.issueDate }}</p>
+            <p>RollNumberId - {{ issue.rollNumberId }}</p>
+            <p>ProductStockId - {{ issue.productStockId }}</p>
+            <p>RollNumber - {{ issue.rollNumber }}</p>
+            <p>Weight - {{ issue.weight }}</p>
+            <p>Moisture - {{ issue.moisture }}</p>
+            <div class="row space-between button-container">
+                <button type="button" (click)="toggleEditPopup(issue)">Edit</button>
+                <button type="button" (click)="toggleDeleteDialog(issue)">Delete</button>
+            </div>
+        </li>
+    </ul>
+    <button type="button" (click)="toggleAddPopup()">Add Issue</button>
+</div>
+
+<!-- Edit Product -->
+<app-edit-popup
+[data]="selectedIssue"
+[template]="'issue'"
+[(display)]="displayEditPopup"
+(confirm)="onConfirmEdit($event)"
+header="Edit Issue"
+></app-edit-popup>
+
+<!-- Add Product -->
+<app-edit-popup
+[template]="'issue'"
+[(display)]="displayAddPopup"
+(confirm)="onConfirmAdd($event)"
+header="Add Issue"
+></app-edit-popup>
+
+<p-confirmDialog [closable]="false"></p-confirmDialog>
