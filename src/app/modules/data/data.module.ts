@@ -5,10 +5,6 @@ import { DataRoutingModule } from './data-routing.module';
 import { ProductComponent } from './components/product/product.component';
 import { DataComponent } from './components/data/data.component';
 import { EditPopupComponent } from './components/edit-popup/edit-popup.component';
-import { DialogModule } from 'primeng/dialog';
-import { FormsModule } from '@angular/forms';
-import { ConfirmationService } from 'primeng/api';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { SupplierComponent } from './components/supplier/supplier.component';
 import { SizeComponent } from './components/size/size.component';
@@ -22,6 +18,13 @@ import { ProductionCalendaringComponent } from './components/production-calendar
 import { ProductionSlittingComponent } from './components/production-slitting/production-slitting.component';
 import { SlittingDetailComponent } from './components/slitting-detail/slitting-detail.component';
 import { LogoutComponent } from '../../logout/logout.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -47,8 +50,12 @@ import { LogoutComponent } from '../../logout/logout.component';
     DialogModule,
     ConfirmDialogModule, 
     FormsModule,
-    LogoutComponent
+    LogoutComponent,
+    ButtonModule,
+    TableModule,
+    ToastModule,
+    ReactiveFormsModule
   ],
-  providers: [ConfirmationService]
+  providers: [ConfirmationService, MessageService]
 })
 export class DataModule { }

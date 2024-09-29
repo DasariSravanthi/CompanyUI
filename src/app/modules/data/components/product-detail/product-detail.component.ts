@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ProductDetail } from '../../../../../types';
 
 @Component({
@@ -9,7 +9,7 @@ import { ProductDetail } from '../../../../../types';
   styleUrl: './product-detail.component.scss'
 })
 export class ProductDetailComponent {
-  constructor(private apiService: ApiService, private confirmationService: ConfirmationService) {}
+  constructor(private apiService: ApiService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
   private url = 'http://localhost:5110/ProductDetail';
 
@@ -70,45 +70,77 @@ export class ProductDetailComponent {
   }
 
   getAllProductDetails() {
+    this.messageService.clear();
+
     this.apiService.get<ProductDetail[]>(`${this.url}/allProductDetails`).subscribe({
       next: (productDetails: ProductDetail[]) => {
         this.productDetails = productDetails;
       },
       error: (error) => {
-        console.log(error);
+        const errorMessage = error.error || 'An unexpected error occurred.';
+        this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
       }
     });
   }
 
   addProductDetail(productDetail: ProductDetail) {
+    this.messageService.clear();
+    
     this.apiService.post<ProductDetail>(`${this.url}/addProductDetail`, productDetail).subscribe({
       next: (productDetail: ProductDetail) => {
         this.getAllProductDetails();
       },
       error: (error) => {
-        console.log(error);
+        if (error.status === 400 && error.error?.errors) {
+          const validationErrors = error.error.errors;
+
+          Object.keys(validationErrors).forEach(field => {
+            validationErrors[field].forEach((message: string) => {
+              this.messageService.add({ severity: 'error', summary: 'Validation Error', detail: `${field}: ${message}` });
+            });
+          });
+        } else {
+          const errorMessage = error.error || 'An unexpected error occurred.';
+          this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
+        }
       }
     });
   }
 
   updateProductDetail(id: number, productDetail: ProductDetail) {
+    this.messageService.clear();
+    
     this.apiService.put<ProductDetail>(`${this.url}/updateProductDetail/${id}`, productDetail).subscribe({
       next: (productDetail: ProductDetail) => {
         this.getAllProductDetails();
       },
       error: (error) => {
-        console.log(error);
+        if (error.status === 400 && error.error?.errors) {
+          const validationErrors = error.error.errors;
+
+          Object.keys(validationErrors).forEach(field => {
+            validationErrors[field].forEach((message: string) => {
+              this.messageService.add({ severity: 'error', summary: 'Validation Error', detail: `${field}: ${message}` });
+            });
+          });
+        } else {
+          const errorMessage = error.error || 'An unexpected error occurred.';
+          this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
+        }
       }
     });
   }
 
   deleteProductDetail(id: number) {
+    this.messageService.clear();
+    
     this.apiService.delete<ProductDetail>(`${this.url}/deleteProductDetail/${id}`).subscribe({
       next: (productDetail: ProductDetail) => {
         this.getAllProductDetails();
       },
       error: (error) => {
-        console.log(error);
+        const errorMessage = error.error || 'An unexpected error occurred.';
+        this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
       }
     });
   }

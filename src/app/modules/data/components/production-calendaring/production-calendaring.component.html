@@ -1,26 +1,49 @@
+<app-data></app-data>
+
 <div>
-    <h2>ProductionCalendarings</h2>
-    <ul class="row wrap gap-2 list-container">
-        <li *ngFor="let productionCalendaring of productionCalendarings" class="column full-center data-item-container">
-            <p>id : {{ productionCalendaring.productionCalendaringId }}</p>
-            <p>ProductionCoatingDate - {{ productionCalendaring.productionCoatingDate }}</p>
-            <p>ProductionCoatingId - {{ productionCalendaring.productionCoatingId }}</p>
-            <p>RollNumber - {{ productionCalendaring.rollNumber }}</p>
-            <p>BeforeWeight - {{ productionCalendaring.beforeWeight }}</p>
-            <p>BeforeMoisture - {{ productionCalendaring.beforeMoisture }}</p>
-            <p>CalendaringStart - {{ productionCalendaring.calendaringStart }}</p>
-            <p>CalendaringEnd - {{ productionCalendaring.calendaringEnd }}</p>
-            <p>RollCount - {{ productionCalendaring.rollCount }}</p>
-            <div class="row space-between button-container">
-                <button type="button" (click)="toggleEditPopup(productionCalendaring)">Edit</button>
-                <button type="button" (click)="toggleDeleteDialog(productionCalendaring)">Delete</button>
-            </div>
-        </li>
-    </ul>
-    <button type="button" (click)="toggleAddPopup()">Add ProductionCalendaring</button>
+    <h2 class="mb-15">ProductionCalendarings</h2>
+    
+    <!-- <button type="button" pButton label="Add ProductionCalendaring" icon="pi pi-plus" class="p-button-success mb-15" (click)="toggleAddPopup()"></button> -->
+    
+    <p-table [value]="productionCalendarings" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '30rem' }">
+        <ng-template pTemplate="header">
+            <tr style="width:20%">
+                <th pSortableColumn="productionCalendaringId">Production Calendaring Id <p-sortIcon field="productionCalendaringId"></p-sortIcon></th>
+                <th pSortableColumn="productionCoatingDate">Production Coating Date <p-sortIcon field="productionCoatingDate"></p-sortIcon></th>
+                <th pSortableColumn="productionCoatingId">Production Coating Id <p-sortIcon field="productionCoatingId"></p-sortIcon></th>
+                <th pSortableColumn="rollNumber">Roll Number <p-sortIcon field="rollNumber"></p-sortIcon></th>
+                <th pSortableColumn="beforeWeight">Before Weight <p-sortIcon field="beforeWeight"></p-sortIcon></th>
+                <th pSortableColumn="beforeMoisture">Before Moisture <p-sortIcon field="beforeMoisture"></p-sortIcon></th>
+                <th pSortableColumn="calendaringStart">Calendaring Start <p-sortIcon field="calendaringStart"></p-sortIcon></th>
+                <th pSortableColumn="calendaringEnd">Calendaring End <p-sortIcon field="calendaringEnd"></p-sortIcon></th>
+                <th pSortableColumn="rollCount">Roll Count <p-sortIcon field="rollCount"></p-sortIcon></th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-productionCalendaring>
+            <tr>
+                <td>{{ productionCalendaring.productionCalendaringId }}</td>
+                <td>{{ productionCalendaring.productionCoatingDate }}</td>
+                <td>{{ productionCalendaring.productionCoatingId }}</td>
+                <td>{{ productionCalendaring.rollNumber }}</td>
+                <td>{{ productionCalendaring.beforeWeight }}</td>
+                <td>{{ productionCalendaring.beforeMoisture }}</td>
+                <td>{{ productionCalendaring.calendaringStart }}</td>
+                <td>{{ productionCalendaring.calendaringEnd }}</td>
+                <td>{{ productionCalendaring.rollCount }}</td>
+                <td>
+                    <button type="button" pButton label="Edit ProductionCalendaring" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(productionCalendaring)"></button>
+                    <button type="button" pButton label="Delete ProductionCalendaring" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(productionCalendaring)"></button>
+                </td>
+          </tr>
+        </ng-template>
+    </p-table>
+
+    <p-toast></p-toast>     
 </div>
 
-<!-- Edit Product -->
+<!-- Edit ProductionCalendaring -->
 <app-edit-popup
 [data]="selectedProductionCalendaring"
 [template]="'productionCalendaring'"
@@ -29,7 +52,7 @@
 header="Edit ProductionCalendaring"
 ></app-edit-popup>
 
-<!-- Add Product -->
+<!-- Add ProductionCalendaring -->
 <app-edit-popup
 [template]="'productionCalendaring'"
 [(display)]="displayAddPopup"

@@ -1,22 +1,41 @@
+<app-data></app-data>
+
 <div>
-    <h2>SlittingDetails</h2>
-    <ul class="row wrap gap-2 list-container">
-        <li *ngFor="let slittingDetail of slittingDetails" class="column full-center data-item-container">
-            <p>id : {{ slittingDetail.slittingDetailId }}</p>
-            <p>ProductionSlittingId - {{ slittingDetail.productionSlittingId }}</p>
-            <p>RollNumber - {{ slittingDetail.rollNumber }}</p>
-            <p>Weight - {{ slittingDetail.weight }}</p>
-            <p>Moisture - {{ slittingDetail.moisture }}</p>
-            <div class="row space-between button-container">
-                <button type="button" (click)="toggleEditPopup(slittingDetail)">Edit</button>
-                <button type="button" (click)="toggleDeleteDialog(slittingDetail)">Delete</button>
-            </div>
-        </li>
-    </ul>
-    <button type="button" (click)="toggleAddPopup()">Add SlittingDetail</button>
+    <h2 class="mb-15">SlittingDetails</h2>
+    
+    <!-- <button type="button" pButton label="Add SlittingDetail" icon="pi pi-plus" class="p-button-success mb-15" (click)="toggleAddPopup()"></button> -->
+    
+    <p-table [value]="slittingDetails" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '30rem' }">
+        <ng-template pTemplate="header">
+            <tr style="width:20%">
+                <th pSortableColumn="slittingDetailId">Slitting Detail Id <p-sortIcon field="slittingDetailId"></p-sortIcon></th>
+                <th pSortableColumn="productionSlittingId">Production Slitting Id <p-sortIcon field="productionSlittingId"></p-sortIcon></th>
+                <th pSortableColumn="rollNumber">Roll Number <p-sortIcon field="rollNumber"></p-sortIcon></th>
+                <th pSortableColumn="weight">Weight <p-sortIcon field="weight"></p-sortIcon></th>
+                <th pSortableColumn="moisture">Moisture <p-sortIcon field="moisture"></p-sortIcon></th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-slittingDetail>
+            <tr>
+                <td>{{ slittingDetail.slittingDetailId }}</td>
+                <td>{{ slittingDetail.productionSlittingId }}</td>
+                <td>{{ slittingDetail.rollNumber }}</td>
+                <td>{{ slittingDetail.weight }}</td>
+                <td>{{ slittingDetail.moisture }}</td>
+                <td>
+                    <button type="button" pButton label="Edit SlittingDetail" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(slittingDetail)"></button>
+                    <button type="button" pButton label="Delete SlittingDetail" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(slittingDetail)"></button>
+                </td>
+          </tr>
+        </ng-template>
+    </p-table>
+
+    <p-toast></p-toast>
 </div>
 
-<!-- Edit Product -->
+<!-- Edit SlittingDetail -->
 <app-edit-popup
 [data]="selectedSlittingDetail"
 [template]="'slittingDetail'"
@@ -25,7 +44,7 @@
 header="Edit SlittingDetail"
 ></app-edit-popup>
 
-<!-- Add Product -->
+<!-- Add SlittingDetail -->
 <app-edit-popup
 [template]="'slittingDetail'"
 [(display)]="displayAddPopup"

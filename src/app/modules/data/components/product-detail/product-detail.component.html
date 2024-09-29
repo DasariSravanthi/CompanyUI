@@ -1,20 +1,37 @@
+<app-data></app-data>
+
 <div>
-    <h2>ProductDetails</h2>
-    <ul class="row wrap gap-2 list-container">
-        <li *ngFor="let productDetail of productDetails" class="column full-center data-item-container">
-            <p>id : {{ productDetail.productDetailId }}</p>
-            <p>ProductId - {{ productDetail.productId }}</p>
-            <p>Variant - {{ productDetail.variant }}</p>
-            <div class="row space-between button-container">
-                <button type="button" (click)="toggleEditPopup(productDetail)">Edit</button>
-                <button type="button" (click)="toggleDeleteDialog(productDetail)">Delete</button>
-            </div>
-        </li>
-    </ul>
-    <button type="button" (click)="toggleAddPopup()">Add ProductDetail</button>
+    <h2 class="mb-15">ProductDetails</h2>
+    
+    <!-- <button type="button" pButton label="Add ProductDetail" icon="pi pi-plus" class="p-button-success mb-15" (click)="toggleAddPopup()"></button> -->
+    
+    <p-table [value]="productDetails" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '30rem' }">
+        <ng-template pTemplate="header">
+            <tr style="width:20%">
+                <th pSortableColumn="productDetailId">Product Detail ID <p-sortIcon field="productDetailId"></p-sortIcon></th>
+                <th pSortableColumn="productId">Product ID <p-sortIcon field="productDetailId"></p-sortIcon></th>
+                <th pSortableColumn="variant">Variant <p-sortIcon field="variant"></p-sortIcon></th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-productDetail>
+            <tr>
+                <td>{{ productDetail.productDetailId }}</td>
+                <td>{{ productDetail.productId }}</td>
+                <td>{{ productDetail.variant }}</td>
+                <td>
+                    <button type="button" pButton label="Edit ProductDetail" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(productDetail)"></button>
+                    <button type="button" pButton label="Delete ProductDetail" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(productDetail)"></button>
+                </td>
+          </tr>
+        </ng-template>
+    </p-table>
+
+    <p-toast></p-toast>
 </div>
 
-<!-- Edit Product -->
+<!-- Edit ProductDetail -->
 <app-edit-popup
 [data]="selectedProductDetail"
 [template]="'productDetail'"
@@ -23,7 +40,7 @@
 header="Edit ProductDetail"
 ></app-edit-popup>
 
-<!-- Add Product -->
+<!-- Add ProductDetail -->
 <app-edit-popup
 [template]="'productDetail'"
 [(display)]="displayAddPopup"

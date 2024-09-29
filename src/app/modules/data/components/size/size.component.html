@@ -1,19 +1,35 @@
+<app-data></app-data>
+
 <div>
-    <h2>Sizes</h2>
-    <ul class="row wrap gap-2 list-container">
-        <li *ngFor="let size of sizes" class="column full-center data-item-container">
-            <p>id : {{ size.sizeId }}</p>
-            <p>Size - {{ size.sizeInMM }}</p>
-            <div class="row space-between button-container">
-                <button type="button" (click)="toggleEditPopup(size)">Edit</button>
-                <button type="button" (click)="toggleDeleteDialog(size)">Delete</button>
-            </div>
-        </li>
-    </ul>
-    <button type="button" (click)="toggleAddPopup()">Add Size</button>
+    <h2 class="mb-15">Sizes</h2>
+    
+    <!-- <button type="button" pButton label="Add Size" icon="pi pi-plus" class="p-button-success mb-15" (click)="toggleAddPopup()"></button> -->
+    
+    <p-table [value]="sizes" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '30rem' }">
+        <ng-template pTemplate="header">
+            <tr style="width:20%">
+                <th pSortableColumn="sizeId">Size ID <p-sortIcon field="sizeId"></p-sortIcon></th>
+                <th pSortableColumn="sizeInMM">Size <p-sortIcon field="sizeInMM"></p-sortIcon></th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-size>
+            <tr>
+                <td>{{ size.sizeId }}</td>
+                <td>{{ size.sizeInMM }}</td>
+                <td>
+                    <button type="button" pButton label="Edit Size" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(size)"></button>
+                    <button type="button" pButton label="Delete Size" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(size)"></button>
+                </td>
+          </tr>
+        </ng-template>
+    </p-table>
+    
+    <p-toast></p-toast>
 </div>
 
-<!-- Edit Product -->
+<!-- Edit Size -->
 <app-edit-popup
 [data]="selectedSize"
 [template]="'size'"
@@ -22,7 +38,7 @@
 header="Edit Size"
 ></app-edit-popup>
 
-<!-- Add Product -->
+<!-- Add Size -->
 <app-edit-popup
 [template]="'size'"
 [(display)]="displayAddPopup"

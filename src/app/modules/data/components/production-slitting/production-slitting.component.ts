@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ProductionSlitting } from '../../../../../types';
 
 @Component({
@@ -9,7 +9,7 @@ import { ProductionSlitting } from '../../../../../types';
   styleUrl: './production-slitting.component.scss'
 })
 export class ProductionSlittingComponent {
-  constructor(private apiService: ApiService, private confirmationService: ConfirmationService) {}
+  constructor(private apiService: ApiService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
   private url = 'http://localhost:5110/ProductionSlitting';
 
@@ -75,45 +75,77 @@ export class ProductionSlittingComponent {
   }
 
   getAllProductionSlittings() {
+    this.messageService.clear();
+
     this.apiService.get<ProductionSlitting[]>(`${this.url}/allProductionSlittings`).subscribe({
       next: (productionSlittings: ProductionSlitting[]) => {
         this.productionSlittings = productionSlittings;
       },
       error: (error) => {
-        console.log(error);
+        const errorMessage = error.error || 'An unexpected error occurred.';
+        this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
       }
     });
   }
 
   addProductionSlitting(productionSlitting: ProductionSlitting) {
+    this.messageService.clear();
+
     this.apiService.post<ProductionSlitting>(`${this.url}/addProductionSlitting`, productionSlitting).subscribe({
       next: (productionSlitting: ProductionSlitting) => {
         this.getAllProductionSlittings();
       },
       error: (error) => {
-        console.log(error);
+        if (error.status === 400 && error.error?.errors) {
+          const validationErrors = error.error.errors;
+
+          Object.keys(validationErrors).forEach(field => {
+            validationErrors[field].forEach((message: string) => {
+              this.messageService.add({ severity: 'error', summary: 'Validation Error', detail: `${field}: ${message}` });
+            });
+          });
+        } else {
+          const errorMessage = error.error || 'An unexpected error occurred.';
+          this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
+        }
       }
     });
   }
 
   updateProductionSlitting(id: number, productionSlitting: ProductionSlitting) {
+    this.messageService.clear();
+
     this.apiService.put<ProductionSlitting>(`${this.url}/updateProductionSlitting/${id}`, productionSlitting).subscribe({
       next: (productionSlitting: ProductionSlitting) => {
         this.getAllProductionSlittings();
       },
       error: (error) => {
-        console.log(error);
+        if (error.status === 400 && error.error?.errors) {
+          const validationErrors = error.error.errors;
+
+          Object.keys(validationErrors).forEach(field => {
+            validationErrors[field].forEach((message: string) => {
+              this.messageService.add({ severity: 'error', summary: 'Validation Error', detail: `${field}: ${message}` });
+            });
+          });
+        } else {
+          const errorMessage = error.error || 'An unexpected error occurred.';
+          this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
+        }
       }
     });
   }
 
   deleteProductionSlitting(id: number) {
+    this.messageService.clear();
+
     this.apiService.delete<ProductionSlitting>(`${this.url}/deleteProductionSlitting/${id}`).subscribe({
       next: (productionSlitting: ProductionSlitting) => {
         this.getAllProductionSlittings();
       },
       error: (error) => {
-        console.log(error);
+        const errorMessage = error.error || 'An unexpected error occurred.';
+        this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
       }
     });
   }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Size } from '../../../../../types';
 
 @Component({
@@ -9,7 +9,7 @@ import { Size } from '../../../../../types';
   styleUrl: './size.component.scss'
 })
 export class SizeComponent {
-  constructor(private apiService: ApiService, private confirmationService: ConfirmationService) {}
+  constructor(private apiService: ApiService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
   private url = 'http://localhost:5110/Size';
 
@@ -68,45 +68,77 @@ export class SizeComponent {
   }
 
   getAllSizes() {
+    this.messageService.clear();
+
     this.apiService.get<Size[]>(`${this.url}/allSizes`).subscribe({
       next: (sizes: Size[]) => {
         this.sizes = sizes;
       },
       error: (error) => {
-        console.log(error);
+        const errorMessage = error.error || 'An unexpected error occurred.';
+        this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
       }
     });
   }
 
   addSize(size: Size) {
+    this.messageService.clear();
+
     this.apiService.post<Size>(`${this.url}/addSize`, size).subscribe({
       next: (size: Size) => {
         this.getAllSizes();
       },
       error: (error) => {
-        console.log(error);
+        if (error.status === 400 && error.error?.errors) {
+          const validationErrors = error.error.errors;
+
+          Object.keys(validationErrors).forEach(field => {
+            validationErrors[field].forEach((message: string) => {
+              this.messageService.add({ severity: 'error', summary: 'Validation Error', detail: `${field}: ${message}` });
+            });
+          });
+        } else {
+          const errorMessage = error.error || 'An unexpected error occurred.';
+          this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
+        }
       }
     });
   }
 
   updateSize(id: number, size: Size) {
+    this.messageService.clear();
+
     this.apiService.put<Size>(`${this.url}/updateSize/${id}`, size).subscribe({
       next: (size: Size) => {
         this.getAllSizes();
       },
       error: (error) => {
-        console.log(error);
+        if (error.status === 400 && error.error?.errors) {
+          const validationErrors = error.error.errors;
+
+          Object.keys(validationErrors).forEach(field => {
+            validationErrors[field].forEach((message: string) => {
+              this.messageService.add({ severity: 'error', summary: 'Validation Error', detail: `${field}: ${message}` });
+            });
+          });
+        } else {
+          const errorMessage = error.error || 'An unexpected error occurred.';
+          this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
+        }
       }
     });
   }
 
   deleteSize(id: number) {
+    this.messageService.clear();
+
     this.apiService.delete<Size>(`${this.url}/deleteSize/${id}`).subscribe({
       next: (size: Size) => {
         this.getAllSizes();
       },
       error: (error) => {
-        console.log(error);
+        const errorMessage = error.error || 'An unexpected error occurred.';
+        this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
       }
     });
   }

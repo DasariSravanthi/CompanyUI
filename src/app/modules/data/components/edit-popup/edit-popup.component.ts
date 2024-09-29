@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CustomValidators } from '../../validators/custom-validators';
 
 @Component({
   selector: 'app-edit-popup',
@@ -17,152 +19,129 @@ export class EditPopupComponent {
 
   originalData: any = {};
 
-  storeOriginalValue() {
-    // Store the original value when the dialog is shown
-    this.originalData = { ...this.data };
+  popupForm!: FormGroup;
+
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit() {
+    this.initializeForm();
+  }
+
+  ngOnChanges() {
+    if (this.popupForm) {
+      this.popupForm.reset();
+      this.popupForm.patchValue(this.data);
+    }
+  }
+
+  initializeForm() {
+    if (this.template === 'product') {
+      this.popupForm = this.fb.group({
+        productCategory: ['', [Validators.required, CustomValidators.stringValidator(100)]]
+      });
+    } else if (this.template === 'productDetail') {
+      this.popupForm = this.fb.group({
+        productId: ['', [Validators.required, CustomValidators.tinyintValidator]],
+        variant: ['', [Validators.required, CustomValidators.stringValidator(100)]]
+      });
+    } else if (this.template === 'supplier') {
+      this.popupForm = this.fb.group({
+        supplierName: ['', [Validators.required, CustomValidators.stringValidator(100)]],
+        dues: ['', [Validators.required, CustomValidators.floatValidator]]
+      });
+    } else if (this.template === 'size') {
+      this.popupForm = this.fb.group({
+        sizeInMM: ['', [Validators.required, CustomValidators.smallintValidator]]
+      });
+    } else if (this.template === 'productStock') {
+      this.popupForm = this.fb.group({
+        productDetailId: ['', [Validators.required, CustomValidators.tinyintValidator]],
+        gsm: ['', [CustomValidators.tinyintValidator]],
+        sizeId: ['', [CustomValidators.tinyintValidator]],
+        weightInKgs: ['', [Validators.required, CustomValidators.smallintValidator]],
+        rollCount: ['', [CustomValidators.tinyintValidator]]
+      });
+    } else if (this.template === 'receipt') {
+      this.popupForm = this.fb.group({
+        receiptDate: ['', [Validators.required, CustomValidators.dateValidator]],
+        supplierId: ['', [Validators.required, CustomValidators.tinyintValidator]],
+        billNo: ['', [Validators.required, CustomValidators.alphanumericValidator(100)]],
+        billDate: ['', [Validators.required, CustomValidators.dateValidator]],
+        billValue: ['', [Validators.required, CustomValidators.floatValidator]]
+      });
+    } else if (this.template === 'receiptDetail') {
+      this.popupForm = this.fb.group({
+        receiptId: ['', [Validators.required, CustomValidators.integerValidator]],
+        productStockId: ['', [Validators.required, CustomValidators.smallintValidator]],
+        weight: ['', [Validators.required, CustomValidators.floatValidator]],
+        unitRate: ['', [Validators.required, CustomValidators.floatValidator]],
+        rollCount: ['', [CustomValidators.tinyintValidator]]
+      });
+    } else if (this.template === 'rollNumber') {
+      this.popupForm = this.fb.group({
+        receiptDetailId: ['', [Validators.required, CustomValidators.integerValidator]],
+        rollNumberValue: ['', [Validators.required, CustomValidators.alphanumericValidator(100)]]
+      });
+    } else if (this.template === 'issue') {
+      this.popupForm = this.fb.group({
+        issueDate: ['', [Validators.required, CustomValidators.dateValidator]],
+        rollNumberId: ['', [CustomValidators.integerValidator]],
+        productStockId: ['', [Validators.required, CustomValidators.smallintValidator]],
+        rollNumber: ['', [CustomValidators.alphanumericValidator(100)]],
+        weight: ['', [Validators.required, CustomValidators.floatValidator]],
+        moisture: ['', [CustomValidators.floatValidator]]
+      });
+    } else if (this.template === 'productionCoating') {
+      this.popupForm = this.fb.group({
+        productionCoatingDate: ['', [Validators.required, CustomValidators.dateValidator]],
+        issueId: ['', [Validators.required, CustomValidators.integerValidator]],
+        coatingStart: ['', [Validators.required, CustomValidators.timeValidator]],
+        coatingEnd: ['', [Validators.required, CustomValidators.timeValidator]],
+        averageSpeed: ['', [Validators.required, CustomValidators.tinyintValidator]],
+        averageTemperature: ['', [Validators.required, CustomValidators.tinyintValidator]],
+        gsmCoated: ['', [Validators.required, CustomValidators.tinyintValidator]],
+        rollCount: ['', [Validators.required, CustomValidators.tinyintValidator]]
+      });
+    } else if (this.template === 'productionCalendaring') {
+      this.popupForm = this.fb.group({
+        productionCoatingDate: ['', [Validators.required, CustomValidators.dateValidator]],
+        productionCoatingId: ['', [Validators.required, CustomValidators.integerValidator]],
+        rollNumber: ['', [Validators.required, CustomValidators.alphanumericValidator()]],
+        beforeWeight: ['', [Validators.required, CustomValidators.floatValidator]],
+        beforeMoisture: ['', [Validators.required, CustomValidators.floatValidator]],
+        calendaringStart: ['', [Validators.required, CustomValidators.timeValidator]],
+        calendaringEnd: ['', [Validators.required, CustomValidators.timeValidator]],
+        rollCount: ['', [Validators.required, CustomValidators.tinyintValidator]]
+      });
+    } else if (this.template === 'productionSlitting') {
+      this.popupForm = this.fb.group({
+        productionCoatingDate: ['', [Validators.required, CustomValidators.dateValidator]],
+        productionCalendaringId: ['', [Validators.required, CustomValidators.integerValidator]],
+        rollNumber: ['', [Validators.required, CustomValidators.alphanumericValidator()]],
+        beforeWeight: ['', [Validators.required, CustomValidators.floatValidator]],
+        beforeMoisture: ['', [Validators.required, CustomValidators.floatValidator]],
+        slittingStart: ['', [Validators.required, CustomValidators.timeValidator]],
+        slittingEnd: ['', [Validators.required, CustomValidators.timeValidator]],
+        rollCount: ['', [Validators.required, CustomValidators.tinyintValidator]]
+      });
+    } else if (this.template === 'slittingDetail') {
+      this.popupForm = this.fb.group({
+        productionSlittingId: ['', [Validators.required, CustomValidators.integerValidator]],
+        rollNumber: ['', [Validators.required, CustomValidators.alphanumericValidator()]],
+        weight: ['', [Validators.required, CustomValidators.floatValidator]],
+        moisture: ['', [Validators.required, CustomValidators.floatValidator]]
+      });
+    }
   }
 
   onConfirm = () => {
-    this.confirm.emit(this.data);
-    this.resetData(); // Reset data to empty after confirming
+    this.confirm.emit(this.popupForm.value);
     this.display = false;
     this.displayChange.emit(this.display);
   }
 
   onCancel = () => {
-    this.data = { ...this.originalData };
     this.display = false;
     this.displayChange.emit(this.display);
-  }
-
-  hasEmptyFields(): boolean {
-    if (this.template === 'product') {
-      return !this.data.productCategory;
-    } else if (this.template === 'productDetail') {
-      return !this.data.productId || !this.data.variant;
-    } else if (this.template === 'supplier') {
-      return !this.data.supplierName || !this.data.dues;
-    } else if (this.template === 'size') {
-      return !this.data.sizeInMM;
-    } else if (this.template === 'productStock') {
-      return !this.data.productDetailId || !this.data.weightInKgs;
-    } else if (this.template === 'receipt') {
-      return !this.data.receiptDate || !this.data.supplierId || !this.data.billNo || !this.data.billDate || !this.data.billValue;
-    } else if (this.template === 'receiptDetail') {
-      return !this.data.receiptId || !this.data.productStockId || !this.data.weight || !this.data.unitRate;
-    } else if (this.template === 'rollNumber') {
-      return !this.data.receiptDetailId || !this.data.rollNumberValue;
-    } else if (this.template === 'issue') {
-      return !this.data.issueDate || !this.data.productStockId || !this.data.weight;
-    } else if (this.template === 'productionCoating') {
-      return !this.data.productionCoatingDate || !this.data.issueId || !this.data.coatingStart || !this.data.coatingEnd || !this.data.averageSpeed || !this.data.averageTemperature || !this.data.gsmCoated || !this.data.rollCount;
-    } else if (this.template === 'productionCalendaring') {
-      return !this.data.productionCoatingDate || !this.data.productionCoatingId || !this.data.rollNumber || !this.data.beforeWeight || !this.data.beforeMoisture || !this.data.calendaringStart || !this.data.calendaringEnd|| !this.data.rollCount;
-    } else if (this.template === 'productionSlitting') {
-      return !this.data.productionCoatingDate || !this.data.productionCalendaringId || !this.data.rollNumber || !this.data.beforeWeight || !this.data.beforeMoisture || !this.data.slittingStart || !this.data.slittingEnd|| !this.data.rollCount;
-    } else if (this.template === 'slittingDetail') {
-      return !this.data.productionSlittingId || !this.data.rollNumber || !this.data.weight || !this.data.moisture;
-    }
-    return true;
-  }
-
-  resetData() {
-    if (this.template === 'product') {
-      this.data = {
-        productCategory: ''
-      };
-    } else if (this.template === 'productDetail') {
-      this.data = {
-        productId: '',
-        variant: ''
-      };
-    } else if (this.template === 'supplier') {
-      this.data = {
-        supplierName: '',
-        dues: ''
-      };
-    } else if (this.template === 'size') {
-      this.data = {
-        sizeInMM: ''
-      };
-    } else if (this.template === 'productStock') {
-      this.data = {
-        productDetailId: '',
-        gsm: '',
-        sizeId: '',
-        weightInKgs: '',
-        rollCount: ''
-      };
-    } else if (this.template === 'receipt') {
-      this.data = {
-        receiptDate: '',
-        supplierId: '',
-        billNo: '',
-        billDate: '',
-        billValue: ''
-      };
-    } else if (this.template === 'receiptDetail') {
-      this.data = {
-        receiptId: '',
-        productStockId: '',
-        weight: '',
-        unitRate: '',
-        rollCount: ''
-      };
-    } else if (this.template === 'rollNumber') {
-      this.data = {
-        receiptDetailId: '',
-        rollNumberValue: ''
-      };
-    } else if (this.template === 'issue') {
-      this.data = {
-        issueDate: '',
-        rollNumberId: '',
-        productStockId: '',
-        rollNumber: '',
-        weight: '',
-        moisture: ''
-      };
-    } else if (this.template === 'productionCoating') {
-      this.data = {
-        productionCoatingDate: '',
-        issueId: '',
-        coatingStart: '',
-        coatingEnd: '',
-        averageSpeed: '',
-        averageTemperature: '',
-        gsmCoated: '',
-        rollCount: ''
-      };
-    } else if (this.template === 'productionCalendaring') {
-      this.data = {
-        productionCoatingDate: '',
-        productionCoatingId: '',
-        rollNumber: '',
-        beforeWeight: '',
-        beforeMoisture: '',
-        calendaringStart: '',
-        calendaringEnd: '',
-        rollCount: ''
-      };
-    } else if (this.template === 'productionSlitting') {
-      this.data = {
-        productionCoatingDate: '',
-        productionCalendaringId: '',
-        rollNumber: '',
-        beforeWeight: '',
-        beforeMoisture: '',
-        slittingStart: '',
-        slittingEnd: '',
-        rollCount: ''
-      };
-    } else if (this.template === 'slittingDetail') {
-      this.data = {
-        productionSlittingId: '',
-        rollNumber: '',
-        weight: '',
-        moisture: ''
-      };
-    }
   }
 }

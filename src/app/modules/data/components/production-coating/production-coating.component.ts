@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ProductionCoating } from '../../../../../types';
 
 @Component({
@@ -9,7 +9,7 @@ import { ProductionCoating } from '../../../../../types';
   styleUrl: './production-coating.component.scss'
 })
 export class ProductionCoatingComponent {
-  constructor(private apiService: ApiService, private confirmationService: ConfirmationService) {}
+  constructor(private apiService: ApiService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
   private url = 'http://localhost:5110/ProductionCoating';
 
@@ -75,45 +75,77 @@ export class ProductionCoatingComponent {
   }
 
   getAllProductionCoatings() {
+    this.messageService.clear();
+
     this.apiService.get<ProductionCoating[]>(`${this.url}/allProductionCoatings`).subscribe({
       next: (productionCoatings: ProductionCoating[]) => {
         this.productionCoatings = productionCoatings;
       },
       error: (error) => {
-        console.log(error);
+        const errorMessage = error.error || 'An unexpected error occurred.';
+        this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
       }
     });
   }
 
   addProductionCoating(productionCoating: ProductionCoating) {
+    this.messageService.clear();
+
     this.apiService.post<ProductionCoating>(`${this.url}/addProductionCoating`, productionCoating).subscribe({
       next: (productionCoating: ProductionCoating) => {
         this.getAllProductionCoatings();
       },
       error: (error) => {
-        console.log(error);
+        if (error.status === 400 && error.error?.errors) {
+          const validationErrors = error.error.errors;
+
+          Object.keys(validationErrors).forEach(field => {
+            validationErrors[field].forEach((message: string) => {
+              this.messageService.add({ severity: 'error', summary: 'Validation Error', detail: `${field}: ${message}` });
+            });
+          });
+        } else {
+          const errorMessage = error.error || 'An unexpected error occurred.';
+          this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
+        }
       }
     });
   }
 
   updateProductionCoating(id: number, productionCoating: ProductionCoating) {
+    this.messageService.clear();
+
     this.apiService.put<ProductionCoating>(`${this.url}/updateProductionCoating/${id}`, productionCoating).subscribe({
       next: (productionCoating: ProductionCoating) => {
         this.getAllProductionCoatings();
       },
       error: (error) => {
-        console.log(error);
+        if (error.status === 400 && error.error?.errors) {
+          const validationErrors = error.error.errors;
+
+          Object.keys(validationErrors).forEach(field => {
+            validationErrors[field].forEach((message: string) => {
+              this.messageService.add({ severity: 'error', summary: 'Validation Error', detail: `${field}: ${message}` });
+            });
+          });
+        } else {
+          const errorMessage = error.error || 'An unexpected error occurred.';
+          this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
+        }
       }
     });
   }
 
   deleteProductionCoating(id: number) {
+    this.messageService.clear();
+
     this.apiService.delete<ProductionCoating>(`${this.url}/deleteProductionCoating/${id}`).subscribe({
       next: (productionCoating: ProductionCoating) => {
         this.getAllProductionCoatings();
       },
       error: (error) => {
-        console.log(error);
+        const errorMessage = error.error || 'An unexpected error occurred.';
+        this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
       }
     });
   }

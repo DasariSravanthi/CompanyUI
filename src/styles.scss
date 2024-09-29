@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "./styles/variables.scss";
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
 
 * {
     box-sizing: border-box;
@@ -76,51 +78,34 @@ app-root {
     margin-bottom: 15px;
 }
 
-.list-container {
-    list-style-type: none;
-    padding: 0px;
-    width: 100%;
-}
-
-.data-item-container {
-    min-width: 300px;
-    padding: 20px;
-    border: 1px solid var(--container-border-color);
-    gap: 1rem;
-    margin-bottom: 25px;
-}
-
-.button-container {
-    width: 100%;
-}
-
-.p-dialog {
-    border: 2px solid var(--popup-border-color);
-    border-radius: 10px;
-    padding: 10px;
-    padding-top: 5px;
-    gap: 1rem;
-    background-color: lemonchiffon;
-}
-
-.p-footer {
+.input-container {
     display: flex;
-    gap: 5rem;
+    align-items: center;
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 3px;
+    padding: 6px;
 }
 
-.p-confirm-dialog {
-    border: 2px solid var(--popup-border-color);
-    border-radius: 10px;
-    padding: 10px;
-    gap: 1rem;
+input {
+    width: 100%;
+    border: none;
+    outline: none;
 }
 
-.label {
-    display: inline-block;
-    min-width: 100px;
-    text-align: right;
+.input-container.ng-invalid {
+    border: 1px solid red;
 }
 
-.error {
+.p-error-icon {
     color: red;
+}
+
+.p-error {
+    display: block;
+}
+
+a {
+    color: blue;
+    text-decoration: none;
 }

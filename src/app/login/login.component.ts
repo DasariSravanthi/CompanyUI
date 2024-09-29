@@ -3,11 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule, ButtonModule, ToastModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -15,7 +18,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder, private httpClient: HttpClient, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private httpClient: HttpClient, private router: Router, private messageService: MessageService) {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
@@ -40,6 +43,8 @@ export class LoginComponent {
       return;
     }
 
+    this.messageService.clear();
+
     this.httpClient.post('http://localhost:5110/User/SignIn', this.loginForm.value).subscribe({
       next: (response: any) => {
         const token = response.jwt;
@@ -49,7 +54,8 @@ export class LoginComponent {
         }
       },
       error: (error) => {
-        console.log(error);
+        const errorMessage = error.error || 'An unexpected error occurred.';
+        this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
       }
     });
   }

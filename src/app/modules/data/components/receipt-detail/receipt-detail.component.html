@@ -1,23 +1,43 @@
+<app-data></app-data>
+
 <div>
-    <h2>ReceiptDetails</h2>
-    <ul class="row wrap gap-2 list-container">
-        <li *ngFor="let receiptDetail of receiptDetails" class="column full-center data-item-container">
-            <p>id : {{ receiptDetail.receiptDetailId }}</p>
-            <p>ReceiptId - {{ receiptDetail.receiptId }}</p>
-            <p>ProductStockId - {{ receiptDetail.productStockId }}</p>
-            <p>Weight - {{ receiptDetail.weight }}</p>
-            <p>UnitRate - {{ receiptDetail.unitRate }}</p>
-            <p>RollCount - {{ receiptDetail.rollCount }}</p>
-            <div class="row space-between button-container">
-                <button type="button" (click)="toggleEditPopup(receiptDetail)">Edit</button>
-                <button type="button" (click)="toggleDeleteDialog(receiptDetail)">Delete</button>
-            </div>
-        </li>
-    </ul>
-    <button type="button" (click)="toggleAddPopup()">Add ReceiptDetail</button>
+    <h2 class="mb-15">ReceiptDetails</h2>
+    
+    <!-- <button type="button" pButton label="Add ReceiptDetail" icon="pi pi-plus" class="p-button-success mb-15" (click)="toggleAddPopup()"></button> -->
+    
+    <p-table [value]="receiptDetails" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '30rem' }">
+        <ng-template pTemplate="header">
+            <tr style="width:20%">
+                <th pSortableColumn="receiptDetailId">Receipt Detail Id <p-sortIcon field="receiptDetailId"></p-sortIcon></th>
+                <th pSortableColumn="receiptId">Receipt Id <p-sortIcon field="receiptId"></p-sortIcon></th>
+                <th pSortableColumn="productStockId">Product Stock Id <p-sortIcon field="productStockId"></p-sortIcon></th>
+                <th pSortableColumn="weight">Weight <p-sortIcon field="weight"></p-sortIcon></th>
+                <th pSortableColumn="unitRate">Unit Rate <p-sortIcon field="unitRate"></p-sortIcon></th>
+                <th pSortableColumn="rollCount">Roll Count <p-sortIcon field="rollCount"></p-sortIcon></th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-receiptDetail>
+            <tr>
+                <td>{{ receiptDetail.receiptDetailId }}</td>
+                <td>{{ receiptDetail.receiptId }}</td>
+                <td>{{ receiptDetail.productStockId }}</td>
+                <td>{{ receiptDetail.weight }}</td>
+                <td>{{ receiptDetail.unitRate }}</td>
+                <td>{{ receiptDetail.rollCount }}</td>
+                <td>
+                    <button type="button" pButton label="Edit ReceiptDetail" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(receiptDetail)"></button>
+                    <button type="button" pButton label="Delete ReceiptDetail" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(receiptDetail)"></button>
+                </td>
+          </tr>
+        </ng-template>
+    </p-table>
+
+    <p-toast></p-toast>
 </div>
 
-<!-- Edit Product -->
+<!-- Edit ReceiptDetail -->
 <app-edit-popup
 [data]="selectedReceiptDetail"
 [template]="'receiptDetail'"
@@ -26,7 +46,7 @@
 header="Edit ReceiptDetail"
 ></app-edit-popup>
 
-<!-- Add Product -->
+<!-- Add ReceiptDetail -->
 <app-edit-popup
 [template]="'receiptDetail'"
 [(display)]="displayAddPopup"

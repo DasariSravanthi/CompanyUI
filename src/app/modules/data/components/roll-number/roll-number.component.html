@@ -1,20 +1,37 @@
+<app-data></app-data>
+
 <div>
-    <h2>RollNumbers</h2>
-    <ul class="row wrap gap-2 list-container">
-        <li *ngFor="let rollNumber of rollNumbers" class="column full-center data-item-container">
-            <p>id : {{ rollNumber.rollNumberId }}</p>
-            <p>ReceiptDetailId - {{ rollNumber.receiptDetailId }}</p>
-            <p>RollNumber - {{ rollNumber.rollNumberValue }}</p>
-            <div class="row space-between button-container">
-                <button type="button" (click)="toggleEditPopup(rollNumber)">Edit</button>
-                <button type="button" (click)="toggleDeleteDialog(rollNumber)">Delete</button>
-            </div>
-        </li>
-    </ul>
-    <button type="button" (click)="toggleAddPopup()">Add RollNumber</button>
+    <h2 class="mb-15">RollNumbers</h2>
+    
+    <!-- <button type="button" pButton label="Add RollNumber" icon="pi pi-plus" class="p-button-success mb-15" (click)="toggleAddPopup()"></button> -->
+    
+    <p-table [value]="rollNumbers" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '30rem' }">
+        <ng-template pTemplate="header">
+            <tr style="width:20%">
+                <th pSortableColumn="rollNumberId">Roll Number Id <p-sortIcon field="rollNumberId"></p-sortIcon></th>
+                <th pSortableColumn="receiptDetailId">Receipt Detail Id <p-sortIcon field="receiptDetailId"></p-sortIcon></th>
+                <th pSortableColumn="rollNumberValue">Roll Number <p-sortIcon field="rollNumberValue"></p-sortIcon></th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-rollNumber>
+            <tr>
+                <td>{{ rollNumber.rollNumberId }}</td>
+                <td>{{ rollNumber.receiptDetailId }}</td>
+                <td>{{ rollNumber.rollNumberValue }}</td>
+                <td>
+                    <button type="button" pButton label="Edit RollNumber" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(rollNumber)"></button>
+                    <button type="button" pButton label="Delete RollNumber" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(rollNumber)"></button>
+                </td>
+          </tr>
+        </ng-template>
+    </p-table>
+
+    <p-toast></p-toast>
 </div>
 
-<!-- Edit Product -->
+<!-- Edit RollNumber -->
 <app-edit-popup
 [data]="selectedRollNumber"
 [template]="'rollNumber'"
@@ -23,7 +40,7 @@
 header="Edit RollNumber"
 ></app-edit-popup>
 
-<!-- Add Product -->
+<!-- Add RollNumber -->
 <app-edit-popup
 [template]="'rollNumber'"
 [(display)]="displayAddPopup"

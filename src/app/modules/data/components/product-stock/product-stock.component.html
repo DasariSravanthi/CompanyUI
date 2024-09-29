@@ -1,23 +1,43 @@
+<app-data></app-data>
+
 <div>
-    <h2>ProductStocks</h2>
-    <ul class="row wrap gap-2 list-container">
-        <li *ngFor="let productStock of productStocks" class="column full-center data-item-container">
-            <p>id : {{ productStock.productStockId }}</p>
-            <p>ProductDetailId : {{ productStock.productDetailId }}</p>
-            <p>GSM : {{ productStock.gsm }}</p>
-            <p>SizeId : {{ productStock.sizeId }}</p>
-            <p>WeightInKgs : {{ productStock.weightInKgs }}</p>
-            <p>RollCount : {{ productStock.rollCount }}</p>
-            <div class="row space-between button-container">
-                <button type="button" (click)="toggleEditPopup(productStock)">Edit</button>
-                <button type="button" (click)="toggleDeleteDialog(productStock)">Delete</button>
-            </div>
-        </li>
-    </ul>
-    <button type="button" (click)="toggleAddPopup()">Add ProductStock</button>
+    <h2 class="mb-15">ProductStocks</h2>
+    
+    <button type="button" pButton label="Add ProductStock" icon="pi pi-plus" class="p-button-success mb-15" (click)="toggleAddPopup()"></button>
+    
+    <p-table [value]="productStocks" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '30rem' }">
+        <ng-template pTemplate="header">
+            <tr style="width:20%">
+                <th pSortableColumn="productStockId">Product Stock ID <p-sortIcon field="productStockId"></p-sortIcon></th>
+                <th pSortableColumn="productDetailId">Product Detail Id <p-sortIcon field="productDetailId"></p-sortIcon></th>
+                <th pSortableColumn="gsm">GSM <p-sortIcon field="gsm"></p-sortIcon></th>
+                <th pSortableColumn="sizeId">Size Id <p-sortIcon field="sizeId"></p-sortIcon></th>
+                <th pSortableColumn="weightInKgs">Weight <p-sortIcon field="weightInKgs"></p-sortIcon></th>
+                <th pSortableColumn="rollCount">Roll Count <p-sortIcon field="rollCount"></p-sortIcon></th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-productStock>
+            <tr>
+                <td>{{ productStock.productStockId }}</td>
+                <td>{{ productStock.productDetailId }}</td>
+                <td>{{ productStock.gsm }}</td>
+                <td>{{ productStock.sizeId }}</td>
+                <td>{{ productStock.weightInKgs }}</td>
+                <td>{{ productStock.rollCount }}</td>
+                <td>
+                    <button type="button" pButton label="Edit ProductStock" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(productStock)"></button>
+                    <button type="button" pButton label="Delete ProductStock" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(productStock)"></button>
+                </td>
+          </tr>
+        </ng-template>
+    </p-table>
+      
+    <p-toast></p-toast>
 </div>
 
-<!-- Edit Product -->
+<!-- Edit ProductStock -->
 <app-edit-popup
 [data]="selectedProductStock"
 [template]="'productStock'"
@@ -26,7 +46,7 @@
 header="Edit ProductStock"
 ></app-edit-popup>
 
-<!-- Add Product -->
+<!-- Add ProductStock -->
 <app-edit-popup
 [template]="'productStock'"
 [(display)]="displayAddPopup"

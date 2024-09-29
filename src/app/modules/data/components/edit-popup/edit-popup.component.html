@@ -3,290 +3,629 @@
   [(visible)]="display"
   [modal]="true"
   [closable]="false"
-  (onShow)="storeOriginalValue()"
+  [formGroup]="popupForm"
 >
     <ng-container [ngSwitch]="template">
 
         <!-- Template for Product -->
         <div *ngSwitchCase="'product'" class="column gap-1">
-            <div class="row gap-1">
-                <span class="field">ProductCategory:</span>
-                <input type="text" required [(ngModel)]="data.productCategory" #productCategoryInput="ngModel" />
-                <!-- <div *ngIf="productCategoryInput.invalid && productCategoryInput.touched">
-                    Product Category is required.
-                </div> -->
+            <div class="column gap-05">
+                <label for="productCategory">ProductCategory</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productCategory')?.invalid && popupForm.get('productCategory')?.dirty}">
+                    <input id="productCategory" type="text" formControlName="productCategory" />
+                    <i *ngIf="popupForm.get('productCategory')?.invalid && popupForm.get('productCategory')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('productCategory')?.hasError('notString')" class="p-error">
+                    Please enter a valid string (up to 100 characters).
+                </small>
             </div>
         </div>
 
         <!-- Template for Product -->
         <div *ngSwitchCase="'productDetail'" class="column gap-1">
-            <div class="row gap-1">
-                <span class="field">ProductId:</span>
-                <input type="text" required [(ngModel)]="data.productId" />
+            <div class="column gap-05">
+                <label for="productId" class="field">ProductId</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productId')?.invalid && popupForm.get('productId')?.dirty}">
+                    <input id="productId" type="text" formControlName="productId" />
+                    <i *ngIf="popupForm.get('productId')?.invalid && popupForm.get('productId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('productId')?.hasError('notTinyint')" class="p-error">
+                    Please enter a valid tinyint (integer between 0 and 255).
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">Variant:</span>
-                <input type="text" required [(ngModel)]="data.variant" />
+            <div class="column gap-05">
+                <label for="variant" class="field">Variant</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('variant')?.invalid && popupForm.get('variant')?.dirty}">
+                    <input id="variant" type="text" formControlName="variant" />
+                    <i *ngIf="popupForm.get('variant')?.invalid && popupForm.get('variant')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('variant')?.hasError('notString')" class="p-error">
+                    Please enter a valid string (up to 100 characters).
+                </small>
             </div>
         </div>
 
         <!-- Template for Supplier -->
         <div *ngSwitchCase="'supplier'" class="column gap-1">
-            <div class="row gap-1">
-                <span class="field">SupplierName:</span>
-                <input type="text" required [(ngModel)]="data.supplierName" />
+            <div class="column gap-05">
+                <label for="supplierName" class="field">SupplierName</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('supplierName')?.invalid && popupForm.get('supplierName')?.dirty}">
+                    <input id="supplierName" type="text" formControlName="supplierName" />
+                    <i *ngIf="popupForm.get('supplierName')?.invalid && popupForm.get('supplierName')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('supplierName')?.hasError('notString')" class="p-error">
+                    Please enter a valid string (up to 100 characters).
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">Dues:</span>
-                <input type="text" required [(ngModel)]="data.dues" />
+            <div class="column gap-05">
+                <label for="dues" class="field">Dues</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('dues')?.invalid && popupForm.get('dues')?.dirty}">
+                    <input id="dues" type="text" formControlName="dues" />
+                    <i *ngIf="popupForm.get('dues')?.invalid && popupForm.get('dues')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('dues')?.hasError('notFloat')" class="p-error">
+                    Please enter a valid float number.
+                </small>
             </div>
         </div>
 
         <!-- Template for Size -->
         <div *ngSwitchCase="'size'" class="column gap-1">
-            <div class="row gap-1">
-                <span class="field">Size:</span>
-                <input type="text" required [(ngModel)]="data.sizeInMM" />
+            <div class="column gap-05">
+                <label for="sizeInMM" class="field">Size</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('sizeInMM')?.invalid && popupForm.get('sizeInMM')?.dirty}">
+                    <input id="sizeInMM" type="text" formControlName="sizeInMM" />
+                    <i *ngIf="popupForm.get('sizeInMM')?.invalid && popupForm.get('sizeInMM')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('sizeInMM')?.hasError('notSmallint')" class="p-error">
+                    Please enter a valid smallint (integer between 0 and 65535).
+                </small>
             </div>
         </div>
 
         <!-- Template for ProductStock -->
         <div *ngSwitchCase="'productStock'" class="column gap-1">
-            <div class="row gap-1">
-                <span class="field">ProductDetailId:</span>
-                <input type="text" required [(ngModel)]="data.productDetailId" />
+            <div class="column gap-05">
+                <label for="productDetailId" class="field">ProductDetailId</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productDetailId')?.invalid && popupForm.get('productDetailId')?.dirty}">
+                    <input id="productDetailId" type="text" formControlName="productDetailId" />
+                    <i *ngIf="popupForm.get('productDetailId')?.invalid && popupForm.get('productDetailId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('productDetailId')?.hasError('notTinyint')" class="p-error">
+                    Please enter a valid tinyint (integer between 0 and 255).
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">GSM:</span>
-                <input type="text" required [(ngModel)]="data.gsm" />
+            <div class="column gap-05">
+                <label for="gsm" class="field">GSM</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('gsm')?.invalid && popupForm.get('gsm')?.dirty}">
+                    <input id="gsm" type="text" formControlName="gsm" />
+                    <i *ngIf="popupForm.get('gsm')?.invalid && popupForm.get('gsm')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('gsm')?.hasError('notTinyint')" class="p-error">
+                    Please enter a valid tinyint (integer between 0 and 255).
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">SizeId:</span>
-                <input type="text" required [(ngModel)]="data.sizeId" />
+            <div class="column gap-05">
+                <label for="sizeId" class="field">SizeId</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('sizeId')?.invalid && popupForm.get('sizeId')?.dirty}">
+                    <input id="sizeId" type="text" formControlName="sizeId" />
+                    <i *ngIf="popupForm.get('sizeId')?.invalid && popupForm.get('sizeId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('sizeId')?.hasError('notTinyint')" class="p-error">
+                    Please enter a valid tinyint (integer between 0 and 255).
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">WeightInKgs:</span>
-                <input type="text" required [(ngModel)]="data.weightInKgs" />
+            <div class="column gap-05">
+                <label for="weightInKgs" class="field">Weight</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('weightInKgs')?.invalid && popupForm.get('weightInKgs')?.dirty}">
+                <input id="weightInKgs" type="text" formControlName="weightInKgs" />
+                <i *ngIf="popupForm.get('weightInKgs')?.invalid && popupForm.get('weightInKgs')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('weightInKgs')?.hasError('notSmallint')" class="p-error">
+                    Please enter a valid smallint (integer between 0 and 65535).
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">RollCount:</span>
-                <input type="text" required [(ngModel)]="data.rollCount" />
+            <div class="column gap-05">
+                <label for="rollCount" class="field">RollCount</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('rollCount')?.invalid && popupForm.get('rollCount')?.dirty}">
+                    <input id="rollCount" type="text" formControlName="rollCount" />
+                    <i *ngIf="popupForm.get('rollCount')?.invalid && popupForm.get('rollCount')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('rollCount')?.hasError('notTinyint')" class="p-error">
+                    Please enter a valid tinyint (integer between 0 and 255).
+                </small>
             </div>
         </div>
 
         <!-- Template for Receipt -->
         <div *ngSwitchCase="'receipt'" class="column gap-1">
-            <div class="row gap-1">
-                <span class="field">ReceiptDate:</span>
-                <input type="text" required [(ngModel)]="data.receiptDate" />
+            <div class="column gap-05">
+                <label for="receiptDate" class="field">ReceiptDate</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('receiptDate')?.invalid && popupForm.get('receiptDate')?.dirty}">
+                    <input id="receiptDate" type="text" formControlName="receiptDate" />
+                    <i *ngIf="popupForm.get('receiptDate')?.invalid && popupForm.get('receiptDate')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('receiptDate')?.hasError('invalidDate')" class="p-error">
+                    Please enter a valid date in the format YYYY-MM-DD.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">SupplierId:</span>
-                <input type="text" required [(ngModel)]="data.supplierId" />
+            <div class="column gap-05">
+                <label for="supplierId" class="field">SupplierId</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('supplierId')?.invalid && popupForm.get('supplierId')?.dirty}">
+                    <input id="supplierId" type="text" formControlName="supplierId" />
+                    <i *ngIf="popupForm.get('supplierId')?.invalid && popupForm.get('supplierId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('supplierId')?.hasError('notTinyint')" class="p-error">
+                    Please enter a valid tinyint (integer between 0 and 255).
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">BillNo:</span>
-                <input type="text" required [(ngModel)]="data.billNo" />
+            <div class="column gap-05">
+                <label for="billNo" class="field">BillNo</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('billNo')?.invalid && popupForm.get('billNo')?.dirty}">
+                    <input id="billNo" type="text" formControlName="billNo" />
+                    <i *ngIf="popupForm.get('billNo')?.invalid && popupForm.get('billNo')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('billNo')?.hasError('notAlphanumeric')" class="p-error">
+                    Please enter a valid alphanumeric string (up to 100 characters).
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">BillDate:</span>
-                <input type="text" required [(ngModel)]="data.billDate" />
+            <div class="column gap-05">
+                <label for="billDate" class="field">BillDate</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('billDate')?.invalid && popupForm.get('billDate')?.dirty}">
+                    <input id="billDate" type="text" formControlName="billDate" />
+                    <i *ngIf="popupForm.get('billDate')?.invalid && popupForm.get('billDate')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('billDate')?.hasError('invalidDate')" class="p-error">
+                    Please enter a valid date in the format YYYY-MM-DD.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">BillValue:</span>
-                <input type="text" required [(ngModel)]="data.billValue" />
+            <div class="column gap-05">
+                <label for="billValue" class="field">BillValue</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('billValue')?.invalid && popupForm.get('billValue')?.dirty}">
+                    <input id="billValue" type="text" formControlName="billValue" />
+                    <i *ngIf="popupForm.get('billValue')?.invalid && popupForm.get('billValue')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('billValue')?.hasError('notFloat')" class="p-error">
+                    Please enter a valid float number.
+                </small>
             </div>
         </div>
 
         <!-- Template for ReceiptDetail -->
         <div *ngSwitchCase="'receiptDetail'" class="column gap-1">
-            <div class="row gap-1">
-                <span class="field">ReceiptId:</span>
-                <input type="text" required [(ngModel)]="data.receiptId" />
+            <div class="column gap-05">
+                <label for="receiptId" class="field">ReceiptId</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('receiptId')?.invalid && popupForm.get('receiptId')?.dirty}">
+                    <input id="receiptId" type="text" formControlName="receiptId" />
+                    <i *ngIf="popupForm.get('receiptId')?.invalid && popupForm.get('receiptId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('receiptId')?.hasError('notInteger')" class="p-error">
+                    Please enter a valid integer.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">ProductStockId:</span>
-                <input type="text" required [(ngModel)]="data.productStockId" />
+            <div class="column gap-05">
+                <label for="productStockId" class="field">ProductStockId</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productStockId')?.invalid && popupForm.get('productStockId')?.dirty}">
+                    <input id="productStockId" type="text" formControlName="productStockId" />
+                    <i *ngIf="popupForm.get('productStockId')?.invalid && popupForm.get('productStockId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('productStockId')?.hasError('notSmallint')" class="p-error">
+                    Please enter a valid smallint (integer between 0 and 65535).
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">Weight:</span>
-                <input type="text" required [(ngModel)]="data.weight" />
+            <div class="column gap-05">
+                <label for="weight" class="field">Weight</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('weight')?.invalid && popupForm.get('weight')?.dirty}">
+                    <input id="weight" type="text" formControlName="weight" />
+                    <i *ngIf="popupForm.get('weight')?.invalid && popupForm.get('weight')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('weight')?.hasError('notFloat')" class="p-error">
+                    Please enter a valid real number.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">UnitRate:</span>
-                <input type="text" required [(ngModel)]="data.unitRate" />
+            <div class="column gap-05">
+                <label for="unitRate" class="field">UnitRate</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('unitRate')?.invalid && popupForm.get('unitRate')?.dirty}">
+                    <input id="unitRate" type="text" formControlName="unitRate" />
+                    <i *ngIf="popupForm.get('unitRate')?.invalid && popupForm.get('unitRate')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('unitRate')?.hasError('notFloat')" class="p-error">
+                    Please enter a valid real number.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">RollCount:</span>
-                <input type="text" required [(ngModel)]="data.rollCount" />
+            <div class="column gap-05">
+                <label for="rollCount" class="field">RollCount</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('rollCount')?.invalid && popupForm.get('rollCount')?.dirty}">
+                    <input id="rollCount" type="text" formControlName="rollCount" />
+                    <i *ngIf="popupForm.get('rollCount')?.invalid && popupForm.get('rollCount')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('rollCount')?.hasError('notTinyint')" class="p-error">
+                    Please enter a valid tinyint (integer between 0 and 255).
+                </small>
             </div>
         </div>
 
         <!-- Template for RollNumber -->
         <div *ngSwitchCase="'rollNumber'" class="column gap-1">
-            <div class="row gap-1">
-                <span class="field">ReceiptDetailId:</span>
-                <input type="text" required [(ngModel)]="data.receiptDetailId" />
+            <div class="column gap-05">
+                <label for="receiptDetailId" class="field">ReceiptDetailId</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('receiptDetailId')?.invalid && popupForm.get('receiptDetailId')?.dirty}">
+                    <input id="receiptDetailId" type="text" formControlName="receiptDetailId" />
+                    <i *ngIf="popupForm.get('receiptDetailId')?.invalid && popupForm.get('receiptDetailId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('receiptDetailId')?.hasError('notInteger')" class="p-error">
+                    Please enter a valid integer.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">RollNumber:</span>
-                <input type="text" required [(ngModel)]="data.rollNumberValue" />
+            <div class="column gap-05">
+                <label for="rollNumberValue" class="field">RollNumber</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('rollNumberValue')?.invalid && popupForm.get('rollNumberValue')?.dirty}">
+                    <input id="rollNumberValue" type="text" formControlName="rollNumberValue" />
+                    <i *ngIf="popupForm.get('rollNumberValue')?.invalid && popupForm.get('rollNumberValue')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('rollNumberValue')?.hasError('notAlphanumeric')" class="p-error">
+                    Please enter a valid alphanumeric string (up to 100 characters).
+                </small>
             </div>
         </div>
 
         <!-- Template for Issue -->
         <div *ngSwitchCase="'issue'" class="column gap-1">
-            <div class="row gap-1">
-                <span class="field">IssueDate:</span>
-                <input type="text" required [(ngModel)]="data.issueDate" />
+            <div class="column gap-05">
+                <label for="issueDate" class="field">IssueDate</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('issueDate')?.invalid && popupForm.get('issueDate')?.dirty}">
+                    <input id="issueDate" type="text" formControlName="issueDate" />
+                    <i *ngIf="popupForm.get('issueDate')?.invalid && popupForm.get('issueDate')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('issueDate')?.hasError('invalidDate')" class="p-error">
+                    Please enter a valid date in the format YYYY-MM-DD.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">RollNumberId:</span>
-                <input type="text" required [(ngModel)]="data.rollNumberId" />
+            <div class="column gap-05">
+                <label for="rollNumberId" class="field">RollNumberId</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('rollNumberId')?.invalid && popupForm.get('rollNumberId')?.dirty}">
+                    <input id="rollNumberId" type="text" formControlName="rollNumberId" />
+                    <i *ngIf="popupForm.get('rollNumberId')?.invalid && popupForm.get('rollNumberId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('rollNumberId')?.hasError('notInteger')" class="p-error">
+                    Please enter a valid integer.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">ProductStockId:</span>
-                <input type="text" required [(ngModel)]="data.productStockId" />
+            <div class="column gap-05">
+                <label for="productStockId" class="field">ProductStockId</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productStockId')?.invalid && popupForm.get('productStockId')?.dirty}">
+                    <input id="productStockId" type="text" formControlName="productStockId" />
+                    <i *ngIf="popupForm.get('productStockId')?.invalid && popupForm.get('productStockId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('productStockId')?.hasError('notSmallint')" class="p-error">
+                    Please enter a valid smallint (integer between 0 and 65535).
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">RollNumber:</span>
-                <input type="text" required [(ngModel)]="data.rollNumber" />
+            <div class="column gap-05">
+                <label for="rollNumber" class="field">RollNumber</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('rollNumber')?.invalid && popupForm.get('rollNumber')?.dirty}">
+                    <input id="rollNumber" type="text" formControlName="rollNumber" />
+                    <i *ngIf="popupForm.get('rollNumber')?.invalid && popupForm.get('rollNumber')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('rollNumber')?.hasError('notAlphanumeric')" class="p-error">
+                    Please enter a valid alphanumeric string (up to 100 characters).
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">Weight:</span>
-                <input type="text" required [(ngModel)]="data.weight" />
+            <div class="column gap-05">
+                <label for="weight" class="field">Weight</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('weight')?.invalid && popupForm.get('weight')?.dirty}">
+                    <input id="weight" type="text" formControlName="weight" />
+                    <i *ngIf="popupForm.get('weight')?.invalid && popupForm.get('weight')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('weight')?.hasError('notFloat')" class="p-error">
+                    Please enter a valid real number.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">Moisture:</span>
-                <input type="text" required [(ngModel)]="data.moisture" />
+            <div class="column gap-05">
+                <label for="moisture" class="field">Moisture</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('moisture')?.invalid && popupForm.get('moisture')?.dirty}">
+                    <input id="moisture" type="text" formControlName="moisture" />
+                    <i *ngIf="popupForm.get('moisture')?.invalid && popupForm.get('moisture')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('moisture')?.hasError('notFloat')" class="p-error">
+                    Please enter a valid real number.
+                </small>
             </div>
         </div>
 
         <!-- Template for ProductionCoating -->
         <div *ngSwitchCase="'productionCoating'" class="column gap-1">
-            <div class="row gap-1">
-                <span class="field">ProductionCoatingDate:</span>
-                <input type="text" required [(ngModel)]="data.productionCoatingDate" />
+            <div class="column gap-05">
+                <label for="productionCoatingDate" class="field">ProductionCoatingDate</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productionCoatingDate')?.invalid && popupForm.get('productionCoatingDate')?.dirty}">
+                    <input id="productionCoatingDate" type="text" formControlName="productionCoatingDate" />
+                    <i *ngIf="popupForm.get('productionCoatingDate')?.invalid && popupForm.get('productionCoatingDate')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('productionCoatingDate')?.hasError('invalidDate')" class="p-error">
+                    Please enter a valid date in the format YYYY-MM-DD.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">IssueId:</span>
-                <input type="text" required [(ngModel)]="data.issueId" />
+            <div class="column gap-05">
+                <label for="issueId" class="field">IssueId</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('issueId')?.invalid && popupForm.get('issueId')?.dirty}">
+                    <input id="issueId" type="text" formControlName="issueId" />
+                    <i *ngIf="popupForm.get('issueId')?.invalid && popupForm.get('issueId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('issueId')?.hasError('notInteger')" class="p-error">
+                    Please enter a valid integer.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">CoatingStart:</span>
-                <input type="text" required [(ngModel)]="data.coatingStart" />
+            <div class="column gap-05">
+                <label for="coatingStart" class="field">CoatingStart</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('coatingStart')?.invalid && popupForm.get('coatingStart')?.dirty}">
+                    <input id="coatingStart" type="text" formControlName="coatingStart" />
+                    <i *ngIf="popupForm.get('coatingStart')?.invalid && popupForm.get('coatingStart')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('coatingStart')?.hasError('invalidTime')" class="p-error">
+                    Please enter a valid time in the format HH:MM.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">CoatingEnd:</span>
-                <input type="text" required [(ngModel)]="data.coatingEnd" />
+            <div class="column gap-05">
+                <label for="coatingEnd" class="field">CoatingEnd</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('coatingEnd')?.invalid && popupForm.get('coatingEnd')?.dirty}">
+                    <input id="coatingEnd" type="text" formControlName="coatingEnd" />
+                    <i *ngIf="popupForm.get('coatingEnd')?.invalid && popupForm.get('coatingEnd')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('coatingEnd')?.hasError('invalidTime')" class="p-error">
+                    Please enter a valid time in the format HH:MM.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">AverageSpeed:</span>
-                <input type="text" required [(ngModel)]="data.averageSpeed" />
+            <div class="column gap-05">
+                <label for="averageSpeed" class="field">AverageSpeed</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('averageSpeed')?.invalid && popupForm.get('averageSpeed')?.dirty}">
+                    <input id="averageSpeed" type="text" formControlName="averageSpeed" />
+                    <i *ngIf="popupForm.get('averageSpeed')?.invalid && popupForm.get('averageSpeed')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('averageSpeed')?.hasError('notTinyint')" class="p-error">
+                    Please enter a valid tinyint (integer between 0 and 255).
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">AverageTemperature:</span>
-                <input type="text" required [(ngModel)]="data.averageTemperature" />
+            <div class="column gap-05">
+                <label for="averageTemperature" class="field">AverageTemperature</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('averageTemperature')?.invalid && popupForm.get('averageTemperature')?.dirty}">
+                    <input id="averageTemperature" type="text" formControlName="averageTemperature" />
+                    <i *ngIf="popupForm.get('averageTemperature')?.invalid && popupForm.get('averageTemperature')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('averageTemperature')?.hasError('notTinyint')" class="p-error">
+                    Please enter a valid tinyint (integer between 0 and 255).
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">GSMCoated:</span>
-                <input type="text" required [(ngModel)]="data.gsmCoated" />
+            <div class="column gap-05">
+                <label for="gsmCoated" class="field">GSMCoated</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('gsmCoated')?.invalid && popupForm.get('gsmCoated')?.dirty}">
+                    <input id="gsmCoated" type="text" formControlName="gsmCoated" />
+                    <i *ngIf="popupForm.get('gsmCoated')?.invalid && popupForm.get('gsmCoated')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('gsmCoated')?.hasError('notTinyint')" class="p-error">
+                    Please enter a valid tinyint (integer between 0 and 255).
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">RollCount:</span>
-                <input type="text" required [(ngModel)]="data.rollCount" />
+            <div class="column gap-05">
+                <label for="rollCount" class="field">RollCount</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('rollCount')?.invalid && popupForm.get('rollCount')?.dirty}">
+                    <input id="rollCount" type="text" formControlName="rollCount" />
+                    <i *ngIf="popupForm.get('rollCount')?.invalid && popupForm.get('rollCount')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('rollCount')?.hasError('notTinyint')" class="p-error">
+                    Please enter a valid tinyint (integer between 0 and 255).
+                </small>
             </div>
         </div>
 
         <!-- Template for ProductionCalendaring -->
         <div *ngSwitchCase="'productionCalendaring'" class="column gap-1">
-            <div class="row gap-1">
-                <span class="field">ProductionCoatingDate:</span>
-                <input type="text" required [(ngModel)]="data.productionCoatingDate" />
+            <div class="column gap-05">
+                <label for="productionCoatingDate" class="field">ProductionCoatingDate</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productionCoatingDate')?.invalid && popupForm.get('productionCoatingDate')?.dirty}">
+                    <input id="productionCoatingDate" type="text" formControlName="productionCoatingDate" />
+                    <i *ngIf="popupForm.get('productionCoatingDate')?.invalid && popupForm.get('productionCoatingDate')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('productionCoatingDate')?.hasError('invalidDate')" class="p-error">
+                    Please enter a valid date in the format YYYY-MM-DD.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">ProductionCoatingId:</span>
-                <input type="text" required [(ngModel)]="data.productionCoatingId" />
+            <div class="column gap-05">
+                <label for="productionCoatingId" class="field">ProductionCoatingId</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productionCoatingId')?.invalid && popupForm.get('productionCoatingId')?.dirty}">
+                    <input id="productionCoatingId" type="text" formControlName="productionCoatingId" />
+                    <i *ngIf="popupForm.get('productionCoatingId')?.invalid && popupForm.get('productionCoatingId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('productionCoatingId')?.hasError('notInteger')" class="p-error">
+                    Please enter a valid integer.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">RollNumber:</span>
-                <input type="text" required [(ngModel)]="data.rollNumber" />
+            <div class="column gap-05">
+                <label for="rollNumber" class="field">RollNumber</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('rollNumber')?.invalid && popupForm.get('rollNumber')?.dirty}">
+                    <input id="rollNumber" type="text" formControlName="rollNumber" />
+                    <i *ngIf="popupForm.get('rollNumber')?.invalid && popupForm.get('rollNumber')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('rollNumber')?.hasError('notAlphanumeric')" class="p-error">
+                    Please enter a valid alphanumeric string.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">BeforeWeight:</span>
-                <input type="text" required [(ngModel)]="data.beforeWeight" />
+            <div class="column gap-05">
+                <label for="beforeWeight" class="field">BeforeWeight</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('beforeWeight')?.invalid && popupForm.get('beforeWeight')?.dirty}">
+                    <input id="beforeWeight" type="text" formControlName="beforeWeight" />
+                    <i *ngIf="popupForm.get('beforeWeight')?.invalid && popupForm.get('beforeWeight')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('beforeWeight')?.hasError('notFloat')" class="p-error">
+                    Please enter a valid real number.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">BeforeMoisture:</span>
-                <input type="text" required [(ngModel)]="data.beforeMoisture" />
+            <div class="column gap-05">
+                <label for="beforeMoisture" class="field">BeforeMoisture</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('beforeMoisture')?.invalid && popupForm.get('beforeMoisture')?.dirty}">
+                    <input id="beforeMoisture" type="text" formControlName="beforeMoisture" />
+                    <i *ngIf="popupForm.get('beforeMoisture')?.invalid && popupForm.get('beforeMoisture')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('beforeMoisture')?.hasError('notFloat')" class="p-error">
+                    Please enter a valid real number.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">CalendaringStart:</span>
-                <input type="text" required [(ngModel)]="data.calendaringStart" />
+            <div class="column gap-05">
+                <label for="calendaringStart" class="field">CalendaringStart</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('calendaringStart')?.invalid && popupForm.get('calendaringStart')?.dirty}">
+                    <input id="calendaringStart" type="text" formControlName="calendaringStart" />
+                    <i *ngIf="popupForm.get('calendaringStart')?.invalid && popupForm.get('calendaringStart')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('calendaringStart')?.hasError('invalidTime')" class="p-error">
+                    Please enter a valid time in the format HHMM.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">CalendaringEnd:</span>
-                <input type="text" required [(ngModel)]="data.calendaringEnd" />
+            <div class="column gap-05">
+                <label for="calendaringEnd" class="field">CalendaringEnd</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('calendaringEnd')?.invalid && popupForm.get('calendaringEnd')?.dirty}">
+                    <input id="calendaringEnd" type="text" formControlName="calendaringEnd" />
+                    <i *ngIf="popupForm.get('calendaringEnd')?.invalid && popupForm.get('calendaringEnd')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('calendaringEnd')?.hasError('invalidTime')" class="p-error">
+                    Please enter a valid time in the format HHMM.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">RollCount:</span>
-                <input type="text" required [(ngModel)]="data.rollCount" />
+            <div class="column gap-05">
+                <label for="rollCount" class="field">RollCount</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('rollCount')?.invalid && popupForm.get('rollCount')?.dirty}">
+                    <input id="rollCount" type="text" formControlName="rollCount" />
+                    <i *ngIf="popupForm.get('rollCount')?.invalid && popupForm.get('rollCount')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('rollCount')?.hasError('notTinyint')" class="p-error">
+                    Please enter a valid tinyint (integer between 0 and 255).
+                </small>
             </div>
         </div>
 
         <!-- Template for ProductionSlitting -->
         <div *ngSwitchCase="'productionSlitting'" class="column gap-1">
-            <div class="row gap-1">
-                <span class="field">ProductionCoatingDate:</span>
-                <input type="text" required [(ngModel)]="data.productionCoatingDate" />
+            <div class="column gap-05">
+                <label for="productionCoatingDate" class="field">ProductionCoatingDate</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productionCoatingDate')?.invalid && popupForm.get('productionCoatingDate')?.dirty}">
+                    <input id="productionCoatingDate" type="text" formControlName="productionCoatingDate" />
+                    <i *ngIf="popupForm.get('productionCoatingDate')?.invalid && popupForm.get('productionCoatingDate')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('productionCoatingDate')?.hasError('invalidDate')" class="p-error">
+                    Please enter a valid date in the format YYYY-MM-DD.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">ProductionCalendaringId:</span>
-                <input type="text" required [(ngModel)]="data.productionCalendaringId" />
+            <div class="column gap-05">
+                <label for="productionCalendaringId" class="field">ProductionCalendaringId</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productionCalendaringId')?.invalid && popupForm.get('productionCalendaringId')?.dirty}">
+                    <input id="productionCalendaringId" type="text" formControlName="productionCalendaringId" />
+                    <i *ngIf="popupForm.get('productionCalendaringId')?.invalid && popupForm.get('productionCalendaringId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('productionCalendaringId')?.hasError('notInteger')" class="p-error">
+                    Please enter a valid integer.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">RollNumber:</span>
-                <input type="text" required [(ngModel)]="data.rollNumber" />
+            <div class="column gap-05">
+                <label for="rollNumber" class="field">RollNumber</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('rollNumber')?.invalid && popupForm.get('rollNumber')?.dirty}">
+                    <input id="rollNumber" type="text" formControlName="rollNumber" />
+                    <i *ngIf="popupForm.get('rollNumber')?.invalid && popupForm.get('rollNumber')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('rollNumber')?.hasError('notAlphanumeric')" class="p-error">
+                    Please enter a valid alphanumeric string.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">BeforeWeight:</span>
-                <input type="text" required [(ngModel)]="data.beforeWeight" />
+            <div class="column gap-05">
+                <label for="beforeWeight" class="field">BeforeWeight</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('beforeWeight')?.invalid && popupForm.get('beforeWeight')?.dirty}">
+                    <input id="beforeWeight" type="text" formControlName="beforeWeight" />
+                    <i *ngIf="popupForm.get('beforeWeight')?.invalid && popupForm.get('beforeWeight')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('beforeWeight')?.hasError('notFloat')" class="p-error">
+                    Please enter a valid real number.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">BeforeMoisture:</span>
-                <input type="text" required [(ngModel)]="data.beforeMoisture" />
+            <div class="column gap-05">
+                <label for="beforeMoisture" class="field">BeforeMoisture</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('beforeMoisture')?.invalid && popupForm.get('beforeMoisture')?.dirty}">
+                    <input id="beforeMoisture" type="text" formControlName="beforeMoisture" />
+                    <i *ngIf="popupForm.get('beforeMoisture')?.invalid && popupForm.get('beforeMoisture')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('beforeMoisture')?.hasError('notFloat')" class="p-error">
+                    Please enter a valid real number.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">SlittingStart:</span>
-                <input type="text" required [(ngModel)]="data.slittingStart" />
+            <div class="column gap-05">
+                <label for="slittingStart" class="field">SlittingStart</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('slittingStart')?.invalid && popupForm.get('slittingStart')?.dirty}">
+                    <input id="slittingStart" type="text" formControlName="slittingStart" />
+                    <i *ngIf="popupForm.get('slittingStart')?.invalid && popupForm.get('slittingStart')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('slittingStart')?.hasError('invalidTime')" class="p-error">
+                    Please enter a valid time in the format HH:MM.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">SlittingEnd:</span>
-                <input type="text" required [(ngModel)]="data.slittingEnd" />
+            <div class="column gap-05">
+                <label for="slittingEnd" class="field">SlittingEnd</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('slittingEnd')?.invalid && popupForm.get('slittingEnd')?.dirty}">
+                    <input id="slittingEnd" type="text" formControlName="slittingEnd" />
+                    <i *ngIf="popupForm.get('slittingEnd')?.invalid && popupForm.get('slittingEnd')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('slittingEnd')?.hasError('invalidTime')" class="p-error">
+                    Please enter a valid time in the format HH:MM.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">RollCount:</span>
-                <input type="text" required [(ngModel)]="data.rollCount" />
+            <div class="column gap-05">
+                <label for="rollCount" class="field">RollCount</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('rollCount')?.invalid && popupForm.get('rollCount')?.dirty}">
+                    <input id="rollCount" type="text" formControlName="rollCount" />
+                    <i *ngIf="popupForm.get('rollCount')?.invalid && popupForm.get('rollCount')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('rollCount')?.hasError('notTinyint')" class="p-error">
+                    Please enter a valid tinyint (integer between 0 and 255).
+                </small>
             </div>
         </div>
 
         <!-- Template for SlittingDetail -->
         <div *ngSwitchCase="'slittingDetail'" class="column gap-1">
-            <div class="row gap-1">
-                <span class="field">ProductionSlittingId:</span>
-                <input type="text" required [(ngModel)]="data.productionSlittingId" />
+            <div class="column gap-05">
+                <label for="productionSlittingId" class="field">ProductionSlittingId</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productionSlittingId')?.invalid && popupForm.get('productionSlittingId')?.dirty}">
+                    <input id="productionSlittingId" type="text" formControlName="productionSlittingId" />
+                    <i *ngIf="popupForm.get('productionSlittingId')?.invalid && popupForm.get('productionSlittingId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('productionSlittingId')?.hasError('notInteger')" class="p-error">
+                    Please enter a valid integer.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">RollNumber:</span>
-                <input type="text" required [(ngModel)]="data.rollNumber" />
+            <div class="column gap-05">
+                <label for="rollNumber" class="field">RollNumber</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('rollNumber')?.invalid && popupForm.get('rollNumber')?.dirty}">
+                    <input id="rollNumber" type="text" formControlName="rollNumber" />
+                    <i *ngIf="popupForm.get('rollNumber')?.invalid && popupForm.get('rollNumber')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('rollNumber')?.hasError('notAlphanumeric')" class="p-error">
+                    Please enter a valid alphanumeric string.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">Weight:</span>
-                <input type="text" required [(ngModel)]="data.weight" />
+            <div class="column gap-05">
+                <label for="weight" class="field">Weight</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('weight')?.invalid && popupForm.get('weight')?.dirty}">
+                    <input id="weight" type="text" formControlName="weight" />
+                    <i *ngIf="popupForm.get('weight')?.invalid && popupForm.get('weight')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('weight')?.hasError('notFloat')" class="p-error">
+                    Please enter a valid real number.
+                </small>
             </div>
-            <div class="row gap-1">
-                <span class="field">Moisture:</span>
-                <input type="text" required [(ngModel)]="data.moisture" />
+            <div class="column gap-05">
+                <label for="moisture" class="field">Moisture</label>
+                <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('moisture')?.invalid && popupForm.get('moisture')?.dirty}">
+                    <input id="moisture" type="text" formControlName="moisture" />
+                    <i *ngIf="popupForm.get('moisture')?.invalid && popupForm.get('moisture')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                </div>
+                <small *ngIf="popupForm.get('moisture')?.hasError('notFloat')" class="p-error">
+                    Please enter a valid real number.
+                </small>
             </div>
         </div>
 
@@ -294,7 +633,7 @@
 
     <!-- Footer with action buttons -->
     <p-footer>
-        <button type="button" (click)="onConfirm()" [disabled]="hasEmptyFields()">Confirm</button>
-        <button type="button" (click)="onCancel()">Cancel</button>
+        <button type="button" pButton label="Confirm" icon="pi pi-check" class="p-button-success" (click)="onConfirm()" [disabled]="popupForm.invalid"></button>
+        <button type="button" pButton label="Cancel" icon="pi pi-times" class="p-button-warning" (click)="onCancel()"></button>
     </p-footer>
 </p-dialog>

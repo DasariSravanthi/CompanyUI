@@ -1,25 +1,33 @@
 <div class="column full-center form-container">
   <div class="column full-center form gap-2">
     <form class="column full-center gap-2" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div>
-        <label for="username" class="label mr-15">Username:</label>
-        <input id="username" formControlName="username">
-        <div *ngIf="submitted && formControl['username'].errors" class="error">
-          <div *ngIf="formControl['username'].errors['required']">Username is required</div>
+      <div class="column gap-05">
+        <label for="username" class="label">Username</label>
+        <div class="input-container" [ngClass]="{'ng-invalid': loginForm.get('username')?.invalid && submitted}">
+          <input id="username" type="text" formControlName="username">
+          <i *ngIf="submitted && loginForm.get('username')?.invalid" class="pi pi-exclamation-circle p-error-icon"></i>
+        </div>
+        <div *ngIf="submitted && formControl['username'].errors">
+          <small *ngIf="formControl['username'].errors['required']" class="p-error">Username is required</small>
         </div>
       </div>
       
-      <div>
-        <label for="password" class="label mr-15">Password:</label>
-        <input id="password" type="password" formControlName="password">
-        <div *ngIf="submitted && formControl['password'].errors" class="error">
-          <div *ngIf="formControl['password'].errors['required']">Password is required</div>
+      <div class="column gap-05">
+        <label for="password" class="label">Password</label>
+        <div class="input-container" [ngClass]="{'ng-invalid': loginForm.get('password')?.invalid && submitted}">
+          <input id="password" type="password" formControlName="password">
+          <i *ngIf="submitted && loginForm.get('password')?.invalid" class="pi pi-exclamation-circle p-error-icon"></i>
+        </div>
+        <div *ngIf="submitted && formControl['password'].errors">
+          <small *ngIf="formControl['password'].errors['required']" class="p-error">Password is required</small>
         </div>
       </div>
       
-      <button type="submit">Login</button>
+      <button type="submit" pButton label="Login" icon="pi pi-sign-in" class="p-button-primary"></button>
     </form>
     
     <p>Don't have an account? <a routerLink="/register" class="highlight">Register here</a></p>
   </div>
+
+  <p-toast></p-toast>
 </div>

@@ -1,20 +1,37 @@
+<app-data></app-data>
+
 <div>
-    <h2>Suppliers</h2>
-    <ul class="row wrap gap-2 list-container">
-        <li *ngFor="let supplier of suppliers" class="column full-center data-item-container">
-            <p>id : {{ supplier.supplierId }}</p>
-            <p>SupplierName - {{ supplier.supplierName }}</p>
-            <p>Dues - {{ supplier.dues }}</p>
-            <div class="row space-between button-container">
-                <button type="button" (click)="toggleEditPopup(supplier)">Edit</button>
-                <button type="button" (click)="toggleDeleteDialog(supplier)">Delete</button>
-            </div>
-        </li>
-    </ul>
-    <button type="button" (click)="toggleAddPopup()">Add Supplier</button>
+    <h2 class="mb-15">Suppliers</h2>
+    
+    <!-- <button type="button" pButton label="Add Supplier" icon="pi pi-plus" class="p-button-success mb-15" (click)="toggleAddPopup()"></button> -->
+    
+    <p-table [value]="suppliers" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '30rem' }">
+        <ng-template pTemplate="header">
+            <tr style="width:20%">
+                <th pSortableColumn="supplierId">Supplier ID <p-sortIcon field="supplierId"></p-sortIcon></th>
+                <th pSortableColumn="supplierName">Supplier Name <p-sortIcon field="supplierName"></p-sortIcon></th>
+                <th pSortableColumn="dues">Dues <p-sortIcon field="dues"></p-sortIcon></th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-supplier>
+            <tr>
+                <td>{{ supplier.supplierId }}</td>
+                <td>{{ supplier.supplierName }}</td>
+                <td>{{ supplier.dues }}</td>
+                <td>
+                    <button type="button" pButton label="Edit Supplier" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(supplier)"></button>
+                    <button type="button" pButton label="Delete Supplier" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(supplier)"></button>
+                </td>
+          </tr>
+        </ng-template>
+    </p-table>
+
+    <p-toast></p-toast>
 </div>
 
-<!-- Edit Product -->
+<!-- Edit Supplier -->
 <app-edit-popup
 [data]="selectedSupplier"
 [template]="'supplier'"
@@ -23,7 +40,7 @@
 header="Edit Supplier"
 ></app-edit-popup>
 
-<!-- Add Product -->
+<!-- Add Supplier -->
 <app-edit-popup
 [template]="'supplier'"
 [(display)]="displayAddPopup"

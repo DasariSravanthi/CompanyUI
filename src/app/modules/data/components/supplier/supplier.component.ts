@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Supplier } from '../../../../../types';
 
 @Component({
@@ -9,7 +9,7 @@ import { Supplier } from '../../../../../types';
   styleUrl: './supplier.component.scss'
 })
 export class SupplierComponent {
-  constructor(private apiService: ApiService, private confirmationService: ConfirmationService) {}
+  constructor(private apiService: ApiService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
   private url = 'http://localhost:5110/Supplier';
 
@@ -69,45 +69,77 @@ export class SupplierComponent {
   }
 
   getAllSuppliers() {
+    this.messageService.clear();
+
     this.apiService.get<Supplier[]>(`${this.url}/allSuppliers`).subscribe({
       next: (suppliers: Supplier[]) => {
         this.suppliers = suppliers;
       },
       error: (error) => {
-        console.log(error);
+        const errorMessage = error.error || 'An unexpected error occurred.';
+        this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
       }
     });
   }
 
   addSupplier(supplier: Supplier) {
+    this.messageService.clear();
+
     this.apiService.post<Supplier>(`${this.url}/addSupplier`, supplier).subscribe({
       next: (supplier: Supplier) => {
         this.getAllSuppliers();
       },
       error: (error) => {
-        console.log(error);
+        if (error.status === 400 && error.error?.errors) {
+          const validationErrors = error.error.errors;
+
+          Object.keys(validationErrors).forEach(field => {
+            validationErrors[field].forEach((message: string) => {
+              this.messageService.add({ severity: 'error', summary: 'Validation Error', detail: `${field}: ${message}` });
+            });
+          });
+        } else {
+          const errorMessage = error.error || 'An unexpected error occurred.';
+          this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
+        }
       }
     });
   }
 
   updateSupplier(id: number, supplier: Supplier) {
+    this.messageService.clear();
+
     this.apiService.put<Supplier>(`${this.url}/updateSupplier/${id}`, supplier).subscribe({
       next: (supplier: Supplier) => {
         this.getAllSuppliers();
       },
       error: (error) => {
-        console.log(error);
+        if (error.status === 400 && error.error?.errors) {
+          const validationErrors = error.error.errors;
+
+          Object.keys(validationErrors).forEach(field => {
+            validationErrors[field].forEach((message: string) => {
+              this.messageService.add({ severity: 'error', summary: 'Validation Error', detail: `${field}: ${message}` });
+            });
+          });
+        } else {
+          const errorMessage = error.error || 'An unexpected error occurred.';
+          this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
+        }
       }
     });
   }
 
   deleteSupplier(id: number) {
+    this.messageService.clear();
+
     this.apiService.delete<Supplier>(`${this.url}/deleteSupplier/${id}`).subscribe({
       next: (supplier: Supplier) => {
         this.getAllSuppliers();
       },
       error: (error) => {
-        console.log(error);
+        const errorMessage = error.error || 'An unexpected error occurred.';
+        this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
       }
     });
   }

@@ -1,26 +1,49 @@
+<app-data></app-data>
+
 <div>
-    <h2>ProductionCoatings</h2>
-    <ul class="row wrap gap-2 list-container">
-        <li *ngFor="let productionCoating of productionCoatings" class="column full-center data-item-container">
-            <p>id : {{ productionCoating.productionCoatingId }}</p>
-            <p>ProductionCoatingDate - {{ productionCoating.productionCoatingDate }}</p>
-            <p>IssueId - {{ productionCoating.issueId }}</p>
-            <p>CoatingStart - {{ productionCoating.coatingStart }}</p>
-            <p>CoatingEnd - {{ productionCoating.coatingEnd }}</p>
-            <p>AverageSpeed - {{ productionCoating.averageSpeed }}</p>
-            <p>AverageTemperature - {{ productionCoating.averageTemperature }}</p>
-            <p>GSMCoated - {{ productionCoating.gsmCoated }}</p>
-            <p>RollCount - {{ productionCoating.rollCount }}</p>
-            <div class="row space-between button-container">
-                <button type="button" (click)="toggleEditPopup(productionCoating)">Edit</button>
-                <button type="button" (click)="toggleDeleteDialog(productionCoating)">Delete</button>
-            </div>
-        </li>
-    </ul>
-    <button type="button" (click)="toggleAddPopup()">Add ProductionCoating</button>
+    <h2 class="mb-15">ProductionCoatings</h2>
+    
+    <!-- <button type="button" pButton label="Add ProductionCoating" icon="pi pi-plus" class="p-button-success mb-15" (click)="toggleAddPopup()"></button> -->
+    
+    <p-table [value]="productionCoatings" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '30rem' }">
+        <ng-template pTemplate="header">
+            <tr style="width:20%">
+                <th pSortableColumn="productionCoatingId">Production Coating Id <p-sortIcon field="productionCoatingId"></p-sortIcon></th>
+                <th pSortableColumn="productionCoatingDate">Production Coating Date <p-sortIcon field="productionCoatingDate"></p-sortIcon></th>
+                <th pSortableColumn="issueId">Issue Id <p-sortIcon field="issueId"></p-sortIcon></th>
+                <th pSortableColumn="coatingStart">Coating Start <p-sortIcon field="coatingStart"></p-sortIcon></th>
+                <th pSortableColumn="coatingEnd">Coating End <p-sortIcon field="coatingEnd"></p-sortIcon></th>
+                <th pSortableColumn="averageSpeed">Average Speed <p-sortIcon field="averageSpeed"></p-sortIcon></th>
+                <th pSortableColumn="averageTemperature">Average Temperature <p-sortIcon field="averageTemperature"></p-sortIcon></th>
+                <th pSortableColumn="gsmCoated">GSM Coated <p-sortIcon field="gsmCoated"></p-sortIcon></th>
+                <th pSortableColumn="rollCount">Roll Count <p-sortIcon field="rollCount"></p-sortIcon></th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-productionCoating>
+            <tr>
+                <td>{{ productionCoating.productionCoatingId }}</td>
+                <td>{{ productionCoating.productionCoatingDate }}</td>
+                <td>{{ productionCoating.issueId }}</td>
+                <td>{{ productionCoating.coatingStart }}</td>
+                <td>{{ productionCoating.coatingEnd }}</td>
+                <td>{{ productionCoating.averageSpeed }}</td>
+                <td>{{ productionCoating.averageTemperature }}</td>
+                <td>{{ productionCoating.gsmCoated }}</td>
+                <td>{{ productionCoating.rollCount }}</td>
+                <td>
+                    <button type="button" pButton label="Edit ProductionCoating" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(productionCoating)"></button>
+                    <button type="button" pButton label="Delete ProductionCoating" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(productionCoating)"></button>
+                </td>
+          </tr>
+        </ng-template>
+    </p-table>
+
+    <p-toast></p-toast>
 </div>
 
-<!-- Edit Product -->
+<!-- Edit ProductionCoating -->
 <app-edit-popup
 [data]="selectedProductionCoating"
 [template]="'productionCoating'"
@@ -29,7 +52,7 @@
 header="Edit ProductionCoating"
 ></app-edit-popup>
 
-<!-- Add Product -->
+<!-- Add ProductionCoating -->
 <app-edit-popup
 [template]="'productionCoating'"
 [(display)]="displayAddPopup"
