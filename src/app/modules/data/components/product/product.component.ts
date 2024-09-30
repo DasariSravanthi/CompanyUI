@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Product } from '../../../../../types';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-product',
@@ -13,7 +14,7 @@ export class ProductComponent {
 
   @ViewChild('deleteButton') deleteButton!: ElementRef;
   
-  private url = 'http://localhost:5110/Product';
+  private url = environment.apiUrl;
 
   products: Product[] = [];
 
@@ -87,7 +88,7 @@ export class ProductComponent {
     // Clear messages before making this API call
     this.messageService.clear();
 
-    this.apiService.get<Product[]>(`${this.url}/allProducts`).subscribe({
+    this.apiService.get<Product[]>(`${this.url}/Product/allProducts`).subscribe({
       next: (products: Product[]) => {
         this.products = products;
       },
@@ -101,7 +102,7 @@ export class ProductComponent {
   getProductById(id: number) {
     this.messageService.clear();
 
-    this.apiService.get<Product>(`${this.url}/getProduct/${id}`).subscribe({
+    this.apiService.get<Product>(`${this.url}/Product/getProduct/${id}`).subscribe({
       next: (product: Product) => {
         console.log(product);
       },
@@ -115,7 +116,7 @@ export class ProductComponent {
   addProduct(product: Product) {
     this.messageService.clear();
 
-    this.apiService.post<Product>(`${this.url}/addProduct`, product).subscribe({
+    this.apiService.post<Product>(`${this.url}/Product/addProduct`, product).subscribe({
       next: (product: Product) => {
         this.getAllProducts();
       },
@@ -142,7 +143,7 @@ export class ProductComponent {
   updateProduct(id: number, product: Product) {
     this.messageService.clear();
 
-    this.apiService.put<Product>(`${this.url}/updateProduct/${id}`, product).subscribe({
+    this.apiService.put<Product>(`${this.url}/Product/updateProduct/${id}`, product).subscribe({
       next: (product: Product) => {
         this.getAllProducts();
       },
@@ -166,7 +167,7 @@ export class ProductComponent {
   deleteProduct(id: number) {
     this.messageService.clear();
 
-    this.apiService.delete<Product>(`${this.url}/deleteProduct/${id}`).subscribe({
+    this.apiService.delete<Product>(`${this.url}/Product/deleteProduct/${id}`).subscribe({
       next: (product: Product) => {
         this.getAllProducts();
       },

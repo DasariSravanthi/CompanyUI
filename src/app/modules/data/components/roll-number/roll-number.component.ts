@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { RollNumber } from '../../../../../types';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-roll-number',
@@ -11,7 +12,7 @@ import { RollNumber } from '../../../../../types';
 export class RollNumberComponent {
   constructor(private apiService: ApiService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
-  private url = 'http://localhost:5110/RollNumber';
+  private url = environment.apiUrl;
 
   rollNumbers: RollNumber[] = [];
 
@@ -71,7 +72,7 @@ export class RollNumberComponent {
   getAllRollNumbers() {
     this.messageService.clear();
 
-    this.apiService.get<RollNumber[]>(`${this.url}/allRollNumbers`).subscribe({
+    this.apiService.get<RollNumber[]>(`${this.url}/RollNumber/allRollNumbers`).subscribe({
       next: (rollNumbers: RollNumber[]) => {
         this.rollNumbers = rollNumbers;
       },
@@ -85,7 +86,7 @@ export class RollNumberComponent {
   addRollNumber(rollNumber: RollNumber) {
     this.messageService.clear();
 
-    this.apiService.post<RollNumber>(`${this.url}/addRollNumber`, rollNumber).subscribe({
+    this.apiService.post<RollNumber>(`${this.url}/RollNumber/addRollNumber`, rollNumber).subscribe({
       next: (rollNumber: RollNumber) => {
         this.getAllRollNumbers();
       },
@@ -109,7 +110,7 @@ export class RollNumberComponent {
   updateRollNumber(id: number, rollNumber: RollNumber) {
     this.messageService.clear();
 
-    this.apiService.put<RollNumber>(`${this.url}/updateRollNumber/${id}`, rollNumber).subscribe({
+    this.apiService.put<RollNumber>(`${this.url}/RollNumber/updateRollNumber/${id}`, rollNumber).subscribe({
       next: (rollNumber: RollNumber) => {
         this.getAllRollNumbers();
       },
@@ -133,7 +134,7 @@ export class RollNumberComponent {
   deleteRollNumber(id: number) {
     this.messageService.clear();
 
-    this.apiService.delete<RollNumber>(`${this.url}/deleteRollNumber/${id}`).subscribe({
+    this.apiService.delete<RollNumber>(`${this.url}/RollNumber/deleteRollNumber/${id}`).subscribe({
       next: (rollNumber: RollNumber) => {
         this.getAllRollNumbers();
       },

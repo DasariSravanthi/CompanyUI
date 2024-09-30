@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Supplier } from '../../../../../types';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-supplier',
@@ -11,7 +12,7 @@ import { Supplier } from '../../../../../types';
 export class SupplierComponent {
   constructor(private apiService: ApiService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
-  private url = 'http://localhost:5110/Supplier';
+  private url = environment.apiUrl;
 
   suppliers: Supplier[] = [];
 
@@ -71,7 +72,7 @@ export class SupplierComponent {
   getAllSuppliers() {
     this.messageService.clear();
 
-    this.apiService.get<Supplier[]>(`${this.url}/allSuppliers`).subscribe({
+    this.apiService.get<Supplier[]>(`${this.url}/Supplier/allSuppliers`).subscribe({
       next: (suppliers: Supplier[]) => {
         this.suppliers = suppliers;
       },
@@ -85,7 +86,7 @@ export class SupplierComponent {
   addSupplier(supplier: Supplier) {
     this.messageService.clear();
 
-    this.apiService.post<Supplier>(`${this.url}/addSupplier`, supplier).subscribe({
+    this.apiService.post<Supplier>(`${this.url}/Supplier/addSupplier`, supplier).subscribe({
       next: (supplier: Supplier) => {
         this.getAllSuppliers();
       },
@@ -109,7 +110,7 @@ export class SupplierComponent {
   updateSupplier(id: number, supplier: Supplier) {
     this.messageService.clear();
 
-    this.apiService.put<Supplier>(`${this.url}/updateSupplier/${id}`, supplier).subscribe({
+    this.apiService.put<Supplier>(`${this.url}/Supplier/updateSupplier/${id}`, supplier).subscribe({
       next: (supplier: Supplier) => {
         this.getAllSuppliers();
       },
@@ -133,7 +134,7 @@ export class SupplierComponent {
   deleteSupplier(id: number) {
     this.messageService.clear();
 
-    this.apiService.delete<Supplier>(`${this.url}/deleteSupplier/${id}`).subscribe({
+    this.apiService.delete<Supplier>(`${this.url}/Supplier/deleteSupplier/${id}`).subscribe({
       next: (supplier: Supplier) => {
         this.getAllSuppliers();
       },

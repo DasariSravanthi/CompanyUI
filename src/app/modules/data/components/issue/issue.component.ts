@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Issue } from '../../../../../types';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-issue',
@@ -11,7 +12,7 @@ import { Issue } from '../../../../../types';
 export class IssueComponent {
   constructor(private apiService: ApiService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
-  private url = 'http://localhost:5110/Issue';
+  private url = environment.apiUrl;
 
   issues: Issue[] = [];
 
@@ -75,7 +76,7 @@ export class IssueComponent {
   getAllIssues() {
     this.messageService.clear();
 
-    this.apiService.get<Issue[]>(`${this.url}/allIssues`).subscribe({
+    this.apiService.get<Issue[]>(`${this.url}/Issue/allIssues`).subscribe({
       next: (issues: Issue[]) => {
         this.issues = issues;
       },
@@ -89,7 +90,7 @@ export class IssueComponent {
   addIssue(issue: Issue) {
     this.messageService.clear();
 
-    this.apiService.post<Issue>(`${this.url}/addIssue`, issue).subscribe({
+    this.apiService.post<Issue>(`${this.url}/Issue/addIssue`, issue).subscribe({
       next: (issue: Issue) => {
         this.getAllIssues();
       },
@@ -113,7 +114,7 @@ export class IssueComponent {
   updateIssue(id: number, issue: Issue) {
     this.messageService.clear();
 
-    this.apiService.put<Issue>(`${this.url}/updateIssue/${id}`, issue).subscribe({
+    this.apiService.put<Issue>(`${this.url}/Issue/updateIssue/${id}`, issue).subscribe({
       next: (issue: Issue) => {
         this.getAllIssues();
       },
@@ -137,7 +138,7 @@ export class IssueComponent {
   deleteIssue(id: number) {
     this.messageService.clear();
 
-    this.apiService.delete<Issue>(`${this.url}/deleteIssue/${id}`).subscribe({
+    this.apiService.delete<Issue>(`${this.url}/Issue/deleteIssue/${id}`).subscribe({
       next: (issue: Issue) => {
         this.getAllIssues();
       },

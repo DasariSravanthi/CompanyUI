@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ReceiptDetail } from '../../../../../types';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-receipt-detail',
@@ -11,7 +12,7 @@ import { ReceiptDetail } from '../../../../../types';
 export class ReceiptDetailComponent {
   constructor(private apiService: ApiService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
-  private url = 'http://localhost:5110/ReceiptDetail';
+  private url = environment.apiUrl;
 
   receiptDetails: ReceiptDetail[] = [];
 
@@ -74,7 +75,7 @@ export class ReceiptDetailComponent {
   getAllReceiptDetails() {
     this.messageService.clear();
 
-    this.apiService.get<ReceiptDetail[]>(`${this.url}/allReceiptDetails`).subscribe({
+    this.apiService.get<ReceiptDetail[]>(`${this.url}/ReceiptDetail/allReceiptDetails`).subscribe({
       next: (receiptDetails: ReceiptDetail[]) => {
         this.receiptDetails = receiptDetails;
       },
@@ -88,7 +89,7 @@ export class ReceiptDetailComponent {
   addReceiptDetail(receiptDetail: ReceiptDetail) {
     this.messageService.clear();
 
-    this.apiService.post<ReceiptDetail>(`${this.url}/addReceiptDetail`, receiptDetail).subscribe({
+    this.apiService.post<ReceiptDetail>(`${this.url}/ReceiptDetail/addReceiptDetail`, receiptDetail).subscribe({
       next: (receiptDetail: ReceiptDetail) => {
         this.getAllReceiptDetails();
       },
@@ -112,7 +113,7 @@ export class ReceiptDetailComponent {
   updateReceiptDetail(id: number, receiptDetail: ReceiptDetail) {
     this.messageService.clear();
 
-    this.apiService.put<ReceiptDetail>(`${this.url}/updateReceiptDetail/${id}`, receiptDetail).subscribe({
+    this.apiService.put<ReceiptDetail>(`${this.url}/ReceiptDetail/updateReceiptDetail/${id}`, receiptDetail).subscribe({
       next: (receiptDetail: ReceiptDetail) => {
         this.getAllReceiptDetails();
       },
@@ -136,7 +137,7 @@ export class ReceiptDetailComponent {
   deleteReceiptDetail(id: number) {
     this.messageService.clear();
 
-    this.apiService.delete<ReceiptDetail>(`${this.url}/deleteReceiptDetail/${id}`).subscribe({
+    this.apiService.delete<ReceiptDetail>(`${this.url}/ReceiptDetail/deleteReceiptDetail/${id}`).subscribe({
       next: (receiptDetail: ReceiptDetail) => {
         this.getAllReceiptDetails();
       },

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ProductionCalendaring } from '../../../../../types';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-production-calendaring',
@@ -11,7 +12,7 @@ import { ProductionCalendaring } from '../../../../../types';
 export class ProductionCalendaringComponent {
   constructor(private apiService: ApiService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
-  private url = 'http://localhost:5110/ProductionCalendaring';
+  private url = environment.apiUrl;
 
   productionCalendarings: ProductionCalendaring[] = [];
 
@@ -77,7 +78,7 @@ export class ProductionCalendaringComponent {
   getAllProductionCalendarings() {
     this.messageService.clear();
 
-    this.apiService.get<ProductionCalendaring[]>(`${this.url}/allProductionCalendarings`).subscribe({
+    this.apiService.get<ProductionCalendaring[]>(`${this.url}/ProductionCalendaring/allProductionCalendarings`).subscribe({
       next: (productionCalendarings: ProductionCalendaring[]) => {
         this.productionCalendarings = productionCalendarings;
       },
@@ -91,7 +92,7 @@ export class ProductionCalendaringComponent {
   addProductionCalendaring(productionCalendaring: ProductionCalendaring) {
     this.messageService.clear();
 
-    this.apiService.post<ProductionCalendaring>(`${this.url}/addProductionCalendaring`, productionCalendaring).subscribe({
+    this.apiService.post<ProductionCalendaring>(`${this.url}/ProductionCalendaring/addProductionCalendaring`, productionCalendaring).subscribe({
       next: (productionCalendaring: ProductionCalendaring) => {
         this.getAllProductionCalendarings();
       },
@@ -115,7 +116,7 @@ export class ProductionCalendaringComponent {
   updateProductionCalendaring(id: number, productionCalendaring: ProductionCalendaring) {
     this.messageService.clear();
 
-    this.apiService.put<ProductionCalendaring>(`${this.url}/updateProductionCalendaring/${id}`, productionCalendaring).subscribe({
+    this.apiService.put<ProductionCalendaring>(`${this.url}/ProductionCalendaring/updateProductionCalendaring/${id}`, productionCalendaring).subscribe({
       next: (productionCalendaring: ProductionCalendaring) => {
         this.getAllProductionCalendarings();
       },
@@ -139,7 +140,7 @@ export class ProductionCalendaringComponent {
   deleteProductionCalendaring(id: number) {
     this.messageService.clear();
 
-    this.apiService.delete<ProductionCalendaring>(`${this.url}/deleteProductionCalendaring/${id}`).subscribe({
+    this.apiService.delete<ProductionCalendaring>(`${this.url}/ProductionCalendaring/deleteProductionCalendaring/${id}`).subscribe({
       next: (productionCalendaring: ProductionCalendaring) => {
         this.getAllProductionCalendarings();
       },

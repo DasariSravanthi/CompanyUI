@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ProductionSlitting } from '../../../../../types';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-production-slitting',
@@ -11,7 +12,7 @@ import { ProductionSlitting } from '../../../../../types';
 export class ProductionSlittingComponent {
   constructor(private apiService: ApiService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
-  private url = 'http://localhost:5110/ProductionSlitting';
+  private url = environment.apiUrl;
 
   productionSlittings: ProductionSlitting[] = [];
 
@@ -77,7 +78,7 @@ export class ProductionSlittingComponent {
   getAllProductionSlittings() {
     this.messageService.clear();
 
-    this.apiService.get<ProductionSlitting[]>(`${this.url}/allProductionSlittings`).subscribe({
+    this.apiService.get<ProductionSlitting[]>(`${this.url}/ProductionSlitting/allProductionSlittings`).subscribe({
       next: (productionSlittings: ProductionSlitting[]) => {
         this.productionSlittings = productionSlittings;
       },
@@ -91,7 +92,7 @@ export class ProductionSlittingComponent {
   addProductionSlitting(productionSlitting: ProductionSlitting) {
     this.messageService.clear();
 
-    this.apiService.post<ProductionSlitting>(`${this.url}/addProductionSlitting`, productionSlitting).subscribe({
+    this.apiService.post<ProductionSlitting>(`${this.url}/ProductionSlitting/addProductionSlitting`, productionSlitting).subscribe({
       next: (productionSlitting: ProductionSlitting) => {
         this.getAllProductionSlittings();
       },
@@ -115,7 +116,7 @@ export class ProductionSlittingComponent {
   updateProductionSlitting(id: number, productionSlitting: ProductionSlitting) {
     this.messageService.clear();
 
-    this.apiService.put<ProductionSlitting>(`${this.url}/updateProductionSlitting/${id}`, productionSlitting).subscribe({
+    this.apiService.put<ProductionSlitting>(`${this.url}/ProductionSlitting/updateProductionSlitting/${id}`, productionSlitting).subscribe({
       next: (productionSlitting: ProductionSlitting) => {
         this.getAllProductionSlittings();
       },
@@ -139,7 +140,7 @@ export class ProductionSlittingComponent {
   deleteProductionSlitting(id: number) {
     this.messageService.clear();
 
-    this.apiService.delete<ProductionSlitting>(`${this.url}/deleteProductionSlitting/${id}`).subscribe({
+    this.apiService.delete<ProductionSlitting>(`${this.url}/ProductionSlitting/deleteProductionSlitting/${id}`).subscribe({
       next: (productionSlitting: ProductionSlitting) => {
         this.getAllProductionSlittings();
       },

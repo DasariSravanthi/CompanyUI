@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Size } from '../../../../../types';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-size',
@@ -11,7 +12,7 @@ import { Size } from '../../../../../types';
 export class SizeComponent {
   constructor(private apiService: ApiService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
-  private url = 'http://localhost:5110/Size';
+  private url = environment.apiUrl;
 
   sizes: Size[] = [];
 
@@ -70,7 +71,7 @@ export class SizeComponent {
   getAllSizes() {
     this.messageService.clear();
 
-    this.apiService.get<Size[]>(`${this.url}/allSizes`).subscribe({
+    this.apiService.get<Size[]>(`${this.url}/Size/allSizes`).subscribe({
       next: (sizes: Size[]) => {
         this.sizes = sizes;
       },
@@ -84,7 +85,7 @@ export class SizeComponent {
   addSize(size: Size) {
     this.messageService.clear();
 
-    this.apiService.post<Size>(`${this.url}/addSize`, size).subscribe({
+    this.apiService.post<Size>(`${this.url}/Size/addSize`, size).subscribe({
       next: (size: Size) => {
         this.getAllSizes();
       },
@@ -108,7 +109,7 @@ export class SizeComponent {
   updateSize(id: number, size: Size) {
     this.messageService.clear();
 
-    this.apiService.put<Size>(`${this.url}/updateSize/${id}`, size).subscribe({
+    this.apiService.put<Size>(`${this.url}/Size/updateSize/${id}`, size).subscribe({
       next: (size: Size) => {
         this.getAllSizes();
       },
@@ -132,7 +133,7 @@ export class SizeComponent {
   deleteSize(id: number) {
     this.messageService.clear();
 
-    this.apiService.delete<Size>(`${this.url}/deleteSize/${id}`).subscribe({
+    this.apiService.delete<Size>(`${this.url}/Size/deleteSize/${id}`).subscribe({
       next: (size: Size) => {
         this.getAllSizes();
       },

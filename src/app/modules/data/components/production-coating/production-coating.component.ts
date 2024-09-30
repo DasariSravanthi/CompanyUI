@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ProductionCoating } from '../../../../../types';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-production-coating',
@@ -11,7 +12,7 @@ import { ProductionCoating } from '../../../../../types';
 export class ProductionCoatingComponent {
   constructor(private apiService: ApiService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
-  private url = 'http://localhost:5110/ProductionCoating';
+  private url = environment.apiUrl;
 
   productionCoatings: ProductionCoating[] = [];
 
@@ -77,7 +78,7 @@ export class ProductionCoatingComponent {
   getAllProductionCoatings() {
     this.messageService.clear();
 
-    this.apiService.get<ProductionCoating[]>(`${this.url}/allProductionCoatings`).subscribe({
+    this.apiService.get<ProductionCoating[]>(`${this.url}/ProductionCoating/allProductionCoatings`).subscribe({
       next: (productionCoatings: ProductionCoating[]) => {
         this.productionCoatings = productionCoatings;
       },
@@ -91,7 +92,7 @@ export class ProductionCoatingComponent {
   addProductionCoating(productionCoating: ProductionCoating) {
     this.messageService.clear();
 
-    this.apiService.post<ProductionCoating>(`${this.url}/addProductionCoating`, productionCoating).subscribe({
+    this.apiService.post<ProductionCoating>(`${this.url}/ProductionCoating/addProductionCoating`, productionCoating).subscribe({
       next: (productionCoating: ProductionCoating) => {
         this.getAllProductionCoatings();
       },
@@ -115,7 +116,7 @@ export class ProductionCoatingComponent {
   updateProductionCoating(id: number, productionCoating: ProductionCoating) {
     this.messageService.clear();
 
-    this.apiService.put<ProductionCoating>(`${this.url}/updateProductionCoating/${id}`, productionCoating).subscribe({
+    this.apiService.put<ProductionCoating>(`${this.url}/ProductionCoating/updateProductionCoating/${id}`, productionCoating).subscribe({
       next: (productionCoating: ProductionCoating) => {
         this.getAllProductionCoatings();
       },
@@ -139,7 +140,7 @@ export class ProductionCoatingComponent {
   deleteProductionCoating(id: number) {
     this.messageService.clear();
 
-    this.apiService.delete<ProductionCoating>(`${this.url}/deleteProductionCoating/${id}`).subscribe({
+    this.apiService.delete<ProductionCoating>(`${this.url}/ProductionCoating/deleteProductionCoating/${id}`).subscribe({
       next: (productionCoating: ProductionCoating) => {
         this.getAllProductionCoatings();
       },

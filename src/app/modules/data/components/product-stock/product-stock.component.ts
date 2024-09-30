@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ProductStock } from '../../../../../types';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-product-stock',
@@ -11,7 +12,7 @@ import { ProductStock } from '../../../../../types';
 export class ProductStockComponent {
   constructor(private apiService: ApiService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
-  private url = 'http://localhost:5110/ProductStock';
+  private url = environment.apiUrl;
 
   productStocks: ProductStock[] = [];
 
@@ -73,7 +74,7 @@ export class ProductStockComponent {
   getAllProductStocks() {
     this.messageService.clear();
 
-    this.apiService.get<ProductStock[]>(`${this.url}/allProductStocks`).subscribe({
+    this.apiService.get<ProductStock[]>(`${this.url}/ProductStock/allProductStocks`).subscribe({
       next: (productStocks: ProductStock[]) => {
         this.productStocks = productStocks;
       },
@@ -87,7 +88,7 @@ export class ProductStockComponent {
   addProductStock(productStock: ProductStock) {
     this.messageService.clear();
 
-    this.apiService.post<ProductStock>(`${this.url}/addProductStock`, productStock).subscribe({
+    this.apiService.post<ProductStock>(`${this.url}/ProductStock/addProductStock`, productStock).subscribe({
       next: (productStock: ProductStock) => {
         this.getAllProductStocks();
       },
@@ -111,7 +112,7 @@ export class ProductStockComponent {
   updateProductStock(id: number, productStock: ProductStock) {
     this.messageService.clear();
 
-    this.apiService.put<ProductStock>(`${this.url}/updateProductStock/${id}`, productStock).subscribe({
+    this.apiService.put<ProductStock>(`${this.url}/ProductStock/updateProductStock/${id}`, productStock).subscribe({
       next: (productStock: ProductStock) => {
         this.getAllProductStocks();
       },
@@ -135,7 +136,7 @@ export class ProductStockComponent {
   deleteProductStock(id: number) {
     this.messageService.clear();
 
-    this.apiService.delete<ProductStock>(`${this.url}/deleteProductStock/${id}`).subscribe({
+    this.apiService.delete<ProductStock>(`${this.url}/ProductStock/deleteProductStock/${id}`).subscribe({
       next: (productStock: ProductStock) => {
         this.getAllProductStocks();
       },

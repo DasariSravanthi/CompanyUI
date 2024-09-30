@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { SlittingDetail } from '../../../../../types';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-slitting-detail',
@@ -11,7 +12,7 @@ import { SlittingDetail } from '../../../../../types';
 export class SlittingDetailComponent {
   constructor(private apiService: ApiService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
-  private url = 'http://localhost:5110/SlittingDetail';
+  private url = environment.apiUrl;
 
   slittingDetails: SlittingDetail[] = [];
 
@@ -73,7 +74,7 @@ export class SlittingDetailComponent {
   getAllSlittingDetails() {
     this.messageService.clear();
 
-    this.apiService.get<SlittingDetail[]>(`${this.url}/allSlittingDetails`).subscribe({
+    this.apiService.get<SlittingDetail[]>(`${this.url}/SlittingDetail/allSlittingDetails`).subscribe({
       next: (slittingDetails: SlittingDetail[]) => {
         this.slittingDetails = slittingDetails;
       },
@@ -87,7 +88,7 @@ export class SlittingDetailComponent {
   addSlittingDetail(slittingDetail: SlittingDetail) {
     this.messageService.clear();
 
-    this.apiService.post<SlittingDetail>(`${this.url}/addSlittingDetail`, slittingDetail).subscribe({
+    this.apiService.post<SlittingDetail>(`${this.url}/SlittingDetail/addSlittingDetail`, slittingDetail).subscribe({
       next: (slittingDetail: SlittingDetail) => {
         this.getAllSlittingDetails();
       },
@@ -111,7 +112,7 @@ export class SlittingDetailComponent {
   updateSlittingDetail(id: number, slittingDetail: SlittingDetail) {
     this.messageService.clear();
 
-    this.apiService.put<SlittingDetail>(`${this.url}/updateSlittingDetail/${id}`, slittingDetail).subscribe({
+    this.apiService.put<SlittingDetail>(`${this.url}/SlittingDetail/updateSlittingDetail/${id}`, slittingDetail).subscribe({
       next: (slittingDetail: SlittingDetail) => {
         this.getAllSlittingDetails();
       },
@@ -135,7 +136,7 @@ export class SlittingDetailComponent {
   deleteSlittingDetail(id: number) {
     this.messageService.clear();
 
-    this.apiService.delete<SlittingDetail>(`${this.url}/deleteSlittingDetail/${id}`).subscribe({
+    this.apiService.delete<SlittingDetail>(`${this.url}/SlittingDetail/deleteSlittingDetail/${id}`).subscribe({
       next: (slittingDetail: SlittingDetail) => {
         this.getAllSlittingDetails();
       },

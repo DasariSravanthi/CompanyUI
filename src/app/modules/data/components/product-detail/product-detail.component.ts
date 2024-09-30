@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ProductDetail } from '../../../../../types';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-product-detail',
@@ -11,7 +12,7 @@ import { ProductDetail } from '../../../../../types';
 export class ProductDetailComponent {
   constructor(private apiService: ApiService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
-  private url = 'http://localhost:5110/ProductDetail';
+  private url = environment.apiUrl;
 
   productDetails: ProductDetail[] = [];
 
@@ -72,7 +73,7 @@ export class ProductDetailComponent {
   getAllProductDetails() {
     this.messageService.clear();
 
-    this.apiService.get<ProductDetail[]>(`${this.url}/allProductDetails`).subscribe({
+    this.apiService.get<ProductDetail[]>(`${this.url}/ProductDetail/allProductDetails`).subscribe({
       next: (productDetails: ProductDetail[]) => {
         this.productDetails = productDetails;
       },
@@ -86,7 +87,7 @@ export class ProductDetailComponent {
   addProductDetail(productDetail: ProductDetail) {
     this.messageService.clear();
     
-    this.apiService.post<ProductDetail>(`${this.url}/addProductDetail`, productDetail).subscribe({
+    this.apiService.post<ProductDetail>(`${this.url}/ProductDetail/addProductDetail`, productDetail).subscribe({
       next: (productDetail: ProductDetail) => {
         this.getAllProductDetails();
       },
@@ -110,7 +111,7 @@ export class ProductDetailComponent {
   updateProductDetail(id: number, productDetail: ProductDetail) {
     this.messageService.clear();
     
-    this.apiService.put<ProductDetail>(`${this.url}/updateProductDetail/${id}`, productDetail).subscribe({
+    this.apiService.put<ProductDetail>(`${this.url}/ProductDetail/updateProductDetail/${id}`, productDetail).subscribe({
       next: (productDetail: ProductDetail) => {
         this.getAllProductDetails();
       },
@@ -134,7 +135,7 @@ export class ProductDetailComponent {
   deleteProductDetail(id: number) {
     this.messageService.clear();
     
-    this.apiService.delete<ProductDetail>(`${this.url}/deleteProductDetail/${id}`).subscribe({
+    this.apiService.delete<ProductDetail>(`${this.url}/ProductDetail/deleteProductDetail/${id}`).subscribe({
       next: (productDetail: ProductDetail) => {
         this.getAllProductDetails();
       },
