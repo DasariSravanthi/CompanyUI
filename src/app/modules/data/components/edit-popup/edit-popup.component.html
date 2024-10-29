@@ -21,17 +21,30 @@
             </div>
         </div>
 
-        <!-- Template for Product -->
+        <!-- Template for ProductDetail -->
         <div *ngSwitchCase="'productDetail'" class="column gap-1">
             <div class="column gap-05">
-                <label for="productId" class="field">ProductId</label>
+                <label for="productCategory" class="field">ProductCategory</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productId')?.invalid && popupForm.get('productId')?.dirty}">
-                    <input id="productId" type="text" formControlName="productId" />
+                    <!-- Dropdown for Product Categories -->
+                    <!-- [options]="products"  ->  List of products with both id and category -->
+                    <!-- optionLabel="productCategory"  ->  Display 'productCategory' as the dropdown label -->
+                    <!-- optionValue="productId"    ->  Bind only productId to the form control -->
+                    <p-dropdown 
+                        [options]="products"
+                        optionLabel="productCategory"
+                        optionValue="productId"
+                        id="productCategory"
+                        formControlName="productId"
+                        placeholder="Select a Product Category"
+                        appendTo="body">
+                    </p-dropdown>
+                    <!-- <input id="productId" type="text" formControlName="productId" /> -->
                     <i *ngIf="popupForm.get('productId')?.invalid && popupForm.get('productId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
-                <small *ngIf="popupForm.get('productId')?.hasError('notTinyint')" class="p-error">
-                    Please enter a valid tinyint (integer between 0 and 255).
-                </small>
+                <!-- <small *ngIf="popupForm.get('productId')?.invalid && popupForm.get('productId')?.dirty" class="p-error">
+                    Please select a valid product category.
+                </small> -->
             </div>
             <div class="column gap-05">
                 <label for="variant" class="field">Variant</label>
@@ -86,14 +99,23 @@
         <!-- Template for ProductStock -->
         <div *ngSwitchCase="'productStock'" class="column gap-1">
             <div class="column gap-05">
-                <label for="productDetailId" class="field">ProductDetailId</label>
+                <label for="variant" class="field">Variant</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productDetailId')?.invalid && popupForm.get('productDetailId')?.dirty}">
-                    <input id="productDetailId" type="text" formControlName="productDetailId" />
+                    <p-dropdown 
+                        [options]="productDetails"
+                        optionLabel="variant"
+                        optionValue="productDetailId"
+                        id="variant"
+                        formControlName="productDetailId"
+                        placeholder="Select a Variant"
+                        appendTo="body">
+                    </p-dropdown>
+                    <!-- <input id="productDetailId" type="text" formControlName="productDetailId" /> -->
                     <i *ngIf="popupForm.get('productDetailId')?.invalid && popupForm.get('productDetailId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
-                <small *ngIf="popupForm.get('productDetailId')?.hasError('notTinyint')" class="p-error">
+                <!-- <small *ngIf="popupForm.get('productDetailId')?.hasError('notTinyint')" class="p-error">
                     Please enter a valid tinyint (integer between 0 and 255).
-                </small>
+                </small> -->
             </div>
             <div class="column gap-05">
                 <label for="gsm" class="field">GSM</label>
@@ -106,20 +128,29 @@
                 </small>
             </div>
             <div class="column gap-05">
-                <label for="sizeId" class="field">SizeId</label>
+                <label for="sizeInMM" class="field">Size</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('sizeId')?.invalid && popupForm.get('sizeId')?.dirty}">
-                    <input id="sizeId" type="text" formControlName="sizeId" />
+                    <p-dropdown 
+                        [options]="sizes"
+                        optionLabel="sizeInMM"
+                        optionValue="sizeId"
+                        id="sizeInMM"
+                        formControlName="sizeId"
+                        placeholder="Select a Size"
+                        appendTo="body">
+                    </p-dropdown>
+                    <!-- <input id="sizeId" type="text" formControlName="sizeId" /> -->
                     <i *ngIf="popupForm.get('sizeId')?.invalid && popupForm.get('sizeId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
-                <small *ngIf="popupForm.get('sizeId')?.hasError('notTinyint')" class="p-error">
+                <!-- <small *ngIf="popupForm.get('sizeId')?.hasError('notTinyint')" class="p-error">
                     Please enter a valid tinyint (integer between 0 and 255).
-                </small>
+                </small> -->
             </div>
             <div class="column gap-05">
                 <label for="weightInKgs" class="field">Weight</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('weightInKgs')?.invalid && popupForm.get('weightInKgs')?.dirty}">
-                <input id="weightInKgs" type="text" formControlName="weightInKgs" />
-                <i *ngIf="popupForm.get('weightInKgs')?.invalid && popupForm.get('weightInKgs')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                    <input id="weightInKgs" type="text" formControlName="weightInKgs" />
+                    <i *ngIf="popupForm.get('weightInKgs')?.invalid && popupForm.get('weightInKgs')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
                 <small *ngIf="popupForm.get('weightInKgs')?.hasError('notSmallint')" class="p-error">
                     Please enter a valid smallint (integer between 0 and 65535).
@@ -142,22 +173,39 @@
             <div class="column gap-05">
                 <label for="receiptDate" class="field">ReceiptDate</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('receiptDate')?.invalid && popupForm.get('receiptDate')?.dirty}">
-                    <input id="receiptDate" type="text" formControlName="receiptDate" />
+                    <p-calendar 
+                        id="receiptDate"
+                        formControlName="receiptDate"
+                        placeholder="Select a Date"
+                        [showIcon]="true"
+                        dateFormat="yy-mm-dd"
+                        appendTo="body">
+                    </p-calendar>
+                    <!-- <input id="receiptDate" type="text" formControlName="receiptDate" /> -->
                     <i *ngIf="popupForm.get('receiptDate')?.invalid && popupForm.get('receiptDate')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
-                <small *ngIf="popupForm.get('receiptDate')?.hasError('invalidDate')" class="p-error">
+                <!-- <small *ngIf="popupForm.get('receiptDate')?.hasError('invalidDate')" class="p-error">
                     Please enter a valid date in the format YYYY-MM-DD.
-                </small>
+                </small> -->
             </div>
             <div class="column gap-05">
-                <label for="supplierId" class="field">SupplierId</label>
+                <label for="supplierName" class="field">SupplierName</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('supplierId')?.invalid && popupForm.get('supplierId')?.dirty}">
-                    <input id="supplierId" type="text" formControlName="supplierId" />
+                    <p-dropdown 
+                        [options]="suppliers"
+                        optionLabel="supplierName"
+                        optionValue="supplierId"
+                        id="supplierName"
+                        formControlName="supplierId"
+                        placeholder="Select a Supplier Name"
+                        appendTo="body">
+                    </p-dropdown>
+                    <!-- <input id="supplierId" type="text" formControlName="supplierId" /> -->
                     <i *ngIf="popupForm.get('supplierId')?.invalid && popupForm.get('supplierId')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
-                <small *ngIf="popupForm.get('supplierId')?.hasError('notTinyint')" class="p-error">
+                <!-- <small *ngIf="popupForm.get('supplierId')?.hasError('notTinyint')" class="p-error">
                     Please enter a valid tinyint (integer between 0 and 255).
-                </small>
+                </small> -->
             </div>
             <div class="column gap-05">
                 <label for="billNo" class="field">BillNo</label>
@@ -172,12 +220,20 @@
             <div class="column gap-05">
                 <label for="billDate" class="field">BillDate</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('billDate')?.invalid && popupForm.get('billDate')?.dirty}">
-                    <input id="billDate" type="text" formControlName="billDate" />
+                    <p-calendar 
+                        id="billDate"
+                        formControlName="billDate"
+                        placeholder="Select a Date"
+                        [showIcon]="true"
+                        dateFormat="yy-mm-dd"
+                        appendTo="body">
+                    </p-calendar>
+                    <!-- <input id="billDate" type="text" formControlName="billDate" /> -->
                     <i *ngIf="popupForm.get('billDate')?.invalid && popupForm.get('billDate')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
-                <small *ngIf="popupForm.get('billDate')?.hasError('invalidDate')" class="p-error">
+                <!-- <small *ngIf="popupForm.get('billDate')?.hasError('invalidDate')" class="p-error">
                     Please enter a valid date in the format YYYY-MM-DD.
-                </small>
+                </small> -->
             </div>
             <div class="column gap-05">
                 <label for="billValue" class="field">BillValue</label>
@@ -193,7 +249,7 @@
 
         <!-- Template for ReceiptDetail -->
         <div *ngSwitchCase="'receiptDetail'" class="column gap-1">
-            <div class="column gap-05">
+            <div *ngIf="isProgrammer" class="column gap-05">
                 <label for="receiptId" class="field">ReceiptId</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('receiptId')?.invalid && popupForm.get('receiptId')?.dirty}">
                     <input id="receiptId" type="text" formControlName="receiptId" />
@@ -203,7 +259,7 @@
                     Please enter a valid integer.
                 </small>
             </div>
-            <div class="column gap-05">
+            <div *ngIf="isProgrammer" class="column gap-05">
                 <label for="productStockId" class="field">ProductStockId</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productStockId')?.invalid && popupForm.get('productStockId')?.dirty}">
                     <input id="productStockId" type="text" formControlName="productStockId" />
@@ -247,7 +303,7 @@
 
         <!-- Template for RollNumber -->
         <div *ngSwitchCase="'rollNumber'" class="column gap-1">
-            <div class="column gap-05">
+            <div *ngIf="isProgrammer" class="column gap-05">
                 <label for="receiptDetailId" class="field">ReceiptDetailId</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('receiptDetailId')?.invalid && popupForm.get('receiptDetailId')?.dirty}">
                     <input id="receiptDetailId" type="text" formControlName="receiptDetailId" />
@@ -274,14 +330,22 @@
             <div class="column gap-05">
                 <label for="issueDate" class="field">IssueDate</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('issueDate')?.invalid && popupForm.get('issueDate')?.dirty}">
-                    <input id="issueDate" type="text" formControlName="issueDate" />
+                    <p-calendar 
+                        id="issueDate"
+                        formControlName="issueDate"
+                        placeholder="Select a Date"
+                        [showIcon]="true"
+                        dateFormat="yy-mm-dd"
+                        appendTo="body">
+                    </p-calendar>
+                    <!-- <input id="issueDate" type="text" formControlName="issueDate" /> -->
                     <i *ngIf="popupForm.get('issueDate')?.invalid && popupForm.get('issueDate')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
-                <small *ngIf="popupForm.get('issueDate')?.hasError('invalidDate')" class="p-error">
+                <!-- <small *ngIf="popupForm.get('issueDate')?.hasError('invalidDate')" class="p-error">
                     Please enter a valid date in the format YYYY-MM-DD.
-                </small>
+                </small> -->
             </div>
-            <div class="column gap-05">
+            <div *ngIf="isProgrammer" class="column gap-05">
                 <label for="rollNumberId" class="field">RollNumberId</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('rollNumberId')?.invalid && popupForm.get('rollNumberId')?.dirty}">
                     <input id="rollNumberId" type="text" formControlName="rollNumberId" />
@@ -291,7 +355,7 @@
                     Please enter a valid integer.
                 </small>
             </div>
-            <div class="column gap-05">
+            <div *ngIf="isProgrammer" class="column gap-05">
                 <label for="productStockId" class="field">ProductStockId</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productStockId')?.invalid && popupForm.get('productStockId')?.dirty}">
                     <input id="productStockId" type="text" formControlName="productStockId" />
@@ -338,14 +402,22 @@
             <div class="column gap-05">
                 <label for="productionCoatingDate" class="field">ProductionCoatingDate</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productionCoatingDate')?.invalid && popupForm.get('productionCoatingDate')?.dirty}">
-                    <input id="productionCoatingDate" type="text" formControlName="productionCoatingDate" />
+                    <p-calendar 
+                        id="productionCoatingDate"
+                        formControlName="productionCoatingDate"
+                        placeholder="Select a Date"
+                        [showIcon]="true"
+                        dateFormat="yy-mm-dd"
+                        appendTo="body">
+                    </p-calendar>
+                    <!-- <input id="productionCoatingDate" type="text" formControlName="productionCoatingDate" /> -->
                     <i *ngIf="popupForm.get('productionCoatingDate')?.invalid && popupForm.get('productionCoatingDate')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
-                <small *ngIf="popupForm.get('productionCoatingDate')?.hasError('invalidDate')" class="p-error">
+                <!-- <small *ngIf="popupForm.get('productionCoatingDate')?.hasError('invalidDate')" class="p-error">
                     Please enter a valid date in the format YYYY-MM-DD.
-                </small>
+                </small> -->
             </div>
-            <div class="column gap-05">
+            <div *ngIf="isProgrammer" class="column gap-05">
                 <label for="issueId" class="field">IssueId</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('issueId')?.invalid && popupForm.get('issueId')?.dirty}">
                     <input id="issueId" type="text" formControlName="issueId" />
@@ -358,22 +430,42 @@
             <div class="column gap-05">
                 <label for="coatingStart" class="field">CoatingStart</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('coatingStart')?.invalid && popupForm.get('coatingStart')?.dirty}">
-                    <input id="coatingStart" type="text" formControlName="coatingStart" />
+                    <p-calendar 
+                        #calendarRef1
+                        id="coatingStart"
+                        formControlName="coatingStart"
+                        placeholder="Select a Time"
+                        timeOnly="true"
+                        hourFormat="24"
+                        appendTo="body">
+                    </p-calendar>
+                    <i class="pi pi-clock" (click)="calendarRef1.toggle()" style="cursor: pointer; margin-left: 8px;"></i> <!-- Clock icon that toggles the timepicker -->
+                    <!-- <input id="coatingStart" type="text" formControlName="coatingStart" /> -->
                     <i *ngIf="popupForm.get('coatingStart')?.invalid && popupForm.get('coatingStart')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
-                <small *ngIf="popupForm.get('coatingStart')?.hasError('invalidTime')" class="p-error">
+                <!-- <small *ngIf="popupForm.get('coatingStart')?.hasError('invalidTime')" class="p-error">
                     Please enter a valid time in the format HH:MM.
-                </small>
+                </small> -->
             </div>
             <div class="column gap-05">
                 <label for="coatingEnd" class="field">CoatingEnd</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('coatingEnd')?.invalid && popupForm.get('coatingEnd')?.dirty}">
-                    <input id="coatingEnd" type="text" formControlName="coatingEnd" />
+                    <p-calendar 
+                        #calendarRef2
+                        id="coatingEnd"
+                        formControlName="coatingEnd"
+                        placeholder="Select a Time"
+                        timeOnly="true"
+                        hourFormat="24"
+                        appendTo="body">
+                    </p-calendar>
+                    <i class="pi pi-clock" (click)="calendarRef2.toggle()" style="cursor: pointer; margin-left: 8px;"></i>
+                    <!-- <input id="coatingEnd" type="text" formControlName="coatingEnd" /> -->
                     <i *ngIf="popupForm.get('coatingEnd')?.invalid && popupForm.get('coatingEnd')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
-                <small *ngIf="popupForm.get('coatingEnd')?.hasError('invalidTime')" class="p-error">
+                <!-- <small *ngIf="popupForm.get('coatingEnd')?.hasError('invalidTime')" class="p-error">
                     Please enter a valid time in the format HH:MM.
-                </small>
+                </small> -->
             </div>
             <div class="column gap-05">
                 <label for="averageSpeed" class="field">AverageSpeed</label>
@@ -422,14 +514,22 @@
             <div class="column gap-05">
                 <label for="productionCoatingDate" class="field">ProductionCoatingDate</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productionCoatingDate')?.invalid && popupForm.get('productionCoatingDate')?.dirty}">
-                    <input id="productionCoatingDate" type="text" formControlName="productionCoatingDate" />
+                    <p-calendar 
+                        id="productionCoatingDate"
+                        formControlName="productionCoatingDate"
+                        placeholder="Select a Date"
+                        [showIcon]="true"
+                        dateFormat="yy-mm-dd"
+                        appendTo="body">
+                    </p-calendar>
+                    <!-- <input id="productionCoatingDate" type="text" formControlName="productionCoatingDate" /> -->
                     <i *ngIf="popupForm.get('productionCoatingDate')?.invalid && popupForm.get('productionCoatingDate')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
-                <small *ngIf="popupForm.get('productionCoatingDate')?.hasError('invalidDate')" class="p-error">
+                <!-- <small *ngIf="popupForm.get('productionCoatingDate')?.hasError('invalidDate')" class="p-error">
                     Please enter a valid date in the format YYYY-MM-DD.
-                </small>
+                </small> -->
             </div>
-            <div class="column gap-05">
+            <div *ngIf="isProgrammer" class="column gap-05">
                 <label for="productionCoatingId" class="field">ProductionCoatingId</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productionCoatingId')?.invalid && popupForm.get('productionCoatingId')?.dirty}">
                     <input id="productionCoatingId" type="text" formControlName="productionCoatingId" />
@@ -472,22 +572,42 @@
             <div class="column gap-05">
                 <label for="calendaringStart" class="field">CalendaringStart</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('calendaringStart')?.invalid && popupForm.get('calendaringStart')?.dirty}">
-                    <input id="calendaringStart" type="text" formControlName="calendaringStart" />
+                    <p-calendar 
+                        #calendarRef1
+                        id="calendaringStart"
+                        formControlName="calendaringStart"
+                        placeholder="Select a Time"
+                        timeOnly="true"
+                        hourFormat="24"
+                        appendTo="body">
+                    </p-calendar>
+                    <i class="pi pi-clock" (click)="calendarRef1.toggle()" style="cursor: pointer; margin-left: 8px;"></i>
+                    <!-- <input id="calendaringStart" type="text" formControlName="calendaringStart" /> -->
                     <i *ngIf="popupForm.get('calendaringStart')?.invalid && popupForm.get('calendaringStart')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
-                <small *ngIf="popupForm.get('calendaringStart')?.hasError('invalidTime')" class="p-error">
+                <!-- <small *ngIf="popupForm.get('calendaringStart')?.hasError('invalidTime')" class="p-error">
                     Please enter a valid time in the format HHMM.
-                </small>
+                </small> -->
             </div>
             <div class="column gap-05">
                 <label for="calendaringEnd" class="field">CalendaringEnd</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('calendaringEnd')?.invalid && popupForm.get('calendaringEnd')?.dirty}">
-                    <input id="calendaringEnd" type="text" formControlName="calendaringEnd" />
+                    <p-calendar 
+                        #calendarRef2
+                        id="calendaringEnd"
+                        formControlName="calendaringEnd"
+                        placeholder="Select a Time"
+                        timeOnly="true"
+                        hourFormat="24"
+                        appendTo="body">
+                    </p-calendar>
+                    <i class="pi pi-clock" (click)="calendarRef2.toggle()" style="cursor: pointer; margin-left: 8px;"></i>
+                    <!-- <input id="calendaringEnd" type="text" formControlName="calendaringEnd" /> -->
                     <i *ngIf="popupForm.get('calendaringEnd')?.invalid && popupForm.get('calendaringEnd')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
-                <small *ngIf="popupForm.get('calendaringEnd')?.hasError('invalidTime')" class="p-error">
+                <!-- <small *ngIf="popupForm.get('calendaringEnd')?.hasError('invalidTime')" class="p-error">
                     Please enter a valid time in the format HHMM.
-                </small>
+                </small> -->
             </div>
             <div class="column gap-05">
                 <label for="rollCount" class="field">RollCount</label>
@@ -506,14 +626,22 @@
             <div class="column gap-05">
                 <label for="productionCoatingDate" class="field">ProductionCoatingDate</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productionCoatingDate')?.invalid && popupForm.get('productionCoatingDate')?.dirty}">
-                    <input id="productionCoatingDate" type="text" formControlName="productionCoatingDate" />
+                    <p-calendar 
+                        id="productionCoatingDate"
+                        formControlName="productionCoatingDate"
+                        placeholder="Select a Date"
+                        [showIcon]="true"
+                        dateFormat="yy-mm-dd"
+                        appendTo="body">
+                    </p-calendar>
+                    <!-- <input id="productionCoatingDate" type="text" formControlName="productionCoatingDate" /> -->
                     <i *ngIf="popupForm.get('productionCoatingDate')?.invalid && popupForm.get('productionCoatingDate')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
-                <small *ngIf="popupForm.get('productionCoatingDate')?.hasError('invalidDate')" class="p-error">
+                <!-- <small *ngIf="popupForm.get('productionCoatingDate')?.hasError('invalidDate')" class="p-error">
                     Please enter a valid date in the format YYYY-MM-DD.
-                </small>
+                </small> -->
             </div>
-            <div class="column gap-05">
+            <div *ngIf="isProgrammer" class="column gap-05">
                 <label for="productionCalendaringId" class="field">ProductionCalendaringId</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productionCalendaringId')?.invalid && popupForm.get('productionCalendaringId')?.dirty}">
                     <input id="productionCalendaringId" type="text" formControlName="productionCalendaringId" />
@@ -556,22 +684,42 @@
             <div class="column gap-05">
                 <label for="slittingStart" class="field">SlittingStart</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('slittingStart')?.invalid && popupForm.get('slittingStart')?.dirty}">
-                    <input id="slittingStart" type="text" formControlName="slittingStart" />
+                    <p-calendar 
+                        #calendarRef1
+                        id="slittingStart"
+                        formControlName="slittingStart"
+                        placeholder="Select a Time"
+                        timeOnly="true"
+                        hourFormat="24"
+                        appendTo="body">
+                    </p-calendar>
+                    <i class="pi pi-clock" (click)="calendarRef1.toggle()" style="cursor: pointer; margin-left: 8px;"></i>
+                    <!-- <input id="slittingStart" type="text" formControlName="slittingStart" /> -->
                     <i *ngIf="popupForm.get('slittingStart')?.invalid && popupForm.get('slittingStart')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
-                <small *ngIf="popupForm.get('slittingStart')?.hasError('invalidTime')" class="p-error">
+                <!-- <small *ngIf="popupForm.get('slittingStart')?.hasError('invalidTime')" class="p-error">
                     Please enter a valid time in the format HH:MM.
-                </small>
+                </small> -->
             </div>
             <div class="column gap-05">
                 <label for="slittingEnd" class="field">SlittingEnd</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('slittingEnd')?.invalid && popupForm.get('slittingEnd')?.dirty}">
-                    <input id="slittingEnd" type="text" formControlName="slittingEnd" />
+                    <p-calendar 
+                        #calendarRef2
+                        id="slittingEnd"
+                        formControlName="slittingEnd"
+                        placeholder="Select a Time"
+                        timeOnly="true"
+                        hourFormat="24"
+                        appendTo="body">
+                    </p-calendar>
+                    <i class="pi pi-clock" (click)="calendarRef2.toggle()" style="cursor: pointer; margin-left: 8px;"></i>
+                    <!-- <input id="slittingEnd" type="text" formControlName="slittingEnd" /> -->
                     <i *ngIf="popupForm.get('slittingEnd')?.invalid && popupForm.get('slittingEnd')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
                 </div>
-                <small *ngIf="popupForm.get('slittingEnd')?.hasError('invalidTime')" class="p-error">
+                <!-- <small *ngIf="popupForm.get('slittingEnd')?.hasError('invalidTime')" class="p-error">
                     Please enter a valid time in the format HH:MM.
-                </small>
+                </small> -->
             </div>
             <div class="column gap-05">
                 <label for="rollCount" class="field">RollCount</label>
@@ -587,7 +735,7 @@
 
         <!-- Template for SlittingDetail -->
         <div *ngSwitchCase="'slittingDetail'" class="column gap-1">
-            <div class="column gap-05">
+            <div *ngIf="isProgrammer" class="column gap-05">
                 <label for="productionSlittingId" class="field">ProductionSlittingId</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productionSlittingId')?.invalid && popupForm.get('productionSlittingId')?.dirty}">
                     <input id="productionSlittingId" type="text" formControlName="productionSlittingId" />

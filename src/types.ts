@@ -27,8 +27,8 @@ export interface Product {
 export interface ProductDetail {
     productDetailId?: number;
     productId: number;
+    productCategory: string;
     variant: string;
-    products: Product[];
 }
 
 export interface Supplier {
@@ -45,8 +45,10 @@ export interface Size {
 export interface ProductStock {
     productStockId?: number;
     productDetailId: number;
+    variant: string;
     gsm?: number;
     sizeId?: number;
+    sizeInMM?: number;
     weightInKgs: number;
     rollCount?: number;
 }
@@ -55,6 +57,7 @@ export interface Receipt {
     receiptId?: number;
     receiptDate: string;
     supplierId: number;
+    supplierName: string;
     billNo: string;
     billDate: string;
     billValue: number;

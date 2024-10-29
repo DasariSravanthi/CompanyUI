@@ -101,7 +101,10 @@ export class CustomValidators {
     }
 
     static dateValidator(control: AbstractControl): ValidationErrors | null {
-        const value = control.value;
+        let value = control.value;
+
+        let year!: number, month!: number, day!: number;
+        let date!: Date;
 
         // If the value not provided, return null (no error)
         if (!value) {
@@ -109,16 +112,29 @@ export class CustomValidators {
         }
 
         // Regex pattern for validating YYYY-MM-DD date format
-        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+        // const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
       
         // Check if value matches the regex and can be converted to a valid date
-        const isValidDate = dateRegex.test(value) && !isNaN(Date.parse(value));
-        
+        // const isValidDate = dateRegex.test(value) && !isNaN(Date.parse(value));
+
+        if (typeof value === 'string') {
+
+            [year, month, day] = value.split('-').map(Number);
+
+            date = new Date(value);
+        }
+  
+        // Check if the date is a valid Date object
+        const isValidDate = date instanceof Date && 
+                            (date.getFullYear() === year && 
+                            date.getMonth() === month - 1 && 
+                            date.getDate() === day);
+
         return isValidDate ? null : { invalidDate: true };
     }
 
     static timeValidator(control: AbstractControl): ValidationErrors | null {
-        const value = control.value;
+        let value = control.value;
 
         // If the value not provided, return null (no error)
         if (!value) {

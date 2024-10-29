@@ -10,7 +10,6 @@
             <tr style="width:20%">
                 <th pSortableColumn="productionCalendaringId">Production Calendaring Id <p-sortIcon field="productionCalendaringId"></p-sortIcon></th>
                 <th pSortableColumn="productionCoatingDate">Production Coating Date <p-sortIcon field="productionCoatingDate"></p-sortIcon></th>
-                <th pSortableColumn="productionCoatingId">Production Coating Id <p-sortIcon field="productionCoatingId"></p-sortIcon></th>
                 <th pSortableColumn="rollNumber">Roll Number <p-sortIcon field="rollNumber"></p-sortIcon></th>
                 <th pSortableColumn="beforeWeight">Before Weight <p-sortIcon field="beforeWeight"></p-sortIcon></th>
                 <th pSortableColumn="beforeMoisture">Before Moisture <p-sortIcon field="beforeMoisture"></p-sortIcon></th>
@@ -25,7 +24,6 @@
             <tr>
                 <td>{{ productionCalendaring.productionCalendaringId }}</td>
                 <td>{{ productionCalendaring.productionCoatingDate }}</td>
-                <td>{{ productionCalendaring.productionCoatingId }}</td>
                 <td>{{ productionCalendaring.rollNumber }}</td>
                 <td>{{ productionCalendaring.beforeWeight }}</td>
                 <td>{{ productionCalendaring.beforeMoisture }}</td>
@@ -33,8 +31,8 @@
                 <td>{{ productionCalendaring.calendaringEnd }}</td>
                 <td>{{ productionCalendaring.rollCount }}</td>
                 <td>
-                    <button type="button" pButton label="Edit ProductionCalendaring" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(productionCalendaring)"></button>
-                    <button type="button" pButton label="Delete ProductionCalendaring" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(productionCalendaring)"></button>
+                    <button type="button" pButton label="Edit" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(productionCalendaring)"></button>
+                    <button type="button" pButton label="Delete" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(productionCalendaring)"></button>
                 </td>
           </tr>
         </ng-template>

@@ -25,6 +25,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
+import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { ToastModule } from 'primeng/toast';
     ButtonModule,
     TableModule,
     ToastModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DropdownModule,
+    CalendarModule
   ],
   providers: [ConfirmationService, MessageService]
 })

@@ -23,6 +23,7 @@ export class ReceiptComponent {
     receiptId: 0,
     receiptDate: '',
     supplierId: 0,
+    supplierName: '',
     billNo: '',
     billDate: '',
     billValue: 0

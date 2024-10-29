@@ -6,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
+import { environment } from '../../environments/environment.development';
 
 @Component({
   selector: 'app-register',
@@ -34,6 +35,8 @@ export class RegisterComponent {
     }
   }
 
+  private url = environment.apiUrl;
+
   get formControl() {
     return this.registerForm.controls;
   }
@@ -47,7 +50,7 @@ export class RegisterComponent {
 
     this.messageService.clear();
     
-    this.httpClient.post('http://localhost:5110/User/SignUp', this.registerForm.value).subscribe({
+    this.httpClient.post(`${this.url}/User/SignUp`, this.registerForm.value).subscribe({
       next: (response: any) => {
         this.router.navigateByUrl('login');
       },

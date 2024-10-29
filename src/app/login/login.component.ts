@@ -6,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
+import { environment } from '../../environments/environment.development';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,8 @@ export class LoginComponent {
     }
   }
 
+  private url = environment.apiUrl;
+
   get formControl() {
     return this.loginForm.controls;
   }
@@ -45,7 +48,7 @@ export class LoginComponent {
 
     this.messageService.clear();
 
-    this.httpClient.post('http://localhost:5110/User/SignIn', this.loginForm.value).subscribe({
+    this.httpClient.post(`${this.url}/User/SignIn`, this.loginForm.value).subscribe({
       next: (response: any) => {
         const token = response.jwt;
         if (token) {

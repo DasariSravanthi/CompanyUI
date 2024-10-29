@@ -22,8 +22,8 @@ export class ProductDetailComponent {
   selectedProductDetail: ProductDetail = {
     productDetailId: 0,
     productId: 0,
+    productCategory: '',
     variant: '',
-    products: []
   };
 
   toggleEditPopup(productDetail: ProductDetail) {

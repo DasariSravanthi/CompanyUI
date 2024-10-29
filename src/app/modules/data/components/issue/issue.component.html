@@ -10,8 +10,6 @@
             <tr style="width:20%">
                 <th pSortableColumn="issueId">Issue Id <p-sortIcon field="issueId"></p-sortIcon></th>
                 <th pSortableColumn="issueDate">Issue Date <p-sortIcon field="issueDate"></p-sortIcon></th>
-                <th pSortableColumn="rollNumberId">Roll Number Id <p-sortIcon field="rollNumberId"></p-sortIcon></th>
-                <th pSortableColumn="productStockId">Product Stock Id <p-sortIcon field="productStockId"></p-sortIcon></th>
                 <th pSortableColumn="rollNumber">Roll Number <p-sortIcon field="rollNumber"></p-sortIcon></th>
                 <th pSortableColumn="weight">Weight <p-sortIcon field="weight"></p-sortIcon></th>
                 <th pSortableColumn="moisture">Moisture <p-sortIcon field="moisture"></p-sortIcon></th>
@@ -23,14 +21,12 @@
             <tr>
                 <td>{{ issue.issueId }}</td>
                 <td>{{ issue.issueDate }}</td>
-                <td>{{ issue.rollNumberId }}</td>
-                <td>{{ issue.productStockId }}</td>
                 <td>{{ issue.rollNumber }}</td>
                 <td>{{ issue.weight }}</td>
                 <td>{{ issue.moisture }}</td>
                 <td>
-                    <button type="button" pButton label="Edit Issue" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(issue)"></button>
-                    <button type="button" pButton label="Delete Issue" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(issue)"></button>
+                    <button type="button" pButton label="Edit" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(issue)"></button>
+                    <button type="button" pButton label="Delete" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(issue)"></button>
                 </td>
           </tr>
         </ng-template>

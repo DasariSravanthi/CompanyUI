@@ -9,8 +9,6 @@
         <ng-template pTemplate="header">
             <tr style="width:20%">
                 <th pSortableColumn="receiptDetailId">Receipt Detail Id <p-sortIcon field="receiptDetailId"></p-sortIcon></th>
-                <th pSortableColumn="receiptId">Receipt Id <p-sortIcon field="receiptId"></p-sortIcon></th>
-                <th pSortableColumn="productStockId">Product Stock Id <p-sortIcon field="productStockId"></p-sortIcon></th>
                 <th pSortableColumn="weight">Weight <p-sortIcon field="weight"></p-sortIcon></th>
                 <th pSortableColumn="unitRate">Unit Rate <p-sortIcon field="unitRate"></p-sortIcon></th>
                 <th pSortableColumn="rollCount">Roll Count <p-sortIcon field="rollCount"></p-sortIcon></th>
@@ -21,14 +19,12 @@
         <ng-template pTemplate="body" let-receiptDetail>
             <tr>
                 <td>{{ receiptDetail.receiptDetailId }}</td>
-                <td>{{ receiptDetail.receiptId }}</td>
-                <td>{{ receiptDetail.productStockId }}</td>
                 <td>{{ receiptDetail.weight }}</td>
                 <td>{{ receiptDetail.unitRate }}</td>
                 <td>{{ receiptDetail.rollCount }}</td>
                 <td>
-                    <button type="button" pButton label="Edit ReceiptDetail" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(receiptDetail)"></button>
-                    <button type="button" pButton label="Delete ReceiptDetail" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(receiptDetail)"></button>
+                    <button type="button" pButton label="Edit" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(receiptDetail)"></button>
+                    <button type="button" pButton label="Delete" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(receiptDetail)"></button>
                 </td>
           </tr>
         </ng-template>

@@ -20,9 +20,12 @@ export class ProductStockComponent {
   displayAddPopup: boolean = false;
   
   selectedProductStock: ProductStock = {
+    productStockId: 0,
     productDetailId: 0,
+    variant: '',
     gsm: 0,
     sizeId: 0,
+    sizeInMM: 0,
     weightInKgs: 0,
     rollCount: 0
   };

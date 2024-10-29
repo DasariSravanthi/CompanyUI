@@ -9,7 +9,6 @@
         <ng-template pTemplate="header">
             <tr style="width:20%">
                 <th pSortableColumn="rollNumberId">Roll Number Id <p-sortIcon field="rollNumberId"></p-sortIcon></th>
-                <th pSortableColumn="receiptDetailId">Receipt Detail Id <p-sortIcon field="receiptDetailId"></p-sortIcon></th>
                 <th pSortableColumn="rollNumberValue">Roll Number <p-sortIcon field="rollNumberValue"></p-sortIcon></th>
                 <th>Action</th>
             </tr>
@@ -18,11 +17,10 @@
         <ng-template pTemplate="body" let-rollNumber>
             <tr>
                 <td>{{ rollNumber.rollNumberId }}</td>
-                <td>{{ rollNumber.receiptDetailId }}</td>
                 <td>{{ rollNumber.rollNumberValue }}</td>
                 <td>
-                    <button type="button" pButton label="Edit RollNumber" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(rollNumber)"></button>
-                    <button type="button" pButton label="Delete RollNumber" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(rollNumber)"></button>
+                    <button type="button" pButton label="Edit" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(rollNumber)"></button>
+                    <button type="button" pButton label="Delete" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(rollNumber)"></button>
                 </td>
           </tr>
         </ng-template>
