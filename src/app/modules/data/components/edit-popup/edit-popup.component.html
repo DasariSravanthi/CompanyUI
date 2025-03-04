@@ -4,6 +4,7 @@
   [modal]="true"
   [closable]="false"
   [formGroup]="popupForm"
+  (onShow)="onEditPopupOpen()"
 >
     <ng-container [ngSwitch]="template">
 
@@ -99,10 +100,27 @@
         <!-- Template for ProductStock -->
         <div *ngSwitchCase="'productStock'" class="column gap-1">
             <div class="column gap-05">
+                <label for="productCategory" class="field">ProductCategory</label>
+                <div class="input-container">
+                    <p-dropdown 
+                        [options]="products"
+                        optionLabel="productCategory"
+                        optionValue="productId"
+                        id="productCategory"
+                        placeholder="Select a Product Category"
+                        [(ngModel)]="selectedProductCategory"
+                        [ngModelOptions]="{standalone: true}"
+                        appendTo="body"
+                        (onChange)="onProductCategoryChange($event.value)">
+                    </p-dropdown>
+                </div>
+            </div>
+
+            <div class="column gap-05">
                 <label for="variant" class="field">Variant</label>
                 <div class="input-container" [ngClass]="{'ng-invalid': popupForm.get('productDetailId')?.invalid && popupForm.get('productDetailId')?.dirty}">
                     <p-dropdown 
-                        [options]="productDetails"
+                        [options]="filteredVariants"
                         optionLabel="variant"
                         optionValue="productDetailId"
                         id="variant"
@@ -245,6 +263,72 @@
                     Please enter a valid float number.
                 </small>
             </div>
+
+            <!-- Receipt Details Section -->
+            <div class="row space-between">
+                <h3>Items</h3>
+
+                <button type="button" (click)="addReceiptDetail()" class="p-button p-button-success" style="align-self: center;">
+                    <i class="pi pi-plus"></i>
+                </button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ProductStockId</th>
+                        <th>Weight</th>
+                        <th>UnitRate</th>
+                        <th>RollCount</th>
+                    </tr>
+                </thead>
+                <tbody formArrayName="receiptDetails">
+                    <tr *ngFor="let detail of receiptDetails.controls; let i = index" [formGroupName]="i">
+                        <td>
+                            <p-dropdown 
+                                [options]="productStockOptions" 
+                                optionLabel="variant" 
+                                optionValue="productStockId" 
+                                formControlName="productStockId"
+                                placeholder="Select a Product Stock"
+                                appendTo="body"
+                                (onChange)="onProductStockChange(i)">
+                            </p-dropdown>
+                        </td>
+                        <td>
+                            <div class="input-container" [ngClass]="{'ng-invalid': detail.get('weight')?.invalid && detail.get('weight')?.dirty}">
+                                <input type="text" formControlName="weight" />
+                                <i *ngIf="detail.get('weight')?.invalid && detail.get('weight')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                            </div>
+                            <small *ngIf="detail.get('weight')?.hasError('notFloat')" class="p-error">
+                                Please enter a valid real number.
+                            </small>
+                        </td>
+                        <td>
+                            <div class="input-container" [ngClass]="{'ng-invalid': detail.get('unitRate')?.invalid && detail.get('unitRate')?.dirty}">
+                                <input type="text" formControlName="unitRate" />
+                                <i *ngIf="detail.get('unitRate')?.invalid && detail.get('unitRate')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                            </div>
+                            <small *ngIf="detail.get('unitRate')?.hasError('notFloat')" class="p-error">
+                                Please enter a valid real number.
+                            </small>
+                        </td>
+                        <td>
+                            <div class="input-container" [ngClass]="{'ng-invalid': detail.get('rollCount')?.invalid && detail.get('rollCount')?.dirty}">
+                                <input type="text" formControlName="rollCount" />
+                                <i *ngIf="detail.get('rollCount')?.invalid && detail.get('rollCount')?.dirty" class="pi pi-exclamation-circle p-error-icon"></i>
+                            </div>
+                            <small *ngIf="detail.get('rollCount')?.hasError('notTinyint')" class="p-error">
+                                Please enter a valid tinyint (integer between 0 and 255).
+                            </small>
+                        </td>
+                        <td>
+                            <button type="button" (click)="removeReceiptDetail(i)" class="p-button p-button-danger" style="align-self: center;">
+                                <i class="pi pi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <!-- Template for ReceiptDetail -->

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { ProductDetail } from '../../../../../types';
+import { Product, ProductDetail } from '../../../../../types';
 import { environment } from '../../../../../environments/environment.development';
 
 @Component({
@@ -25,6 +25,10 @@ export class ProductDetailComponent {
     productCategory: '',
     variant: '',
   };
+
+  products: Product[] = []; // List of products to display in the dropdown
+  filteredVariants: ProductDetail[] = []; // Product Details to display in the table
+  selectedProductId: number | undefined = undefined; // Selected product ID in dropdown
 
   toggleEditPopup(productDetail: ProductDetail) {
     this.selectedProductDetail = { ...productDetail };
@@ -67,15 +71,17 @@ export class ProductDetailComponent {
   }
 
   ngOnInit() {
-    this.getAllProductDetails();
+    this.getAllProductDetails(() => this.getAllProducts());
   }
 
-  getAllProductDetails() {
+  getAllProductDetails(callback: () => void) {
     this.messageService.clear();
 
     this.apiService.get<ProductDetail[]>(`${this.url}/ProductDetail/allProductDetails`).subscribe({
       next: (productDetails: ProductDetail[]) => {
         this.productDetails = productDetails;
+
+        callback();
       },
       error: (error) => {
         const errorMessage = error.error || 'An unexpected error occurred.';
@@ -89,7 +95,7 @@ export class ProductDetailComponent {
     
     this.apiService.post<ProductDetail>(`${this.url}/ProductDetail/addProductDetail`, productDetail).subscribe({
       next: (productDetail: ProductDetail) => {
-        this.getAllProductDetails();
+        this.getAllProductDetails(() => this.getAllProducts());
       },
       error: (error) => {
         if (error.status === 400 && error.error?.errors) {
@@ -113,7 +119,7 @@ export class ProductDetailComponent {
     
     this.apiService.put<ProductDetail>(`${this.url}/ProductDetail/updateProductDetail/${id}`, productDetail).subscribe({
       next: (productDetail: ProductDetail) => {
-        this.getAllProductDetails();
+        this.getAllProductDetails(() => this.getAllProducts());
       },
       error: (error) => {
         if (error.status === 400 && error.error?.errors) {
@@ -137,13 +143,47 @@ export class ProductDetailComponent {
     
     this.apiService.delete<ProductDetail>(`${this.url}/ProductDetail/deleteProductDetail/${id}`).subscribe({
       next: (productDetail: ProductDetail) => {
-        this.getAllProductDetails();
+        this.getAllProductDetails(() => this.getAllProducts());
       },
       error: (error) => {
         const errorMessage = error.error || 'An unexpected error occurred.';
         this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
       }
     });
+  }
+
+  getAllProducts() {
+    this.messageService.clear();
+
+    this.apiService.get<Product[]>(`${this.url}/Product/allProducts`).subscribe({
+      next: (products: Product[]) => {
+        this.products = [...products, { productId: undefined, productCategory: 'All' }];
+
+        // Set the default selection to the first actual product
+        this.selectedProductId = this.products[0]?.productId;
+
+        this.filteredVariants = this.productDetails.filter(
+          detail => detail.productId === this.selectedProductId
+        );
+
+      },
+      error: (error) => {
+        const errorMessage = error.error || 'An unexpected error occurred.';
+        this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
+      }
+    });
+  }
+
+  onProductCategoryChange(selectedProductId?: number) {
+    if (selectedProductId === undefined) {
+      // Show all product details if "All" is selected
+      this.filteredVariants = this.productDetails;
+    } else {
+      // Filter product details based on the selected productId
+      this.filteredVariants = this.productDetails.filter(
+        detail => detail.productId === selectedProductId
+      );
+    }
   }
 
 }

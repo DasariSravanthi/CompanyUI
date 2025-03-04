@@ -2,10 +2,23 @@
 
 <div>
     <h2 class="mb-15">ProductStocks</h2>
+
+    <div class="row full-center gap-1 mb-25">
+        <label for="variant" class="field">Select Variant</label>
+        <p-dropdown 
+            [options]="productDetails"
+            optionLabel="variant"
+            optionValue="productDetailId"
+            id="variant"
+            placeholder="Select a Variant"
+            [(ngModel)]="selectedProductDetailId"
+            (onChange)="onVariantChange($event.value)">
+        </p-dropdown>
+    </div>
     
-    <!-- <button type="button" pButton label="Add ProductStock" icon="pi pi-plus" class="p-button-success mb-15" (click)="toggleAddPopup()"></button> -->
+    <button type="button" pButton label="Add ProductStock" icon="pi pi-plus" class="p-button-success mb-15" (click)="toggleAddPopup()"></button>
     
-    <p-table [value]="productStocks" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '30rem' }">
+    <p-table [value]="filteredProductStocks" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '30rem' }">
         <ng-template pTemplate="header">
             <tr style="width:20%">
                 <th pSortableColumn="productStockId">Product Stock ID <p-sortIcon field="productStockId"></p-sortIcon></th>

@@ -78,6 +78,10 @@ app-root {
     margin-bottom: 15px;
 }
 
+.mb-25 {
+    margin-bottom: 25px;
+}
+
 .input-container {
     display: flex;
     align-items: center;
@@ -108,4 +112,15 @@ input {
 a {
     color: blue;
     text-decoration: none;
+}
+
+// .input-with-border {
+//     border: 1px solid #ccc;
+//     padding: 5px;
+//     border-radius: 4px;
+// }
+
+.custom-calendar {
+    border: 1px solid #ccc;
+    width: 160px;
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { ProductStock } from '../../../../../types';
+import { ProductDetail, ProductStock } from '../../../../../types';
 import { environment } from '../../../../../environments/environment.development';
 
 @Component({
@@ -29,6 +29,10 @@ export class ProductStockComponent {
     weightInKgs: 0,
     rollCount: 0
   };
+
+  productDetails: ProductDetail[] = []; // List of product details to display in the dropdown
+  filteredProductStocks: ProductStock[] = []; // Product Stocks to display in the table
+  selectedProductDetailId: number | undefined = undefined; // Selected product detail ID in dropdown
 
   toggleEditPopup(productStock: ProductStock) {
     this.selectedProductStock = { ...productStock };
@@ -71,15 +75,17 @@ export class ProductStockComponent {
   }
 
   ngOnInit() {
-    this.getAllProductStocks();
+    this.getAllProductStocks(() => this.getAllProductDetails());
   }
 
-  getAllProductStocks() {
+  getAllProductStocks(callback: () => void) {
     this.messageService.clear();
 
     this.apiService.get<ProductStock[]>(`${this.url}/ProductStock/allProductStocks`).subscribe({
       next: (productStocks: ProductStock[]) => {
         this.productStocks = productStocks;
+        
+        callback();
       },
       error: (error) => {
         const errorMessage = error.error || 'An unexpected error occurred.';
@@ -93,7 +99,7 @@ export class ProductStockComponent {
 
     this.apiService.post<ProductStock>(`${this.url}/ProductStock/addProductStock`, productStock).subscribe({
       next: (productStock: ProductStock) => {
-        this.getAllProductStocks();
+        this.getAllProductStocks(() => this.getAllProductDetails());
       },
       error: (error) => {
         if (error.status === 400 && error.error?.errors) {
@@ -117,7 +123,7 @@ export class ProductStockComponent {
 
     this.apiService.put<ProductStock>(`${this.url}/ProductStock/updateProductStock/${id}`, productStock).subscribe({
       next: (productStock: ProductStock) => {
-        this.getAllProductStocks();
+        this.getAllProductStocks(() => this.getAllProductDetails());
       },
       error: (error) => {
         if (error.status === 400 && error.error?.errors) {
@@ -141,13 +147,47 @@ export class ProductStockComponent {
 
     this.apiService.delete<ProductStock>(`${this.url}/ProductStock/deleteProductStock/${id}`).subscribe({
       next: (productStock: ProductStock) => {
-        this.getAllProductStocks();
+        this.getAllProductStocks(() => this.getAllProductDetails());
       },
       error: (error) => {
         const errorMessage = error.error || 'An unexpected error occurred.';
         this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
       }
     });
+  }
+
+  getAllProductDetails() {
+    this.messageService.clear();
+
+    this.apiService.get<ProductDetail[]>(`${this.url}/ProductDetail/allProductDetails`).subscribe({
+      next: (productDetails: ProductDetail[]) => {
+        this.productDetails = [...productDetails, { productDetailId: undefined, productId: 0, productCategory: '', variant: 'All' }];
+        
+        // Set the default selection to the first actual product detail
+        this.selectedProductDetailId = this.productDetails[0]?.productDetailId;
+
+        this.filteredProductStocks = this.productStocks.filter(
+          stock => stock.productDetailId === this.selectedProductDetailId
+        );
+
+      },
+      error: (error) => {
+        const errorMessage = error.error || 'An unexpected error occurred.';
+        this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
+      }
+    });
+  }
+
+  onVariantChange(selectedProductDetailId?: number) {
+    if (selectedProductDetailId === undefined) {
+      // Show all product stocks if "All" is selected
+      this.filteredProductStocks = this.productStocks;
+    } else {
+      // Filter product stocks based on the selected productDetailId
+      this.filteredProductStocks = this.productStocks.filter(
+        stock => stock.productDetailId === selectedProductDetailId
+      );
+    }
   }
 
 }

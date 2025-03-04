@@ -61,6 +61,7 @@ export interface Receipt {
     billNo: string;
     billDate: string;
     billValue: number;
+    receiptDetails: ReceiptDetail[]
 }
 
 export interface ReceiptDetail {

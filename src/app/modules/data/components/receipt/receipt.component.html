@@ -2,10 +2,30 @@
 
 <div>
     <h2 class="mb-15">Receipts</h2>
+
+    <div class="row full-center gap-1 mb-25">
+      <label for="fromDate" class="field">From Date</label>
+      <p-calendar 
+          id="fromDate"
+          [showIcon]="true"
+          dateFormat="dd/mm/yy"
+          [(ngModel)]="fromDate"
+          class="custom-calendar">
+      </p-calendar>
+      <label for="toDate" class="field">To Date</label>
+      <p-calendar 
+          id="toDate"
+          [showIcon]="true"
+          dateFormat="dd/mm/yy"
+          [(ngModel)]="toDate"
+          class="custom-calendar">
+      </p-calendar>
+      <button type="button" pButton label="Go" icon="pi pi-arrow-right" class="p-button-info" (click)="onDateSelect()"></button>
+    </div>
     
-    <!-- <button type="button" pButton label="Add Receipt" icon="pi pi-plus" class="p-button-success mb-15" (click)="toggleAddPopup()"></button> -->
+    <button type="button" pButton label="Add Receipt" icon="pi pi-plus" class="p-button-success mb-15" (click)="toggleAddPopup()"></button>
     
-    <p-table [value]="receipts" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '30rem' }">
+    <p-table [value]="filteredReceipts" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '30rem' }">
         <ng-template pTemplate="header">
             <tr style="width:20%">
                 <th pSortableColumn="receiptId">Receipt Id <p-sortIcon field="receiptId"></p-sortIcon></th>
@@ -14,6 +34,7 @@
                 <th pSortableColumn="billNo">Bill No <p-sortIcon field="billNo"></p-sortIcon></th>
                 <th pSortableColumn="billDate">Bill Date <p-sortIcon field="billDate"></p-sortIcon></th>
                 <th pSortableColumn="billValue">Bill Value <p-sortIcon field="billValue"></p-sortIcon></th>
+                <th></th>
                 <th>Action</th>
             </tr>
         </ng-template>
@@ -26,10 +47,17 @@
                 <td>{{ receipt.billNo }}</td>
                 <td>{{ receipt.billDate }}</td>
                 <td>{{ receipt.billValue }}</td>
+                <td><button type="button" pButton label="View Details" icon="pi pi-eye" class="p-button-rounded p-button-text" (click)="viewDetails(receipt)"></button></td>
                 <td>
                     <button type="button" pButton label="Edit" icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-15" (click)="toggleEditPopup(receipt)"></button>
                     <button type="button" pButton label="Delete" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="toggleDeleteDialog(receipt)"></button>
                 </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+              <td colspan="100%" class="p-text-center">No data found</td>
           </tr>
         </ng-template>
     </p-table>
@@ -55,3 +83,28 @@ header="Add Receipt"
 ></app-edit-popup>
 
 <p-confirmDialog [closable]="false"></p-confirmDialog>
+
+<p-dialog [(visible)]="showDialog" [modal]="true" header="Receipt Details">
+    <ng-container *ngIf="selectedReceiptToView">
+      <table>
+        <thead>
+          <tr>
+            <th>Receipt Detail Id</th>
+            <th>Product Stock Id</th>
+            <th>Weight</th>
+            <th>Unit Rate</th>
+            <th>Roll Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let detail of selectedReceiptToView.receiptDetails">
+            <td>{{ detail.receiptDetailId }}</td>
+            <td>{{ detail.productStockId }}</td>
+            <td>{{ detail.weight }}</td>
+            <td>{{ detail.unitRate }}</td>
+            <td>{{ detail.rollCount }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+</p-dialog>

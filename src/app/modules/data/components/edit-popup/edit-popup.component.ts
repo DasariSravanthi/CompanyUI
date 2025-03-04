@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from '../../validators/custom-validators';
 import { environment } from '../../../../../environments/environment.development';
 import { ApiService } from '../../services/api.service';
 import { MessageService } from 'primeng/api';
-import { Product, ProductDetail, Size, Supplier } from '../../../../../types';
+import { Product, ProductDetail, ProductStock, ReceiptDetail, Size, Supplier } from '../../../../../types';
 
 @Component({
   selector: 'app-edit-popup',
@@ -33,6 +33,10 @@ export class EditPopupComponent {
   productDetails: any[] = []; // Array to store the fetched product details
   sizes: any[] = []; // Array to store the fetched sizes
   suppliers: any[] = []; // Array to store the fetched suppliers
+  filteredVariants: any[] = []; // Array to store the filtered list of variants based on the selected product category.
+  selectedProductCategory: number | null = null; // productCategory based on the selected variant
+
+  productStockOptions: any[] = []; // Array to hold dropdown options
 
   constructor(private fb: FormBuilder, private apiService: ApiService, private messageService: MessageService) {}
 
@@ -43,12 +47,25 @@ export class EditPopupComponent {
     this.getAllProductDetails();
     this.getAllSizes();
     this.getAllSuppliers();
+
+    this.getAllProductStocks();
+    
   }
 
   ngOnChanges() {
     if (this.popupForm) {
       this.popupForm.reset();
       this.popupForm.patchValue(this.data);
+
+      // Clear and repopulate receiptDetails FormArray
+      if (this.receiptDetails) {
+        this.receiptDetails.clear();
+      }
+      if (this.data.receiptDetails && this.data.receiptDetails.length) {
+        this.data.receiptDetails.forEach((detail: ReceiptDetail) => {
+          this.receiptDetails.push(this.createReceiptDetail(detail));
+        });
+      }
     }
   }
 
@@ -85,7 +102,8 @@ export class EditPopupComponent {
         supplierId: ['', [Validators.required]],
         billNo: ['', [Validators.required, CustomValidators.alphanumericValidator(100)]],
         billDate: ['', [Validators.required]],
-        billValue: ['', [Validators.required, CustomValidators.floatValidator]]
+        billValue: ['', [Validators.required, CustomValidators.floatValidator]],
+        receiptDetails: this.fb.array([]) // FormArray for receipt details
       });
     } else if (this.template === 'receiptDetail') {
       this.popupForm = this.fb.group({
@@ -154,6 +172,22 @@ export class EditPopupComponent {
     this.setupValueChangeListeners();
   }
 
+  // Getter for receiptDetails FormArray
+  get receiptDetails(): FormArray {
+    return this.popupForm.get('receiptDetails') as FormArray;
+  }
+
+  // Method to create a new receipt detail form group
+  createReceiptDetail(detail: ReceiptDetail): FormGroup {
+    return this.fb.group({
+      receiptDetailId: [detail.receiptDetailId || null], // Include receiptDetailId
+      productStockId: [detail.productStockId || 0, [Validators.required, CustomValidators.smallintValidator]],
+      weight: [detail.weight || 0, [Validators.required, CustomValidators.floatValidator]],
+      unitRate: [detail.unitRate || 0, [Validators.required, CustomValidators.floatValidator]],
+      rollCount: [detail.rollCount || 0, [CustomValidators.tinyintValidator]]
+    });
+  }
+
   getAllProducts() {
     // Clear messages before making this API call
     this.messageService.clear();
@@ -209,6 +243,88 @@ export class EditPopupComponent {
         this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
       }
     });
+  }
+
+  getAllProductStocks() {
+    this.messageService.clear();
+
+    this.apiService.get<ProductStock[]>(`${this.url}/ProductStock/allProductStocks`).subscribe({
+      next: (productStocks: ProductStock[]) => {
+        this.productStockOptions = productStocks;
+      },
+      error: (error) => {
+        const errorMessage = error.error || 'An unexpected error occurred.';
+        this.messageService.add({ severity: 'error', summary: 'Failure Error', detail: errorMessage });
+      }
+    });
+  }
+
+  onProductCategoryChange(selectedProductId: number) {
+    this.filteredVariants = this.productDetails.filter(
+        detail => detail.productId === selectedProductId
+    );
+  }
+
+  onEditPopupOpen() {
+    if (this.template === 'productStock') {
+      const selectedVariantId = this.popupForm.get('productDetailId')?.value;
+      this.selectedProductCategory = null; // Reset product category
+      this.filteredVariants = []; // Clear the variants 
+
+      if (selectedVariantId) {
+        const selectedVariant = this.productDetails.find(
+          detail => detail.productDetailId === selectedVariantId
+        );
+      
+        if (selectedVariant) {
+            const correspondingProduct = this.products.find(
+              product => product.productId === selectedVariant.productId
+            );
+
+            if (correspondingProduct) {
+                this.selectedProductCategory = correspondingProduct.productId;
+                this.filteredVariants = this.productDetails.filter(
+                  detail => detail.productId === correspondingProduct.productId
+                );
+            }
+        }
+      }
+    }
+  }
+
+  // Handle product stock selection change
+  onProductStockChange(index: number) {
+    const detail = this.receiptDetails.at(index) as FormGroup;
+    const selectedStockId = this.receiptDetails.at(index).get('productStockId')?.value;
+
+    const selectedStock = this.productStockOptions.find(
+      stock => stock.productStockId === selectedStockId
+    );
+
+    if (selectedStock) {
+      // Auto-fill the fields based on the selected stock
+      detail.patchValue({
+        weight: selectedStock.weightInKgs,
+        rollCount: selectedStock.rollCount
+      });
+    }
+  }
+
+  // Add a new empty row to the receipt details
+  addReceiptDetail() {
+    this.receiptDetails.push(this.createReceiptDetail({ receiptId: 0, productStockId: 0, weight: 0, unitRate: 0, rollCount: 0 }));
+  }
+
+  // Remove a specific receipt detail row
+  removeReceiptDetail(index: number) {
+    this.receiptDetails.removeAt(index);
+  }
+
+  // Calculate bill value for each receipt
+  calculateBillValue() {
+    const totalBill = this.receiptDetails.value.reduce((sum: number, receiptDetail: ReceiptDetail) => sum + ((receiptDetail.weight || 0) * (receiptDetail.unitRate || 0)), 0);
+    const roundedBill = Math.round(totalBill * 100) / 100; // Round to 2 decimal places
+    this.popupForm.get('billValue')?.setValue((roundedBill > 0) ? roundedBill : null);
   }
 
   setupValueChangeListeners() {
@@ -281,6 +397,10 @@ export class EditPopupComponent {
         this.popupForm.get('slittingEnd')?.setValue(formattedTime, { emitEvent: false });
       }
     });
+
+    this.popupForm.get('receiptDetails')?.valueChanges.subscribe(() => {
+      this.calculateBillValue();
+    });    
   }
   
   // Helper function to format date
@@ -298,7 +418,6 @@ export class EditPopupComponent {
   }
 
   onConfirm = () => {
-    // console.log(this.popupForm.value);
     this.confirm.emit(this.popupForm.value);
     this.display = false;
     this.displayChange.emit(this.display);
